@@ -3,11 +3,17 @@ package com.example.jinyoon.a09capstoneproject;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TableLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +32,17 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        FragmentManager manager = getSupportFragmentManager();
+        PagerAdapter adapter = new PageAdapter(this, manager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+
+        viewPager.setAdapter(adapter);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setupWithViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
     @Override

@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">09CapstoneProject</string>
+    <string name="app_name">My Fridge</string>
     <string name="action_settings">Settings</string>
+
 </resources>
