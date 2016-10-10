@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/list_item_padding"
+    android:paddingStart="@dimen/list_item_padding"
+    android:paddingRight="@dimen/list_item_padding"
+    android:paddingEnd="@dimen/list_item_padding"
+    android:weightSum="10">
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="7"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/list_item_textsize"
+
+        />
+    <TextView
+        android:id="@+id/item_day"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:textSize="@dimen/list_item_textsize"
+        />
+
+</LinearLayout>
