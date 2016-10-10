@@ -4,11 +4,15 @@
     android:layout_height="match_parent"
     tools:context="com.example.jinyoon.a09capstoneproject.Fragment.FridgeFragment">
 
-    <TextView
-        android:id="@+id/fridge_test_text"
+    <!--<TextView-->
+        <!--android:id="@+id/fridge_test_text"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:text="HERE IS FridGE FRAGMENT" />-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_fridge"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="HERE IS FridGE FRAGMENT" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>
