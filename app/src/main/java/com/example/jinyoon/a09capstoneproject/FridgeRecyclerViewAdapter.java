@@ -1,7 +1,6 @@
 package com.example.jinyoon.a09capstoneproject;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,7 +38,7 @@ public class FridgeRecyclerViewAdapter extends RecyclerView.Adapter<FridgeRecycl
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fridge_item, parent, false);
+                .inflate(R.layout.item_fridge, parent, false);
 
         return new ViewHolder(view);
     }

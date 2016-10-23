@@ -4,11 +4,17 @@
     android:layout_height="match_parent"
     tools:context="com.example.jinyoon.a09capstoneproject.Fragment.RecipeFragment">
 
-    <TextView
-        android:id="@+id/recipe_test_text"
+    <!--<TextView-->
+        <!--android:id="@+id/recipe_test_text"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:text="HERE IS RECIPE FRAGMENT" />-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_recipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="HERE IS RECIPE FRAGMENT" />
-
+        />
+    
 </FrameLayout>
