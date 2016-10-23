@@ -1,4 +1,4 @@
-package com.example.jinyoon.a09capstoneproject;
+package com.example.jinyoon.a09capstoneproject.MainFragment;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,46 +6,47 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.example.jinyoon.a09capstoneproject.R;
+
 /**
- * Created by Jin Yoon on 10/12/2016.
+ * Created by Jin Yoon on 10/9/2016.
  */
 
-public class BasketRecyclerViewAdapter extends RecyclerView.Adapter<BasketRecyclerViewAdapter.ViewHolder> {
+public class FridgeRecyclerViewAdapter extends RecyclerView.Adapter<FridgeRecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
     private final String LOG_TAG = getClass().getSimpleName();
 
-    public BasketRecyclerViewAdapter(Context context) {
+    public FridgeRecyclerViewAdapter(Context context) {
         this.mContext = context;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private View mView;
-        private TextView mItemName;
-        private CheckBox mItemCheckBox;
+        private TextView mItemNameTextView;
+        private TextView mDayTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            mItemName = (TextView) itemView.findViewById(R.id.basket_item_name);
-            mItemCheckBox = (CheckBox) itemView.findViewById(R.id.basket_checkBox);
+            mItemNameTextView = (TextView) itemView.findViewById(R.id.item_name);
+            mDayTextView = (TextView) itemView.findViewById(R.id.item_day);
         }
     }
 
 
     @Override
-    public BasketRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_basket, parent, false);
+                .inflate(R.layout.item_fridge, parent, false);
 
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(BasketRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         holder.mView.setOnClickListener(new View.OnClickListener() {
             //Add OnClick Action later
             @Override
@@ -54,9 +55,8 @@ public class BasketRecyclerViewAdapter extends RecyclerView.Adapter<BasketRecycl
             }
         });
         //Add what items to be included later... (after implementing database)
-        holder.mItemCheckBox.setChecked(true);
-        holder.mItemName.setText("Eggs");
-
+        holder.mItemNameTextView.setText("Broccoli");
+        holder.mDayTextView.setText("10 days");
     }
 
     @Override
