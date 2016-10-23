@@ -7,5 +7,15 @@
     <dimen name="list_item_height">72dp</dimen>
     <dimen name="list_item_textsize">20sp</dimen>
     <dimen name="list_item_padding">16dp</dimen>
+    <dimen name="recycler_view_padding">4dp</dimen>
+    <dimen name="list_recipe_padding_normal">16dp</dimen>
+    <dimen name="list_recipe_title_padding_bottom">4dp</dimen>
+
+    <dimen name="fab_elevation">6dp</dimen>
+    <dimen name="fab_press_translation_z">12dp</dimen>
+    <dimen name="list_layout_margin">4dp</dimen>
+    <dimen name="cardview_elevation_resting">2dp</dimen>
+
+    <dimen name="cardview_elevation_pressed">8dp</dimen>
 
 </resources>

@@ -6,46 +6,49 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 /**
- * Created by Jin Yoon on 10/12/2016.
+ * Created by Jin Yoon on 10/22/2016.
  */
 
-public class BasketRecyclerViewAdapter extends RecyclerView.Adapter<BasketRecyclerViewAdapter.ViewHolder> {
+public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
     private final String LOG_TAG = getClass().getSimpleName();
 
-    public BasketRecyclerViewAdapter(Context context) {
+    public RecipeRecyclerViewAdapter(Context context) {
         this.mContext = context;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private View mView;
-        private TextView mItemName;
-        private CheckBox mItemCheckBox;
+        private ImageView mThumbnailView;
+        private TextView mTitleView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            mItemName = (TextView) itemView.findViewById(R.id.basket_item_name);
-            mItemCheckBox = (CheckBox) itemView.findViewById(R.id.basket_checkBox);
+            mThumbnailView = (ImageView) itemView.findViewById(R.id.recipe_thumbnail);
+            mTitleView = (TextView) itemView.findViewById(R.id.recipe_title);
+
         }
     }
 
-
     @Override
-    public BasketRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_basket, parent, false);
+                .inflate(R.layout.item_recipe, parent, false);
 
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(BasketRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         holder.mView.setOnClickListener(new View.OnClickListener() {
             //Add OnClick Action later
             @Override
@@ -53,9 +56,12 @@ public class BasketRecyclerViewAdapter extends RecyclerView.Adapter<BasketRecycl
                 Log.v(LOG_TAG, "RecyclerView item OnClick");
             }
         });
-        //Add what items to be included later... (after implementing database)
-        holder.mItemCheckBox.setChecked(true);
-        holder.mItemName.setText("Eggs");
+
+        holder.mTitleView.setText("Egg Roll Roll Roll Roll");
+        Picasso.with(mContext)
+                .load(R.drawable.recipe_test_thumbnail)
+
+                .into(holder.mThumbnailView);
 
     }
 
@@ -65,3 +71,5 @@ public class BasketRecyclerViewAdapter extends RecyclerView.Adapter<BasketRecycl
     }
 
 }
+
+
