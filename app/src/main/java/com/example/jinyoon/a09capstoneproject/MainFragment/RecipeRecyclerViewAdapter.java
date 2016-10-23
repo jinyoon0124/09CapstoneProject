@@ -1,6 +1,7 @@
-package com.example.jinyoon.a09capstoneproject;
+package com.example.jinyoon.a09capstoneproject.MainFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jinyoon.a09capstoneproject.MainActivity;
+import com.example.jinyoon.a09capstoneproject.R;
+import com.example.jinyoon.a09capstoneproject.RecipeDetailActivity;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -53,6 +57,8 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
             //Add OnClick Action later
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(mContext, RecipeDetailActivity.class);
+                mContext.startActivity(intent);
                 Log.v(LOG_TAG, "RecyclerView item OnClick");
             }
         });

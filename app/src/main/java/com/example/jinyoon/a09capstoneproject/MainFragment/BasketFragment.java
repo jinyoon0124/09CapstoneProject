@@ -1,4 +1,4 @@
-package com.example.jinyoon.a09capstoneproject.Fragment;
+package com.example.jinyoon.a09capstoneproject.MainFragment;
 
 
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.jinyoon.a09capstoneproject.BasketRecyclerViewAdapter;
 import com.example.jinyoon.a09capstoneproject.R;
 
 /**
