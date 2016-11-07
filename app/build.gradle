@@ -29,6 +29,10 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.0'
     compile 'com.android.support:cardview-v7:24.2.0'
     compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'com.melnykov:floatingactionbutton:1.2.0'
+    compile ('com.afollestad.material-dialogs:commons:0.9.0.2'){
+        transitive = true
+    }
 
     testCompile 'junit:junit:4.12'
 }
