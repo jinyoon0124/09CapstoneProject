@@ -24,7 +24,7 @@ public class MyFridgeDataHelper extends SQLiteOpenHelper{
 
         final String SQL_CREATE_SHOPLIST_TABLE = "CREATE TABLE " +
                 ShopLIstEntry.TABLE_NAME + " (" +
-                ShopLIstEntry._ID + " INTEGER PRIMARY KEY," +
+                ShopLIstEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 ShopLIstEntry.COLUMN_GROCERY_NAME + " TEXT UNIQUE NOT NULL, " +
                 ShopLIstEntry.COLUMN_CHECKER + " INTEGER NOT NULL "+
                 " );";
