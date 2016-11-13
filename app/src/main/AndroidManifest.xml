@@ -29,6 +29,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.jinyoon.a09capstoneproject.MainActivity" />
         </activity>
+        <provider
+            android:authorities="@string/content_authority"
+            android:name=".Database.MyFridgeDataProvider"
+            android:exported="false"
+            android:syncable="true"/>
+
     </application>
 
 </manifest>
