@@ -1,6 +1,8 @@
 package com.example.jinyoon.a09capstoneproject.MainFragment;
 
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -8,12 +10,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.SimpleItemTouchHelperCallback;
 import com.example.jinyoon.a09capstoneproject.R;
 
@@ -55,8 +59,26 @@ public class BasketFragment extends Fragment {
                         .input("Test Guide", "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
-                                //TODO: Replace Toast message with insert action.
-                                Toast.makeText(getContext(), input.toString(), Toast.LENGTH_LONG).show();
+                                Cursor c = getContext().getContentResolver().query(
+                                        ShopLIstEntry.CONTENT_URI,
+                                        new String[]{ShopLIstEntry.COLUMN_GROCERY_NAME},
+                                        ShopLIstEntry.COLUMN_GROCERY_NAME +" = ? ",
+                                        new String[]{input.toString()},
+                                        null);
+                                if(c.getCount()!=0){
+                                    Toast toast =
+                                        Toast.makeText(getContext(), getString(R.string.item_exist_msg), Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                                    toast.show();
+                                    return;
+                                }else{
+                                    ContentValues cv = new ContentValues();
+                                    cv.put(ShopLIstEntry.COLUMN_CHECKER, 0);
+                                    cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, input.toString());
+                                    getContext().getContentResolver().insert(ShopLIstEntry.CONTENT_URI, cv);
+                                }
+
+
                             }
                         }).show();
 
