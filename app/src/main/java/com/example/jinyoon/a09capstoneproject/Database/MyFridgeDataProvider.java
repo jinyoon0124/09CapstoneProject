@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 
 /**
  * Created by Jin Yoon on 11/7/2016.
@@ -17,26 +16,26 @@ public class MyFridgeDataProvider extends ContentProvider {
 
     private MyFridgeDataHelper mDbHelper;
     private static final int SHOPLIST = 100;
-    private static final int SHOPLIST_ID = 101;
+    private static final int SHOPLIST_NAME = 101;
     private static final int FRIDGELIST = 200;
-    private static final int FRIDGELIST_ID = 201;
+    private static final int FRIDGELIST_NAME = 201;
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static{
         sUriMatcher.addURI(MyFridgeDataContract.CONTENT_AUTHORITY, MyFridgeDataContract.PATH_SHOP, SHOPLIST);
-        sUriMatcher.addURI(MyFridgeDataContract.CONTENT_AUTHORITY, MyFridgeDataContract.PATH_SHOP +"/#", SHOPLIST_ID);
+        sUriMatcher.addURI(MyFridgeDataContract.CONTENT_AUTHORITY, MyFridgeDataContract.PATH_SHOP +"/*", SHOPLIST_NAME);
         sUriMatcher.addURI(MyFridgeDataContract.CONTENT_AUTHORITY, MyFridgeDataContract.PATH_FRIDGE, FRIDGELIST);
-        sUriMatcher.addURI(MyFridgeDataContract.CONTENT_AUTHORITY, MyFridgeDataContract.PATH_FRIDGE +"/#", FRIDGELIST_ID);
+        sUriMatcher.addURI(MyFridgeDataContract.CONTENT_AUTHORITY, MyFridgeDataContract.PATH_FRIDGE +"/*", FRIDGELIST_NAME);
 
     }
 
-    private static final String sShopItemWithIDSelection =
+    private static final String sShopItemWithNameSelection =
             MyFridgeDataContract.ShopLIstEntry.TABLE_NAME+
-                    "."+ MyFridgeDataContract.ShopLIstEntry._ID + " = ? ";
-    private static final String sFridgeItemWithIDSelection =
+                    "."+ MyFridgeDataContract.ShopLIstEntry.COLUMN_GROCERY_NAME + " = ? ";
+    private static final String sFridgeItemWithNameSelection =
             MyFridgeDataContract.FridgeListEntry.TABLE_NAME+
-                    "."+ MyFridgeDataContract.FridgeListEntry._ID + " = ? ";
+                    "."+ MyFridgeDataContract.FridgeListEntry.COLUMN_GROCERY_NAME + " = ? ";
 
     @Override
     public boolean onCreate() {
@@ -51,11 +50,11 @@ public class MyFridgeDataProvider extends ContentProvider {
         switch (match) {
             case SHOPLIST:
                 return MyFridgeDataContract.ShopLIstEntry.CONTENT_TYPE;
-            case SHOPLIST_ID:
+            case SHOPLIST_NAME:
                 return MyFridgeDataContract.ShopLIstEntry.CONTENT_ITEM_TYPE;
             case FRIDGELIST:
                 return MyFridgeDataContract.FridgeListEntry.CONTENT_TYPE;
-            case FRIDGELIST_ID:
+            case FRIDGELIST_NAME:
                 return MyFridgeDataContract.FridgeListEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unkown uri: " + uri);
@@ -68,10 +67,10 @@ public class MyFridgeDataProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor retCursor;
         switch (sUriMatcher.match(uri)){
-            case SHOPLIST_ID:{
-                String id = uri.getPathSegments().get(1);
-                selection = sShopItemWithIDSelection;
-                selectionArgs = new String[]{id};
+            case SHOPLIST_NAME:{
+                String name = uri.getPathSegments().get(1);
+                selection = sShopItemWithNameSelection;
+                selectionArgs = new String[]{name};
                 retCursor = mDbHelper.getReadableDatabase().query(
                         MyFridgeDataContract.ShopLIstEntry.TABLE_NAME,
                         projection,
@@ -83,10 +82,10 @@ public class MyFridgeDataProvider extends ContentProvider {
                 );
                 break;
             }
-            case FRIDGELIST_ID:{
-                String id = uri.getPathSegments().get(1);
-                selection = sFridgeItemWithIDSelection;
-                selectionArgs = new String[]{id};
+            case FRIDGELIST_NAME:{
+                String name = uri.getPathSegments().get(1);
+                selection = sFridgeItemWithNameSelection;
+                selectionArgs = new String[]{name};
                 retCursor = mDbHelper.getReadableDatabase().query(
                         MyFridgeDataContract.FridgeListEntry.TABLE_NAME,
                         projection,
