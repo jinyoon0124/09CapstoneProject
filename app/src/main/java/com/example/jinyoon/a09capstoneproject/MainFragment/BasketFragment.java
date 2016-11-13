@@ -55,12 +55,10 @@ public class BasketFragment extends Fragment {
                         .input("Test Guide", "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
-
+                                //TODO: Replace Toast message with insert action.
                                 Toast.makeText(getContext(), input.toString(), Toast.LENGTH_LONG).show();
                             }
                         }).show();
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
 
             }
         });
