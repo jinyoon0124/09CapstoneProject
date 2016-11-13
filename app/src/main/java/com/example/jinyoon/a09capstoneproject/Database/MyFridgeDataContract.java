@@ -49,7 +49,7 @@ public final class MyFridgeDataContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE+"/"+CONTENT_AUTHORITY+"/"+PATH_FRIDGE;
 
-        public static final String TABLE_NALE = "fridgelist";
+        public static final String TABLE_NAME = "fridgelist";
         public static final String COLUMN_GROCERY_NAME = "name";
         public static final String COLUMN_EXPIRATION = "expiration";
 

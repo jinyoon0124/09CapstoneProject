@@ -4,6 +4,8 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
@@ -13,6 +15,7 @@ import android.support.annotation.Nullable;
 
 public class MyFridgeDataProvider extends ContentProvider {
 
+    private MyFridgeDataHelper mDbHelper;
     private static final int SHOPLIST = 100;
     private static final int SHOPLIST_ID = 101;
     private static final int FRIDGELIST = 200;
@@ -28,18 +31,19 @@ public class MyFridgeDataProvider extends ContentProvider {
 
     }
 
+    private static final String sShopItemWithIDSelection =
+            MyFridgeDataContract.ShopLIstEntry.TABLE_NAME+
+                    "."+ MyFridgeDataContract.ShopLIstEntry._ID + " = ? ";
+    private static final String sFridgeItemWithIDSelection =
+            MyFridgeDataContract.FridgeListEntry.TABLE_NAME+
+                    "."+ MyFridgeDataContract.FridgeListEntry._ID + " = ? ";
+
     @Override
     public boolean onCreate() {
-        return false;
+        mDbHelper = new MyFridgeDataHelper(getContext());
+        return true;
     }
 
-    @Nullable
-    @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        return null;
-    }
-
-    @Nullable
     @Override
     public String getType(Uri uri) {
         final int match = sUriMatcher.match(uri);
@@ -60,19 +64,162 @@ public class MyFridgeDataProvider extends ContentProvider {
 
     }
 
-    @Nullable
+    @Override
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        Cursor retCursor;
+        switch (sUriMatcher.match(uri)){
+            case SHOPLIST_ID:{
+                String id = uri.getPathSegments().get(1);
+                selection = sShopItemWithIDSelection;
+                selectionArgs = new String[]{id};
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        MyFridgeDataContract.ShopLIstEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case FRIDGELIST_ID:{
+                String id = uri.getPathSegments().get(1);
+                selection = sFridgeItemWithIDSelection;
+                selectionArgs = new String[]{id};
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        MyFridgeDataContract.FridgeListEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+
+            case SHOPLIST:{
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        MyFridgeDataContract.ShopLIstEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+
+            case FRIDGELIST:{
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        MyFridgeDataContract.FridgeListEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            default:
+                throw new UnsupportedOperationException("Unknown uri: "+ uri);
+
+        }
+
+
+        return  retCursor;
+
+    }
+
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        Uri retUri;
+        final int match = sUriMatcher.match(uri);
+        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        switch (match){
+            case SHOPLIST:{
+                long _id = db.insert(MyFridgeDataContract.ShopLIstEntry.TABLE_NAME, null, values);
+                if(_id>0){
+                    retUri = MyFridgeDataContract.ShopLIstEntry.buildShopListUri(_id);
+                }
+                else
+                    throw new SQLException("Failed to insert row into "+ uri);
+                break;
+            }
+            case FRIDGELIST:{
+                long _id = db.insert(MyFridgeDataContract.FridgeListEntry.TABLE_NAME, null, values);
+                if(_id>0){
+                    retUri = MyFridgeDataContract.FridgeListEntry.buildFridgeListUri(_id);
+                }
+                else
+                    throw new SQLException("Failed to insert row into "+uri);
+                break;
+            }
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+
+        return retUri;
+
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        int rowDeleted;
+        if(null== selection ) selection ="1";
+        switch (match){
+            case SHOPLIST:{
+                rowDeleted = db.delete(
+                        MyFridgeDataContract.ShopLIstEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            }
+            case FRIDGELIST:{
+                rowDeleted = db.delete(
+                        MyFridgeDataContract.FridgeListEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            }
+            default:
+                throw new UnsupportedOperationException("Unkonw urk: "+uri);
+
+        }
+        if(rowDeleted !=0){
+            getContext().getContentResolver().notifyChange(uri,null);
+        }
+
+        return rowDeleted;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        int rowUpdated;
+        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+
+        switch (match){
+            case SHOPLIST:{
+                rowUpdated = db.update(MyFridgeDataContract.ShopLIstEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            }
+            case FRIDGELIST:{
+                rowUpdated = db.update(MyFridgeDataContract.FridgeListEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            }
+            default:
+                throw new UnsupportedOperationException("Unkown uri : "+ uri);
+        }
+
+        if(rowUpdated!=0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowUpdated;
     }
 }
