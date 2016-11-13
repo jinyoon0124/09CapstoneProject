@@ -3,5 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_recipe_detail">RecipeDetail</string>
     <string name="content_authority">com.example.jinyoon.a09capstoneproject</string>
+    <string name="item_exist_msg">This item already exists in the list!!</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.example.jinyoon.a09capstoneproject.MainFragment;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ public class BasketRecyclerViewAdapter extends RecyclerView.Adapter<BasketRecycl
 
     private Context mContext;
     private final String LOG_TAG = getClass().getSimpleName();
+    private Cursor mCursor;
 
     public BasketRecyclerViewAdapter(Context context) {
         this.mContext = context;
