@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract;
 import com.example.jinyoon.a09capstoneproject.R;
+import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 
 /**
  * Created by Jin Yoon on 10/12/2016.
@@ -62,10 +64,10 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //        //Add what items to be included later... (after implementing database)
 //        viewHolder.mItemCheckBox.setChecked(true);
 //        viewHolder.mItemName.setText("Eggs");
-        viewHolder.mItemName.setText(cursor.getString(cursor.getColumnIndex("name")));
-        if(cursor.getInt(cursor.getColumnIndex("checker"))==1){
+        viewHolder.mItemName.setText(cursor.getString(cursor.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME)));
+        if(cursor.getInt(cursor.getColumnIndex(ShopLIstEntry.COLUMN_CHECKER))==1){
             viewHolder.mItemCheckBox.setChecked(true);
-        }else if(cursor.getInt(cursor.getColumnIndex("checker"))==0){
+        }else if(cursor.getInt(cursor.getColumnIndex(ShopLIstEntry.COLUMN_CHECKER))==0){
             viewHolder.mItemCheckBox.setChecked(false);
         }else{
             Log.e(LOG_TAG, "Checker variable not set");

@@ -4,17 +4,16 @@
     android:layout_height="match_parent"
     tools:context="com.example.jinyoon.a09capstoneproject.MainFragment.BasketFragment">
 
-    <!--<TextView-->
-        <!--android:id="@+id/basket_test_text"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:gravity="center"-->
-        <!--android:text="HERE IS BASKET FRAGMENT" />-->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_basket"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/basket_empty_textview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/basket_fab"
