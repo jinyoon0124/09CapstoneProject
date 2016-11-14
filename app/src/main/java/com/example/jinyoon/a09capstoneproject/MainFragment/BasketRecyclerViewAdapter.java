@@ -16,20 +16,22 @@ import com.example.jinyoon.a09capstoneproject.R;
  * Created by Jin Yoon on 10/12/2016.
  */
 
-public class BasketRecyclerViewAdapter extends RecyclerView.Adapter<BasketRecyclerViewAdapter.ViewHolder> {
+public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketRecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
-    private final String LOG_TAG = getClass().getSimpleName();
     private Cursor mCursor;
+    private final String LOG_TAG = getClass().getSimpleName();
 
-    public BasketRecyclerViewAdapter(Context context) {
-        this.mContext = context;
+    public BasketRecyclerViewAdapter(Context context, Cursor cursor) {
+        super(context, cursor);
+        this.mContext=context;
+        this.mCursor = cursor;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        private View mView;
-        private TextView mItemName;
-        private CheckBox mItemCheckBox;
+        public View mView;
+        public TextView mItemName;
+        public CheckBox mItemCheckBox;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -49,23 +51,32 @@ public class BasketRecyclerViewAdapter extends RecyclerView.Adapter<BasketRecycl
     }
 
     @Override
-    public void onBindViewHolder(BasketRecyclerViewAdapter.ViewHolder holder, int position) {
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            //Add OnClick Action later
-            @Override
-            public void onClick(View v) {
-                Log.v(LOG_TAG, "RecyclerView item OnClick");
-            }
-        });
-        //Add what items to be included later... (after implementing database)
-        holder.mItemCheckBox.setChecked(true);
-        holder.mItemName.setText("Eggs");
+    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
+//        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+//            //Add OnClick Action later
+//            @Override
+//            public void onClick(View v) {
+//                Log.v(LOG_TAG, "RecyclerView item OnClick");
+//            }
+//        });
+//        //Add what items to be included later... (after implementing database)
+//        viewHolder.mItemCheckBox.setChecked(true);
+//        viewHolder.mItemName.setText("Eggs");
+        viewHolder.mItemName.setText(cursor.getString(cursor.getColumnIndex("name")));
+        if(cursor.getInt(cursor.getColumnIndex("checker"))==1){
+            viewHolder.mItemCheckBox.setChecked(true);
+        }else if(cursor.getInt(cursor.getColumnIndex("checker"))==0){
+            viewHolder.mItemCheckBox.setChecked(false);
+        }else{
+            Log.e(LOG_TAG, "Checker variable not set");
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return super.getItemCount();
     }
+
 
 }
