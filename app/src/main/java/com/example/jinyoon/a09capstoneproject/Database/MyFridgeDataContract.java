@@ -36,6 +36,9 @@ public final class MyFridgeDataContract {
         public static Uri buildShopListUri(long id){
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
+        public static Uri buildShopListUriwithName(String name){
+            return CONTENT_URI.buildUpon().appendPath(name).build();
+        }
 
     }
 
@@ -56,6 +59,9 @@ public final class MyFridgeDataContract {
         //Add any method related to database here
         public static Uri buildFridgeListUri(long id){
             return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+        public static Uri buildFridgeListUriwithName(String name){
+            return CONTENT_URI.buildUpon().appendPath(name).build();
         }
 
     }

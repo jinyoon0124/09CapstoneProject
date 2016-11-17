@@ -5,6 +5,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -12,8 +14,8 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
-import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataProvider;
-import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.SimpleItemTouchHelperCallback;
 import com.example.jinyoon.a09capstoneproject.R;
 
 /**
@@ -56,6 +55,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.e("!!!BASKET FRAGEMENT!!", "ONCREATEVIEW CALLED");
         mContext=getContext();
         View view = inflater.inflate(R.layout.fragment_basket, container, false);
 
@@ -107,7 +107,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
                                     cv.put(ShopLIstEntry.COLUMN_CHECKER, 0);
                                     cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, input.toString());
                                     mContext.getContentResolver().insert(ShopLIstEntry.CONTENT_URI, cv);
-                                    onItemAdded();
+                                    onItemChanged();
                                 }
 
 
@@ -122,13 +122,25 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         return view;
     }
 
-    private void onItemAdded() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
+        Log.e("!!!BASKET FRAGMENT!!", "onREsume called");
+    }
+
+    @UiThread
+    private void onItemChanged() {
+        mCursorAdapter.notifyDataSetChanged();
+
         getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
         Toast.makeText(mContext, getString(R.string.item_added_msg), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.e("!!!BASKET FRAGEMENT!!", "ONCREATELOADER CALLED");
+
         CursorLoader loader = new CursorLoader(mContext,
                 ShopLIstEntry.CONTENT_URI,
                 mProjection,
@@ -142,6 +154,8 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        Log.e("!!!BASKET FRAGEMENT!!", "ONLOADFINISHED CALLED");
+
         mCursorAdapter.swapCursor(cursor);
         mCursor=cursor;
         int adapterSize = mCursorAdapter.getItemCount();
@@ -155,6 +169,8 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        Log.e("!!!BASKET FRAGEMENT!!", "ONLOADERRESET CALLED");
+
         mCursorAdapter.swapCursor(null);
     }
 }
