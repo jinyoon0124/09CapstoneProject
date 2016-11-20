@@ -3,8 +3,12 @@ package com.example.jinyoon.a09capstoneproject.MainFragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.UiThread;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -14,10 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.ItemTouchHelperAdapter;
 import com.example.jinyoon.a09capstoneproject.R;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
@@ -38,43 +44,56 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
     private Context mContext;
     private Cursor mCursor;
     private final String LOG_TAG = getClass().getSimpleName();
+    private BasketRecyclerViewAdapter mThisAdapter;
+    private Fragment mFragment;
 
-    public BasketRecyclerViewAdapter(Context context, Cursor cursor) {
+    public BasketRecyclerViewAdapter(Context context, Cursor cursor, Fragment fg) {
         super(context, cursor);
         this.mContext = context;
         this.mCursor = cursor;
+        this.mFragment = fg;
+
     }
+//
+//    @Override
+//    public void onItemMove(int fromPosition, int toPosition) {
+//
+//        Cursor c = getCursor();
+//        c.moveToPosition(fromPosition);
+//        String fromName = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
+////        String fromId = Long.toString(c.getLong(c.getColumnIndex(ShopLIstEntry._ID)));
+////        Log.e("!!!FORMIDIDID", fromId +"  "+ fromName);
+//        c.moveToPosition(toPosition);
+//        String toName = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
+////        String toId = Long.toString(c.getLong(c.getColumnIndex(ShopLIstEntry._ID)));
+////        Log.e("!!!!TOIDIDID", toId + "   "+ toName);
+//
+//        ContentValues cv1 = new ContentValues();
+//        cv1.put(ShopLIstEntry.COLUMN_GROCERY_NAME, fromName);
+//
+//        mContext.getContentResolver().update(
+//                ShopLIstEntry.CONTENT_URI,
+//                cv1,
+//                "name = ?",
+//                new String[]{toName}
+//        );
+//
+//        ContentValues cv2 = new ContentValues();
+//        cv2.put(ShopLIstEntry.COLUMN_GROCERY_NAME, toName);
+//
+//        mContext.getContentResolver().update(
+//                ShopLIstEntry.CONTENT_URI,
+//                cv2,
+//                "name = ?",
+//                new String[]{fromName}
+//        );
+//
+//        mThisAdapter.notifyDataSetChanged();
+//    }
 
-    @Override
-    public void onItemMove(int fromPosition, int toPosition) {
-        Cursor c = getCursor();
-        c.moveToPosition(fromPosition);
-        String fromName = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
-        String fromId = Long.toString(c.getColumnIndex(ShopLIstEntry._ID));
-        c.moveToPosition(toPosition);
-        String toName = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
-        String toId = Long.toString(c.getColumnIndex(ShopLIstEntry._ID));
-
-        ContentValues cv = new ContentValues();
-        cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, fromName);
-
-        mContext.getContentResolver().update(
-                ShopLIstEntry.CONTENT_URI,
-                cv,
-                "id = ?",
-                new String[]{toId}
-        );
-
-        cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, toName);
-
-        mContext.getContentResolver().update(
-                ShopLIstEntry.CONTENT_URI,
-                cv,
-                "id = ?",
-                new String[]{fromId}
-        );
-
-        notifyDataSetChanged();
+    public void updateUI(){
+        FragmentTransaction ft = mFragment.getFragmentManager().beginTransaction();
+        ft.detach(mFragment).attach(mFragment).commit();
     }
 
     @Override
@@ -83,42 +102,19 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
         c.moveToPosition(position);
         String name = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
         mContext.getContentResolver().delete(
-                ShopLIstEntry.buildShopListUriwithName(name),
-                null,
-                null
+                ShopLIstEntry.CONTENT_URI,
+                "name = ?",
+                new String[]{name}
                 );
-        notifyItemRemoved(position);
+        mThisAdapter.notifyItemRemoved(position);
+        updateUI();
     }
-
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public View mView;
-        public TextView mItemName;
-        public CheckBox mItemCheckBox;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-            mItemName = (TextView) itemView.findViewById(R.id.basket_item_name);
-            mItemCheckBox = (CheckBox) itemView.findViewById(R.id.basket_checkBox);
-        }
-
-//        @Override
-//        public void onItemSelected() {
-//            itemView.setBackgroundColor(Color.LTGRAY);
-//        }
-//
-//        @Override
-//        public void onItemClear() {
-//            itemView.setBackgroundColor(0);
-//        }
-    }
-
 
     @Override
     public BasketRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_basket, parent, false);
+        mThisAdapter = new BasketRecyclerViewAdapter(mContext,mCursor,mFragment);
 
         return new ViewHolder(view);
     }
@@ -137,43 +133,49 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //        viewHolder.mItemName.setText("Eggs");
         final String name = cursor.getString(cursor.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
         viewHolder.mItemName.setText(name);
-//        viewHolder.mItemCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                mContext.getContentResolver().delete(
-//                        ShopLIstEntry.CONTENT_URI,
-//                        ShopLIstEntry.COLUMN_GROCERY_NAME + " = ? ",
-//                        new String[]{name}
-//                );
-//                new MaterialDialog.Builder(mContext).title("Days to Expiration")
-//                        .content("How long will this grocery item last?")
-//                        .inputType(InputType.TYPE_CLASS_NUMBER)
-//                        .input("Test Guide", "", new MaterialDialog.InputCallback() {
-//                            @Override
-//                            public void onInput(MaterialDialog dialog, CharSequence input) {
-//                                Log.e("!!!EXPIRATION MSG", "MSG ENTERED");
-//                                Toast.makeText(mContext, name + " " + input.toString(), Toast.LENGTH_LONG).show();
-//                            }
-//
-//                        }).show();
-//            }
-//        });
-//        FragmentManager fm = ((AppCompatActivity) mContext).getSupportFragmentManager();
-//        fm.
-
-        if (cursor.getInt(cursor.getColumnIndex(ShopLIstEntry.COLUMN_CHECKER)) == 1) {
-            viewHolder.mItemCheckBox.setChecked(true);
-        } else if (cursor.getInt(cursor.getColumnIndex(ShopLIstEntry.COLUMN_CHECKER)) == 0) {
-            viewHolder.mItemCheckBox.setChecked(false);
-        } else {
-            Log.e(LOG_TAG, "Checker variable not set");
-        }
 
     }
 
     @Override
     public int getItemCount() {
+//        SQLiteDatabase db = new MyFridgeDataHelper(mContext).getReadableDatabase();
+//        int cnt = (int) DatabaseUtils.queryNumEntries(db, ShopLIstEntry.TABLE_NAME);
+//        db.close();
+//
+//
+//        return (mCursor==null? super.getItemCount(): cnt );
+
         return super.getItemCount();
+    }
+
+
+
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private View mView;
+        private TextView mItemName;
+        public CheckBox mItemCheckBox;
+        private ImageView mIconView;
+
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+            mItemName = (TextView) itemView.findViewById(R.id.basket_item_name);
+            mIconView = (ImageView) itemView.findViewById(R.id.reorder_icon);
+//            mItemCheckBox = (CheckBox) itemView.findViewById(R.id.basket_checkBox);
+        }
+
+//        @Override
+//        public void onItemSelected() {
+//            itemView.setBackgroundColor(Color.LTGRAY);
+//        }
+//
+//        @Override
+//        public void onItemClear() {
+//            itemView.setBackgroundColor(0);
+//        }
     }
 
 }

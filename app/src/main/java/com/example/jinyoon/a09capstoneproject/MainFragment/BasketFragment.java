@@ -4,16 +4,19 @@ package com.example.jinyoon.a09capstoneproject.MainFragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -25,6 +28,8 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
+import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
+import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.SimpleItemTouchHelperCallback;
 import com.example.jinyoon.a09capstoneproject.R;
 
 /**
@@ -40,7 +45,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
     private String[] mProjection = {
             ShopLIstEntry._ID,
             ShopLIstEntry.COLUMN_GROCERY_NAME,
-            ShopLIstEntry.COLUMN_CHECKER
+            ShopLIstEntry.COLUMN_ORDERS
     };
 
     private RecyclerView mRecyclerView;
@@ -51,6 +56,14 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         // Required empty public constructor
     }
 
+    public long getRowCount(){
+        SQLiteDatabase db = new MyFridgeDataHelper(mContext).getReadableDatabase();
+        long cnt = DatabaseUtils.queryNumEntries(db, ShopLIstEntry.TABLE_NAME);
+        db.close();
+
+        return cnt;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,10 +71,6 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         Log.e("!!!BASKET FRAGEMENT!!", "ONCREATEVIEW CALLED");
         mContext=getContext();
         View view = inflater.inflate(R.layout.fragment_basket, container, false);
-
-//        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mTestAdapter);
-//        mItemTouchHelper = new ItemTouchHelper(callback);
-//        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         //EmptyView Handling
         mEmptyView = (TextView) view.findViewById(R.id.basket_empty_textview);
@@ -73,12 +82,18 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         }
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_basket);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         getLoaderManager().initLoader(CURSOR_LOADER_ID,null,this);
 
-        mCursorAdapter = new BasketRecyclerViewAdapter(mContext, null);
+        mCursorAdapter = new BasketRecyclerViewAdapter(mContext, null, this);
         mRecyclerView.setAdapter(mCursorAdapter);
-//        mRecyclerView.setAdapter(new BasketRecyclerViewAdapter(getContext()));
+
+        //Item Touch Helper Implementation
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter);
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.basket_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -103,8 +118,9 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
                                     toast.show();
                                     return;
                                 }else{
+//                                    int i = (int) getRowCount();
                                     ContentValues cv = new ContentValues();
-                                    cv.put(ShopLIstEntry.COLUMN_CHECKER, 0);
+//                                    cv.put(ShopLIstEntry.COLUMN_ORDERS, i);
                                     cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, input.toString());
                                     mContext.getContentResolver().insert(ShopLIstEntry.CONTENT_URI, cv);
                                     onItemChanged();
@@ -149,6 +165,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
                 null
                 );
 
+
         return loader;
     }
 
@@ -173,4 +190,6 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
         mCursorAdapter.swapCursor(null);
     }
+
+
 }
