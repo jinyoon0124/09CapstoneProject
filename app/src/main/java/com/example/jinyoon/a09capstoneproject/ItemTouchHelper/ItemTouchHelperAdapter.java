@@ -5,6 +5,6 @@ package com.example.jinyoon.a09capstoneproject.ItemTouchHelper;
  */
 
 public interface ItemTouchHelperAdapter {
-    void onItemMove(int fromPosition, int toPosition);
+//    void onItemMove(int fromPosition, int toPosition);
     void onItemDismiss(int position);
 }

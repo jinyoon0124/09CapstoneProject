@@ -186,7 +186,7 @@ public class MyFridgeDataProvider extends ContentProvider {
                 break;
             }
             default:
-                throw new UnsupportedOperationException("Unkonw urk: "+uri);
+                throw new UnsupportedOperationException("Unkonw url: "+uri);
 
         }
         if(rowDeleted !=0){

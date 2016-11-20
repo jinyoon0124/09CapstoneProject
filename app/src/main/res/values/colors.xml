@@ -9,5 +9,6 @@
     <color name="colorSecondaryText">#757575</color>
     <color name="photo_placeholder">#ccc</color>
     <color name="title_background_protection">#3000</color>
+    <color name="listitem_background">#FFFFFF</color>
 
 </resources>

@@ -8,6 +8,7 @@
     android:paddingStart="@dimen/list_item_padding"
     android:paddingRight="@dimen/list_item_padding"
     android:paddingEnd="@dimen/list_item_padding"
+    android:background="@color/listitem_background"
     >
 
 
@@ -20,12 +21,19 @@
         android:textSize="@dimen/list_item_textsize"
         />
 
-    <CheckBox
-        android:id="@+id/basket_checkBox"
+    <!--<CheckBox-->
+        <!--android:id="@+id/basket_checkBox"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_weight="2" />-->
+    <ImageView
+        android:id="@+id/reorder_icon"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_weight="2" />
-
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:layout_gravity="center_vertical|end"
+        android:src="@drawable/ic_reorder_black"
+        />
 
 </LinearLayout>

@@ -30,7 +30,7 @@ public final class MyFridgeDataContract {
 
         public static final String TABLE_NAME = "shoplist";
         public static final String COLUMN_GROCERY_NAME = "name";
-        public static final String COLUMN_CHECKER = "checker";
+        public static final String COLUMN_ORDERS = "orders";
 
         //Add any method related to database here
         public static Uri buildShopListUri(long id){
