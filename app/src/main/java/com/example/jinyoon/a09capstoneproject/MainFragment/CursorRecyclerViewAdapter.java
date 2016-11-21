@@ -1,8 +1,10 @@
 package com.example.jinyoon.a09capstoneproject.MainFragment;
 
 import android.content.Context;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.DataSetObserver;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 
 /**
@@ -13,11 +15,48 @@ import android.support.v7.widget.RecyclerView;
  */
 
 public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+//    private Cursor mCursor;
+//
+//    public void swapCursor(final Cursor cursor){
+//        this.mCursor = cursor;
+//        this.notifyDataSetChanged();
+//    }
+//
+//    public Cursor getItem(final int position){
+//        if(this.mCursor!=null && !this.mCursor.isClosed()){
+//            this.mCursor.moveToPosition(position);
+//        }
+//        return this.mCursor;
+//    }
+//
+//    public Cursor getCursor(){
+//        return this.mCursor;
+//    }
+//
+//
+//    @Override
+//    public int getItemCount() {
+//        return this.mCursor !=null
+//                ? this.mCursor.getCount()
+//                : 0;
+//    }
+//
+//    @Override
+//    public void onBindViewHolder(VH holder, int position) {
+//        final Cursor cursor = this.getItem(position);
+//        this.onBindViewHolder(holder, cursor);
+//    }
+//
+//    public abstract void onBindViewHolder(final VH holder, final Cursor cursor);
+//}
+
+
     private static final String LOG_TAG = CursorRecyclerViewAdapter.class.getSimpleName();
     private Cursor mCursor;
     private boolean dataIsValid;
     private int rowIdColumn;
     private DataSetObserver mDataSetObserver;
+    private ContentObserver mContentObserver;
 
     public CursorRecyclerViewAdapter(Context context, Cursor cursor) {
         mCursor = cursor;
@@ -83,6 +122,7 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
             }
             rowIdColumn = newCursor.getColumnIndexOrThrow("_id");
             dataIsValid = true;
+
             notifyDataSetChanged();
         } else {
             rowIdColumn = -1;
