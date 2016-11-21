@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.SimpleItemTouchHelperCallback;
@@ -56,14 +57,6 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         // Required empty public constructor
     }
 
-    public long getRowCount(){
-        SQLiteDatabase db = new MyFridgeDataHelper(mContext).getReadableDatabase();
-        long cnt = DatabaseUtils.queryNumEntries(db, ShopLIstEntry.TABLE_NAME);
-        db.close();
-
-        return cnt;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,10 +77,11 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_basket);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        getLoaderManager().initLoader(CURSOR_LOADER_ID,null,this);
 
         mCursorAdapter = new BasketRecyclerViewAdapter(mContext, null, this);
         mRecyclerView.setAdapter(mCursorAdapter);
+        getLoaderManager().initLoader(CURSOR_LOADER_ID,null,this);
+
 
         //Item Touch Helper Implementation
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter);
@@ -100,9 +94,8 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
             @Override
             public void onClick(View view) {
                 new MaterialDialog.Builder(getContext()).title("Add Item to basket")
-                        .content("Test content")
                         .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input("Test Guide", "", new MaterialDialog.InputCallback() {
+                        .input("Eggs", "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 Cursor c = getContext().getContentResolver().query(
@@ -111,17 +104,23 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
                                         ShopLIstEntry.COLUMN_GROCERY_NAME +" = ? ",
                                         new String[]{input.toString()},
                                         null);
-                                if(c.getCount()!=0){
+                                if(c!=null &&c.getCount()!=0){
                                     Toast toast =
                                         Toast.makeText(mContext, getString(R.string.item_exist_msg), Toast.LENGTH_LONG);
                                     toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                                     toast.show();
-                                    return;
+                                }else if(input.toString().equals("")){
+                                    Toast toast =
+                                            Toast.makeText(mContext, getString(R.string.no_input_msg), Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                                    toast.show();
+
                                 }else{
 //                                    int i = (int) getRowCount();
                                     ContentValues cv = new ContentValues();
-//                                    cv.put(ShopLIstEntry.COLUMN_ORDERS, i);
+//                                    cv.put(ShopLIstEntry.COLUMN_ORDERS, 1);
                                     cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, input.toString());
+
                                     mContext.getContentResolver().insert(ShopLIstEntry.CONTENT_URI, cv);
                                     onItemChanged();
                                 }
@@ -145,11 +144,10 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         Log.e("!!!BASKET FRAGMENT!!", "onREsume called");
     }
 
-    @UiThread
     private void onItemChanged() {
-        mCursorAdapter.notifyDataSetChanged();
 
-        getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
+        mContext.getContentResolver().notifyChange(ShopLIstEntry.CONTENT_URI, null);
+//        getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
         Toast.makeText(mContext, getString(R.string.item_added_msg), Toast.LENGTH_LONG).show();
     }
 
@@ -162,8 +160,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
                 mProjection,
                 null,
                 null,
-                null
-                );
+                null);
 
 
         return loader;
@@ -176,6 +173,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         mCursorAdapter.swapCursor(cursor);
         mCursor=cursor;
         int adapterSize = mCursorAdapter.getItemCount();
+        Log.e("!!!ADAPTERSIZE!!", String.valueOf(adapterSize));
 
         if(adapterSize!=0){
             mEmptyView.setVisibility(View.GONE);

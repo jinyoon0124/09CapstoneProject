@@ -43,6 +43,8 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
     private final String mSelectedItemCheckerKey = "SelectedItemChecker";
     private Context mContext;
     private Cursor mCursor;
+    private static final int CURSOR_LOADER_ID = 0;
+
     private final String LOG_TAG = getClass().getSimpleName();
     private BasketRecyclerViewAdapter mThisAdapter;
     private Fragment mFragment;
@@ -94,6 +96,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
     public void updateUI(){
         FragmentTransaction ft = mFragment.getFragmentManager().beginTransaction();
         ft.detach(mFragment).attach(mFragment).commit();
+
     }
 
     @Override
@@ -101,13 +104,21 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
         Cursor c = getCursor();
         c.moveToPosition(position);
         String name = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
+
         mContext.getContentResolver().delete(
                 ShopLIstEntry.CONTENT_URI,
                 "name = ?",
                 new String[]{name}
                 );
-        mThisAdapter.notifyItemRemoved(position);
-        updateUI();
+        this.notifyItemRemoved(position);
+
+//        notifyDataSetChanged();
+
+//        mContext.getContentResolver().notifyChange(ShopLIstEntry.CONTENT_URI, null);
+//        notifyItemRemoved(position);
+//        notifyDataSetChanged();
+
+//        updateUI();
     }
 
     @Override
@@ -120,7 +131,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final Cursor cursor) {
+    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
 //        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
 //            //Add OnClick Action later
 //            @Override

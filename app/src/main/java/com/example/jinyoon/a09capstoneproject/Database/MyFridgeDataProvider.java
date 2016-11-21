@@ -127,8 +127,8 @@ public class MyFridgeDataProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Unknown uri: "+ uri);
 
         }
-
-
+        //DONT FORGET THIS LINE EVER!!!! TO LISTEN CHANGE IN DATABASE!!!
+        retCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return  retCursor;
 
     }
