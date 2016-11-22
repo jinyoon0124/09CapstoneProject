@@ -102,7 +102,10 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //    }
 
     @Override
-    public void onItemDismiss(int position) {
+    public void onItemDismissLeft(int position) {
+        //Move Item to Fridge list when swiped to left
+
+        //TODO: Modify the following code to get dialog to get expiration days and move to Fridge List
         Cursor c = getCursor();
         c.moveToPosition(position);
         String name = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
@@ -113,14 +116,23 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                 new String[]{name}
                 );
         this.notifyItemRemoved(position);
+        Toast.makeText(mContext, "Item moved to left", Toast.LENGTH_SHORT).show();
+    }
 
-//        notifyDataSetChanged();
+    @Override
+    public void onItemDismissRight(int position) {
+    //Remove Item when an item is swiped to right
+        Cursor c = getCursor();
+        c.moveToPosition(position);
+        String name = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
 
-//        mContext.getContentResolver().notifyChange(ShopLIstEntry.CONTENT_URI, null);
-//        notifyItemRemoved(position);
-//        notifyDataSetChanged();
-
-//        updateUI();
+        mContext.getContentResolver().delete(
+                ShopLIstEntry.CONTENT_URI,
+                "name = ?",
+                new String[]{name}
+        );
+        this.notifyItemRemoved(position);
+        Toast.makeText(mContext, "Item moved to right", Toast.LENGTH_SHORT).show();
     }
 
     @Override
