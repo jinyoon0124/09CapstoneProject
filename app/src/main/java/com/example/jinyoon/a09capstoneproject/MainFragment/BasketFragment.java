@@ -105,12 +105,12 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
                                         null);
                                 if(c!=null &&c.getCount()!=0){
                                     Toast toast =
-                                        Toast.makeText(mContext, getString(R.string.item_exist_msg), Toast.LENGTH_LONG);
+                                        Toast.makeText(mContext, getString(R.string.item_exist_msg), Toast.LENGTH_SHORT);
                                     toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                                     toast.show();
                                 }else if(input.toString().equals("")){
                                     Toast toast =
-                                            Toast.makeText(mContext, getString(R.string.no_input_msg), Toast.LENGTH_LONG);
+                                            Toast.makeText(mContext, getString(R.string.no_input_msg), Toast.LENGTH_SHORT);
                                     toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                                     toast.show();
 
@@ -146,7 +146,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
         mContext.getContentResolver().notifyChange(ShopLIstEntry.CONTENT_URI, null);
 //        getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
-        Toast.makeText(mContext, getString(R.string.item_added_msg), Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, getString(R.string.item_added_msg), Toast.LENGTH_SHORT).show();
     }
 
     @Override

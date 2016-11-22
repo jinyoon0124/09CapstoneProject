@@ -4,8 +4,8 @@
     <string name="title_activity_recipe_detail">RecipeDetail</string>
     <string name="content_authority">com.example.jinyoon.a09capstoneproject</string>
     <string name="item_exist_msg">This item already exists in the list!!</string>
-    <string name="basket_empty_msg">No itme is available. Please add grocery item using fab button</string>
-    <string name="item_added_msg">Item added!</string>
-    <string name="no_input_msg">Please input grocery name</string>
+    <string name="basket_empty_msg">No item is available. Please add grocery item using fab button</string>
+    <string name="item_added_msg">Item added !</string>
+    <string name="no_input_msg">Please enter grocery name</string>
 
 </resources>
