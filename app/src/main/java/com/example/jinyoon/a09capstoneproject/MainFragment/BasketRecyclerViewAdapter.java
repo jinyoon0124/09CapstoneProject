@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.ItemTouchHelperAdapter;
+import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.ItemTouchHelperViewHolder;
 import com.example.jinyoon.a09capstoneproject.R;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 
@@ -92,12 +94,12 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //
 //        mThisAdapter.notifyDataSetChanged();
 //    }
-
-    public void updateUI(){
-        FragmentTransaction ft = mFragment.getFragmentManager().beginTransaction();
-        ft.detach(mFragment).attach(mFragment).commit();
-
-    }
+//
+//    public void updateUI(){
+//        FragmentTransaction ft = mFragment.getFragmentManager().beginTransaction();
+//        ft.detach(mFragment).attach(mFragment).commit();
+//
+//    }
 
     @Override
     public void onItemDismiss(int position) {
@@ -163,7 +165,8 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder
+            implements ItemTouchHelperViewHolder{
         private View mView;
         private TextView mItemName;
         public CheckBox mItemCheckBox;
@@ -178,15 +181,17 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //            mItemCheckBox = (CheckBox) itemView.findViewById(R.id.basket_checkBox);
         }
 
-//        @Override
-//        public void onItemSelected() {
-//            itemView.setBackgroundColor(Color.LTGRAY);
-//        }
-//
-//        @Override
-//        public void onItemClear() {
-//            itemView.setBackgroundColor(0);
-//        }
+        //Called when an item is selected
+        @Override
+        public void onItemSelected() {
+            mView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        //Called when selection of item is released
+        @Override
+        public void onItemClear() {
+            mView.setBackgroundColor(Color.WHITE);
+        }
     }
 
 }

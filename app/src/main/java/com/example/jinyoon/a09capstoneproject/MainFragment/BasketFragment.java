@@ -61,7 +61,6 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.e("!!!BASKET FRAGEMENT!!", "ONCREATEVIEW CALLED");
         mContext=getContext();
         View view = inflater.inflate(R.layout.fragment_basket, container, false);
 
@@ -125,7 +124,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
                                     onItemChanged();
                                 }
 
-
+                        c.close();
                             }
                         }).show();
 
@@ -141,7 +140,6 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
     public void onResume() {
         super.onResume();
         getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
-        Log.e("!!!BASKET FRAGMENT!!", "onREsume called");
     }
 
     private void onItemChanged() {
@@ -153,7 +151,6 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.e("!!!BASKET FRAGEMENT!!", "ONCREATELOADER CALLED");
 
         CursorLoader loader = new CursorLoader(mContext,
                 ShopLIstEntry.CONTENT_URI,
@@ -168,12 +165,10 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        Log.e("!!!BASKET FRAGEMENT!!", "ONLOADFINISHED CALLED");
 
         mCursorAdapter.swapCursor(cursor);
         mCursor=cursor;
         int adapterSize = mCursorAdapter.getItemCount();
-        Log.e("!!!ADAPTERSIZE!!", String.valueOf(adapterSize));
 
         if(adapterSize!=0){
             mEmptyView.setVisibility(View.GONE);
@@ -184,7 +179,6 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        Log.e("!!!BASKET FRAGEMENT!!", "ONLOADERRESET CALLED");
 
         mCursorAdapter.swapCursor(null);
     }
