@@ -77,7 +77,8 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
-        mCursorAdapter = new BasketRecyclerViewAdapter(mContext, null, this);
+
+        mCursorAdapter = new BasketRecyclerViewAdapter(mContext, null);
         mRecyclerView.setAdapter(mCursorAdapter);
         getLoaderManager().initLoader(CURSOR_LOADER_ID,null,this);
 

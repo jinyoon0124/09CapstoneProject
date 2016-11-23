@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
+import com.example.jinyoon.a09capstoneproject.MainFragment.BasketRecyclerViewAdapter;
 import com.example.jinyoon.a09capstoneproject.R;
 
 /**
@@ -27,9 +28,18 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        final int swipeFlags = ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT;
-        return makeMovementFlags(dragFlags, swipeFlags);
+        int dragFlags, swipeFlags;
+        if(mAdapter instanceof BasketRecyclerViewAdapter){
+            dragFlags= ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            swipeFlags = ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT;
+            return makeMovementFlags(dragFlags, swipeFlags);
+
+        }else{
+            dragFlags= ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            swipeFlags = ItemTouchHelper.RIGHT;
+            return makeMovementFlags(dragFlags, swipeFlags);
+
+        }
     }
 
     @Override
