@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,13 +51,11 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 
     private final String LOG_TAG = getClass().getSimpleName();
     private BasketRecyclerViewAdapter mThisAdapter;
-    private Fragment mFragment;
 
-    public BasketRecyclerViewAdapter(Context context, Cursor cursor, Fragment fg) {
+    public BasketRecyclerViewAdapter(Context context, Cursor cursor) {
         super(context, cursor);
         this.mContext = context;
         this.mCursor = cursor;
-        this.mFragment = fg;
 
     }
 //
@@ -139,8 +139,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
     public BasketRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_basket, parent, false);
-        mThisAdapter = new BasketRecyclerViewAdapter(mContext,mCursor,mFragment);
-
+        mThisAdapter = new BasketRecyclerViewAdapter(mContext,mCursor);
         return new ViewHolder(view);
     }
 
@@ -178,18 +177,19 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder
-            implements ItemTouchHelperViewHolder{
+            implements ItemTouchHelperViewHolder, View.OnClickListener{
         private View mView;
         private TextView mItemName;
-        public CheckBox mItemCheckBox;
         private ImageView mIconView;
-
+        private String LOG_TAG = this.getClass().getSimpleName();
 
         public ViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
             mItemName = (TextView) itemView.findViewById(R.id.basket_item_name);
             mIconView = (ImageView) itemView.findViewById(R.id.reorder_icon);
+
+            mView.setOnClickListener(this);
 //            mItemCheckBox = (CheckBox) itemView.findViewById(R.id.basket_checkBox);
         }
 
@@ -203,6 +203,64 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
         @Override
         public void onItemClear() {
             mView.setBackgroundColor(Color.WHITE);
+        }
+
+        @Override
+        public void onClick(final View v) {
+            final int position = getAdapterPosition();
+            final Context mContext = v.getContext();
+            Cursor mCursor = mContext.getContentResolver().query(
+                    ShopLIstEntry.CONTENT_URI,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            if(mCursor !=null){
+                mCursor.moveToPosition(position);
+                final String name = mCursor.getString(mCursor.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
+                Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show();
+
+                new MaterialDialog.Builder(mContext).title("Edit Item")
+                        .content("Edit Item name")
+                        .inputType(InputType.TYPE_CLASS_TEXT)
+                        .input(name, "", new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                Cursor c= mContext.getContentResolver().query(
+                                        ShopLIstEntry.CONTENT_URI,
+                                        new String[]{ShopLIstEntry.COLUMN_GROCERY_NAME},
+                                        ShopLIstEntry.COLUMN_GROCERY_NAME +" = ? ",
+                                        new String[]{input.toString()},
+                                        null
+                                );
+                                if(c!=null && c.getCount()!=0){
+                                    Toast toast = Toast.makeText(mContext, mContext.getString(R.string.item_exist_msg), Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                                    toast.show();
+                                }else if(input.toString().equals("")){
+                                    Toast toast = Toast.makeText(mContext, mContext.getString(R.string.no_input_msg), Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                                    toast.show();
+                                }else{
+                                    ContentValues cv = new ContentValues();
+                                    cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, input.toString());
+                                    mContext.getContentResolver().update(
+                                            ShopLIstEntry.CONTENT_URI,
+                                            cv,
+                                            "name = ? ",
+                                            new String[]{name});
+                                    mContext.getContentResolver().notifyChange(ShopLIstEntry.CONTENT_URI, null);
+                                }
+                                c.close();
+                            }
+                        }).show();
+            }else{
+                Log.e(LOG_TAG, "Cursor doesn't exist");
+            }
+
+
         }
     }
 
