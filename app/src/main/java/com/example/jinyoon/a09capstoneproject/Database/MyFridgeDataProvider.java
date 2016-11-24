@@ -221,4 +221,6 @@ public class MyFridgeDataProvider extends ContentProvider {
 
         return rowUpdated;
     }
+
+
 }
