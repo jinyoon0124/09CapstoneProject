@@ -116,10 +116,14 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
                                     toast.show();
 
                                 }else{
-//                                    int i = (int) getRowCount();
+                                    SQLiteDatabase db = new MyFridgeDataHelper(mContext).getReadableDatabase();
+                                    c = db.rawQuery("SELECT * FROM "+ ShopLIstEntry.TABLE_NAME, null);
+//                                    Log.e("!!!! INSIDE DIALOG!! C!", String.valueOf(c.getCount()));
+                                    int itemOrder = c.getCount()+1;
+
                                     ContentValues cv = new ContentValues();
-//                                    cv.put(ShopLIstEntry.COLUMN_ORDERS, 1);
                                     cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, input.toString());
+                                    cv.put(ShopLIstEntry.COLUMN_ORDERS, itemOrder);
 
                                     mContext.getContentResolver().insert(ShopLIstEntry.CONTENT_URI, cv);
                                     onItemChanged();
@@ -146,7 +150,6 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
     private void onItemChanged() {
 
         mContext.getContentResolver().notifyChange(ShopLIstEntry.CONTENT_URI, null);
-//        getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
         Toast.makeText(mContext, getString(R.string.item_added_msg), Toast.LENGTH_SHORT).show();
     }
 
