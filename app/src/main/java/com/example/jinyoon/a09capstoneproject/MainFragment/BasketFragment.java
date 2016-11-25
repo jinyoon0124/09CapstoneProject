@@ -50,8 +50,6 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
     };
 
     private RecyclerView mRecyclerView;
-//    private ItemTouchHelper mItemTouchHelper;
-//    private BasketRecyclerViewAdapter mTestAdapter;
 
     public BasketFragment() {
         // Required empty public constructor
@@ -119,11 +117,11 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
                                     SQLiteDatabase db = new MyFridgeDataHelper(mContext).getReadableDatabase();
                                     c = db.rawQuery("SELECT * FROM "+ ShopLIstEntry.TABLE_NAME, null);
 //                                    Log.e("!!!! INSIDE DIALOG!! C!", String.valueOf(c.getCount()));
-                                    int itemOrder = c.getCount()+1;
+//                                    int itemOrder = c.getCount();
 
                                     ContentValues cv = new ContentValues();
                                     cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, input.toString());
-                                    cv.put(ShopLIstEntry.COLUMN_ORDERS, itemOrder);
+//                                    cv.put(ShopLIstEntry.COLUMN_ORDERS, itemOrder);
 
                                     mContext.getContentResolver().insert(ShopLIstEntry.CONTENT_URI, cv);
                                     onItemChanged();
@@ -135,9 +133,6 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
             }
         });
-
-
-
         return view;
     }
 
@@ -161,7 +156,8 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
                 mProjection,
                 null,
                 null,
-                null);
+                ShopLIstEntry.COLUMN_ORDERS+ " ASC"
+                );
 
 
         return loader;

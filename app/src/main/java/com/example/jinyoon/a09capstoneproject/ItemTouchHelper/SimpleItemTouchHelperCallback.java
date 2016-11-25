@@ -29,17 +29,10 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         int dragFlags, swipeFlags;
-        if(mAdapter instanceof BasketRecyclerViewAdapter){
-            dragFlags= ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-            swipeFlags = ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT;
-            return makeMovementFlags(dragFlags, swipeFlags);
+        dragFlags= ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+        swipeFlags = ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT;
 
-        }else{
-            dragFlags= ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-            swipeFlags = ItemTouchHelper.RIGHT;
-            return makeMovementFlags(dragFlags, swipeFlags);
-
-        }
+        return makeMovementFlags(dragFlags, swipeFlags);
     }
 
     @Override
@@ -105,7 +98,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean isLongPressDragEnabled() {
-        return false;
+        return true;
     }
 
     @Override
