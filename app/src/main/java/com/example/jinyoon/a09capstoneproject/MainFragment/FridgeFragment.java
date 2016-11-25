@@ -84,6 +84,7 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
                         .input("Eggs", "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
+
 //                                Cursor c = getContext().getContentResolver().query(
 //                                        ShopLIstEntry.CONTENT_URI,
 //                                        new String[]{ShopLIstEntry.COLUMN_GROCERY_NAME},
@@ -123,6 +124,12 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
     }
 
     @Override
