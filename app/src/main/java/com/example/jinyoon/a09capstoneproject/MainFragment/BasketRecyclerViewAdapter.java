@@ -42,15 +42,11 @@ import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketRecyclerViewAdapter.ViewHolder>
         implements ItemTouchHelperAdapter{
 
-    private final String mSelectedItemKey = "SelectedItem";
-    private final String mSelectedItemNameKey = "SelectedItemName";
-    private final String mSelectedItemCheckerKey = "SelectedItemChecker";
     private Context mContext;
     private Cursor mCursor;
-    private static final int CURSOR_LOADER_ID = 0;
 
     private final String LOG_TAG = getClass().getSimpleName();
-    private BasketRecyclerViewAdapter mThisAdapter;
+//    private BasketRecyclerViewAdapter mThisAdapter;
 
     public BasketRecyclerViewAdapter(Context context, Cursor cursor) {
         super(context, cursor);
@@ -64,7 +60,53 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //
 //        Cursor c = getCursor();
 //        c.moveToPosition(fromPosition);
-//        String fromName = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
+//        int fromOrder = c.getInt(c.getColumnIndex(ShopLIstEntry.COLUMN_ORDERS));
+//
+//        c.moveToPosition(toPosition);
+//        int toOrder = c.getInt(c.getColumnIndex(ShopLIstEntry.COLUMN_ORDERS));
+//
+//        Log.e("!!!FORMIDIDID", String.valueOf(fromPosition) +"  "+ String.valueOf(fromOrder));
+//        Log.e("!!!!TOIDIDID", String.valueOf(toPosition) + "   "+ String.valueOf(toOrder));
+//
+//        ContentValues cv = new ContentValues();
+//        cv.put(ShopLIstEntry.COLUMN_ORDERS, toPosition);
+//        mContext.getContentResolver().update(
+//                ShopLIstEntry.CONTENT_URI,
+//                cv,
+//                "orders = ?",
+//                new String[]{String.valueOf(fromPosition)}
+//        );
+//
+//        if(toPosition< fromPosition){
+//            for(int i =fromPosition; i>toPosition; i--){
+//                c.moveToPosition(i);
+//                int k = c.getInt(c.getColumnIndex(ShopLIstEntry.COLUMN_ORDERS));
+//                String name = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
+//                cv.put(ShopLIstEntry.COLUMN_ORDERS, k-1);
+//                mContext.getContentResolver().update(
+//                        ShopLIstEntry.CONTENT_URI,
+//                        cv,
+//                        "name = ?",
+//                        new String[]{name}
+//                );
+//            }
+//        }else if(fromPosition < toPosition){
+//            for(int i = fromPosition; i<toPosition; i++){
+//                c.moveToPosition(i);
+//                int k = c.getInt(c.getColumnIndex(ShopLIstEntry.COLUMN_ORDERS));
+//                String name = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
+//                cv.put(ShopLIstEntry.COLUMN_ORDERS, k+1);
+//                mContext.getContentResolver().update(
+//                        ShopLIstEntry.CONTENT_URI,
+//                        cv,
+//                        "name = ?",
+//                        new String[]{name}
+//                );
+//            }
+//        }
+//////////////////////////////////////////////////////////
+//        notifyItemMoved(fromPosition,toPosition);
+
 ////        String fromId = Long.toString(c.getLong(c.getColumnIndex(ShopLIstEntry._ID)));
 ////        Log.e("!!!FORMIDIDID", fromId +"  "+ fromName);
 //        c.moveToPosition(toPosition);
@@ -93,12 +135,6 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //        );
 //
 //        mThisAdapter.notifyDataSetChanged();
-//    }
-//
-//    public void updateUI(){
-//        FragmentTransaction ft = mFragment.getFragmentManager().beginTransaction();
-//        ft.detach(mFragment).attach(mFragment).commit();
-//
 //    }
 
     @Override
@@ -139,7 +175,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
     public BasketRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_basket, parent, false);
-        mThisAdapter = new BasketRecyclerViewAdapter(mContext,mCursor);
+//        mThisAdapter = new BasketRecyclerViewAdapter(mContext,mCursor);
         return new ViewHolder(view);
     }
 
@@ -225,7 +261,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                 new MaterialDialog.Builder(mContext).title("Edit Item")
                         .content("Edit Item name")
                         .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input(name, "", new MaterialDialog.InputCallback() {
+                        .input("", name, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 Cursor c= mContext.getContentResolver().query(
