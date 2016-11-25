@@ -18,9 +18,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
@@ -72,56 +74,92 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter);
-        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
+        final ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fridge_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                new MaterialDialog.Builder(getContext()).title("Add Item to Fridge")
-                        .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input("Eggs", "", new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
+            public void onClick(View view1) {
+                final MaterialDialog dialog = new MaterialDialog.Builder(mContext).title("Add item to fridge")
+                        .customView(R.layout.dialog_fridge, true)
+                        .negativeText("Cancel")
+                        .positiveText("Ok")
+                        .build();
 
-//                                Cursor c = getContext().getContentResolver().query(
-//                                        ShopLIstEntry.CONTENT_URI,
-//                                        new String[]{ShopLIstEntry.COLUMN_GROCERY_NAME},
-//                                        ShopLIstEntry.COLUMN_GROCERY_NAME +" = ? ",
-//                                        new String[]{input.toString()},
-//                                        null);
-//                                if(c!=null &&c.getCount()!=0){
-//                                    Toast toast =
-//                                            Toast.makeText(mContext, getString(R.string.item_exist_msg), Toast.LENGTH_SHORT);
-//                                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
-//                                    toast.show();
-//                                }else if(input.toString().equals("")){
-//                                    Toast toast =
-//                                            Toast.makeText(mContext, getString(R.string.no_input_msg), Toast.LENGTH_SHORT);
-//                                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
-//                                    toast.show();
-//
-//                                }else{
-//                                    SQLiteDatabase db = new MyFridgeDataHelper(mContext).getReadableDatabase();
-//                                    c = db.rawQuery("SELECT * FROM "+ ShopLIstEntry.TABLE_NAME, null);
-////                                    Log.e("!!!! INSIDE DIALOG!! C!", String.valueOf(c.getCount()));
-////                                    int itemOrder = c.getCount();
-//
-//                                    ContentValues cv = new ContentValues();
-//                                    cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, input.toString());
-////                                    cv.put(ShopLIstEntry.COLUMN_ORDERS, itemOrder);
-//
-//                                    mContext.getContentResolver().insert(ShopLIstEntry.CONTENT_URI, cv);
-//                                    onItemChanged();
-//                                }
-//
-//                                c.close();
-                            }
-                        }).show();
+                dialog.show();
+                final View dialogView = dialog.getCustomView();
+
+                View positive = dialog.getActionButton(DialogAction.POSITIVE);
+                positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String itemName = String.valueOf(((EditText)dialogView.findViewById(R.id.fridge_dialog_name_input)).getText());
+                        String dayValue = String.valueOf(((EditText)dialogView.findViewById(R.id.fridge_dialog_days_input)).getText());
+
+                        Toast.makeText(mContext, itemName + " : " + dayValue, Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+
+                View negative = dialog.getActionButton(DialogAction.NEGATIVE);
+                negative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+
 
             }
         });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                new MaterialDialog.Builder(mContext).title("Add Item to Fridge")
+//                        .inputType(InputType.TYPE_CLASS_TEXT)
+//                        .input("Eggs", "", new MaterialDialog.InputCallback() {
+//                            @Override
+//                            public void onInput(MaterialDialog dialog, CharSequence input) {
+//
+////                                Cursor c = getContext().getContentResolver().query(
+////                                        ShopLIstEntry.CONTENT_URI,
+////                                        new String[]{ShopLIstEntry.COLUMN_GROCERY_NAME},
+////                                        ShopLIstEntry.COLUMN_GROCERY_NAME +" = ? ",
+////                                        new String[]{input.toString()},
+////                                        null);
+////                                if(c!=null &&c.getCount()!=0){
+////                                    Toast toast =
+////                                            Toast.makeText(mContext, getString(R.string.item_exist_msg), Toast.LENGTH_SHORT);
+////                                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+////                                    toast.show();
+////                                }else if(input.toString().equals("")){
+////                                    Toast toast =
+////                                            Toast.makeText(mContext, getString(R.string.no_input_msg), Toast.LENGTH_SHORT);
+////                                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+////                                    toast.show();
+////
+////                                }else{
+////                                    SQLiteDatabase db = new MyFridgeDataHelper(mContext).getReadableDatabase();
+////                                    c = db.rawQuery("SELECT * FROM "+ ShopLIstEntry.TABLE_NAME, null);
+//////                                    Log.e("!!!! INSIDE DIALOG!! C!", String.valueOf(c.getCount()));
+//////                                    int itemOrder = c.getCount();
+////
+////                                    ContentValues cv = new ContentValues();
+////                                    cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, input.toString());
+//////                                    cv.put(ShopLIstEntry.COLUMN_ORDERS, itemOrder);
+////
+////                                    mContext.getContentResolver().insert(ShopLIstEntry.CONTENT_URI, cv);
+////                                    onItemChanged();
+////                                }
+////
+////                                c.close();
+//                            }
+//                        }).show();
+//
+//            }
+//        });
 
         return view;
     }

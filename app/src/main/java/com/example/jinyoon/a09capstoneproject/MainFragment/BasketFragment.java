@@ -129,7 +129,8 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
                         c.close();
                             }
-                        }).show();
+                        }).negativeText("Cancel")
+                        .show();
 
             }
         });
