@@ -23,10 +23,10 @@ public class MyFridgeDataHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
 
         final String SQL_CREATE_SHOPLIST_TABLE = "CREATE TABLE " +
-                ShopLIstEntry.TABLE_NAME + " (" +
-                ShopLIstEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                ShopLIstEntry.COLUMN_GROCERY_NAME + " TEXT UNIQUE NOT NULL, " +
-                ShopLIstEntry.COLUMN_ORDERS + " INTEGER "+
+                ShopListEntry.TABLE_NAME + " (" +
+                ShopListEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                ShopListEntry.COLUMN_GROCERY_NAME + " TEXT UNIQUE NOT NULL, " +
+                ShopListEntry.COLUMN_ORDERS + " INTEGER "+
                 " );";
 
         final String SQL_CREATE_FRIDGELIST_TABLE = "CREATE TABLE "+
@@ -43,7 +43,7 @@ public class MyFridgeDataHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL("DROP TABLE IF EXISTS " + ShopLIstEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ShopListEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + FridgeListEntry.TABLE_NAME);
         onCreate(db);
     }

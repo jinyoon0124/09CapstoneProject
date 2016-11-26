@@ -7,12 +7,13 @@
     <string name="days_string">%1$d days</string>
     <string name="item_exist_msg">This item already exists in the list!!</string>
     <string name="basket_empty_msg">No item is available. Please add grocery item using fab button</string>
-    <string name="item_added_msg">Item added !</string>
+    <string name="item_added_msg">%1$s added to the list!</string>
     <string name="no_input_msg">Please enter grocery name</string>
     <string name="fridge_empty_msg">No item is available. Please add grocery item using fab button or move item from Basket List</string>
     <string name="fridge_dialog_name_text">Grocery Name :</string>
     <string name="fridge_dialog_days_text">Expected Days to Expiration :</string>
     <string name="fridge_dialog_name_hint">Input Grocery Name here</string>
     <string name="fridge_dialog_days_hint">Input days to expiration</string>
+    <string name="no_days_input_msg">Please enter expected days to expiration</string>
 
 </resources>

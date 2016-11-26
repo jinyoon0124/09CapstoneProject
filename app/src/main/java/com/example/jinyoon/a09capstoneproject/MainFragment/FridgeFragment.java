@@ -3,7 +3,6 @@ package com.example.jinyoon.a09capstoneproject.MainFragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,11 +23,8 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
-import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.SimpleItemTouchHelperCallback;
 import com.example.jinyoon.a09capstoneproject.R;
-
-import org.w3c.dom.Text;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -42,6 +37,8 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mEmptyView;
     private FridgeRecyclerViewAdapter mCursorAdapter;
     private static final int CURSOR_LOADER_ID = 0;
+    private static final int TOUCH_HELPER_ID = 2;
+
     private String[] mProjection = {
             FridgeListEntry._ID,
             FridgeListEntry.COLUMN_GROCERY_NAME,
@@ -97,7 +94,51 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
                         String itemName = String.valueOf(((EditText)dialogView.findViewById(R.id.fridge_dialog_name_input)).getText());
                         String dayValue = String.valueOf(((EditText)dialogView.findViewById(R.id.fridge_dialog_days_input)).getText());
 
-                        Toast.makeText(mContext, itemName + " : " + dayValue, Toast.LENGTH_SHORT).show();
+                        Cursor c = getContext().getContentResolver().query(
+                                FridgeListEntry.CONTENT_URI,
+                                new String[]{FridgeListEntry.COLUMN_GROCERY_NAME},
+                                FridgeListEntry.COLUMN_GROCERY_NAME +" = ? ",
+                                new String[]{itemName},
+                                null);
+
+                        if(c!=null &&c.getCount()!=0){
+                            Toast toast =
+                                    Toast.makeText(mContext, getString(R.string.item_exist_msg), Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                            toast.show();
+                        }else if(itemName.equals("")){
+                            Toast toast =
+                                    Toast.makeText(mContext, getString(R.string.no_input_msg), Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                            toast.show();
+
+                        }else if(dayValue==null){
+                            Toast toast =
+                                    Toast.makeText(mContext, getString(R.string.no_days_input_msg), Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                            toast.show();
+
+                        }
+                        else{
+//                                    SQLiteDatabase db = new MyFridgeDataHelper(mContext).getReadableDatabase();
+//                                    c = db.rawQuery("SELECT * FROM "+ ShopListEntry.TABLE_NAME, null);
+//                                    Log.e("!!!! INSIDE DIALOG!! C!", String.valueOf(c.getCount()));
+//                                    int itemOrder = c.getCount();
+
+                            ContentValues cv = new ContentValues();
+                            cv.put(FridgeListEntry.COLUMN_GROCERY_NAME, itemName);
+                            cv.put(FridgeListEntry.COLUMN_EXPIRATION, Integer.parseInt(dayValue));
+
+                            mContext.getContentResolver().insert(FridgeListEntry.CONTENT_URI, cv);
+
+                            mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
+                            Toast.makeText(mContext, getString(R.string.item_added_msg, itemName), Toast.LENGTH_SHORT).show();
+                        }
+
+                        c.close();
+
+
+//                        Toast.makeText(mContext, itemName + " : " + dayValue, Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
                 });
@@ -124,9 +165,9 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 //                            public void onInput(MaterialDialog dialog, CharSequence input) {
 //
 ////                                Cursor c = getContext().getContentResolver().query(
-////                                        ShopLIstEntry.CONTENT_URI,
-////                                        new String[]{ShopLIstEntry.COLUMN_GROCERY_NAME},
-////                                        ShopLIstEntry.COLUMN_GROCERY_NAME +" = ? ",
+////                                        ShopListEntry.CONTENT_URI,
+////                                        new String[]{ShopListEntry.COLUMN_GROCERY_NAME},
+////                                        ShopListEntry.COLUMN_GROCERY_NAME +" = ? ",
 ////                                        new String[]{input.toString()},
 ////                                        null);
 ////                                if(c!=null &&c.getCount()!=0){
@@ -142,15 +183,15 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 ////
 ////                                }else{
 ////                                    SQLiteDatabase db = new MyFridgeDataHelper(mContext).getReadableDatabase();
-////                                    c = db.rawQuery("SELECT * FROM "+ ShopLIstEntry.TABLE_NAME, null);
+////                                    c = db.rawQuery("SELECT * FROM "+ ShopListEntry.TABLE_NAME, null);
 //////                                    Log.e("!!!! INSIDE DIALOG!! C!", String.valueOf(c.getCount()));
 //////                                    int itemOrder = c.getCount();
 ////
 ////                                    ContentValues cv = new ContentValues();
-////                                    cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, input.toString());
-//////                                    cv.put(ShopLIstEntry.COLUMN_ORDERS, itemOrder);
+////                                    cv.put(ShopListEntry.COLUMN_GROCERY_NAME, input.toString());
+//////                                    cv.put(ShopListEntry.COLUMN_ORDERS, itemOrder);
 ////
-////                                    mContext.getContentResolver().insert(ShopLIstEntry.CONTENT_URI, cv);
+////                                    mContext.getContentResolver().insert(ShopListEntry.CONTENT_URI, cv);
 ////                                    onItemChanged();
 ////                                }
 ////

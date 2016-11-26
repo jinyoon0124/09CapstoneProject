@@ -31,8 +31,8 @@ public class MyFridgeDataProvider extends ContentProvider {
     }
 
     private static final String sShopItemWithNameSelection =
-            MyFridgeDataContract.ShopLIstEntry.TABLE_NAME+
-                    "."+ MyFridgeDataContract.ShopLIstEntry.COLUMN_GROCERY_NAME + " = ? ";
+            MyFridgeDataContract.ShopListEntry.TABLE_NAME+
+                    "."+ MyFridgeDataContract.ShopListEntry.COLUMN_GROCERY_NAME + " = ? ";
     private static final String sFridgeItemWithNameSelection =
             MyFridgeDataContract.FridgeListEntry.TABLE_NAME+
                     "."+ MyFridgeDataContract.FridgeListEntry.COLUMN_GROCERY_NAME + " = ? ";
@@ -49,9 +49,9 @@ public class MyFridgeDataProvider extends ContentProvider {
 
         switch (match) {
             case SHOPLIST:
-                return MyFridgeDataContract.ShopLIstEntry.CONTENT_TYPE;
+                return MyFridgeDataContract.ShopListEntry.CONTENT_TYPE;
             case SHOPLIST_NAME:
-                return MyFridgeDataContract.ShopLIstEntry.CONTENT_ITEM_TYPE;
+                return MyFridgeDataContract.ShopListEntry.CONTENT_ITEM_TYPE;
             case FRIDGELIST:
                 return MyFridgeDataContract.FridgeListEntry.CONTENT_TYPE;
             case FRIDGELIST_NAME:
@@ -72,7 +72,7 @@ public class MyFridgeDataProvider extends ContentProvider {
                 selection = sShopItemWithNameSelection;
                 selectionArgs = new String[]{name};
                 retCursor = mDbHelper.getReadableDatabase().query(
-                        MyFridgeDataContract.ShopLIstEntry.TABLE_NAME,
+                        MyFridgeDataContract.ShopListEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -100,7 +100,7 @@ public class MyFridgeDataProvider extends ContentProvider {
 
             case SHOPLIST:{
                 retCursor = mDbHelper.getReadableDatabase().query(
-                        MyFridgeDataContract.ShopLIstEntry.TABLE_NAME,
+                        MyFridgeDataContract.ShopListEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -141,9 +141,9 @@ public class MyFridgeDataProvider extends ContentProvider {
 
         switch (match){
             case SHOPLIST:{
-                long _id = db.insert(MyFridgeDataContract.ShopLIstEntry.TABLE_NAME, null, values);
+                long _id = db.insert(MyFridgeDataContract.ShopListEntry.TABLE_NAME, null, values);
                 if(_id>0){
-                    retUri = MyFridgeDataContract.ShopLIstEntry.buildShopListUri(_id);
+                    retUri = MyFridgeDataContract.ShopListEntry.buildShopListUri(_id);
                 }
                 else
                     throw new SQLException("Failed to insert row into "+ uri);
@@ -177,7 +177,7 @@ public class MyFridgeDataProvider extends ContentProvider {
         switch (match){
             case SHOPLIST:{
                 rowDeleted = db.delete(
-                        MyFridgeDataContract.ShopLIstEntry.TABLE_NAME, selection, selectionArgs);
+                        MyFridgeDataContract.ShopListEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             }
             case FRIDGELIST:{
@@ -204,7 +204,7 @@ public class MyFridgeDataProvider extends ContentProvider {
 
         switch (match){
             case SHOPLIST:{
-                rowUpdated = db.update(MyFridgeDataContract.ShopLIstEntry.TABLE_NAME, values, selection, selectionArgs);
+                rowUpdated = db.update(MyFridgeDataContract.ShopListEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             }
             case FRIDGELIST:{
