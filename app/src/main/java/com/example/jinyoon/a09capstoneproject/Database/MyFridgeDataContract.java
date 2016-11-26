@@ -18,7 +18,7 @@ public final class MyFridgeDataContract {
     public static final String PATH_FRIDGE = "fridge";
 
 
-    public static final class ShopLIstEntry implements BaseColumns{
+    public static final class ShopListEntry implements BaseColumns{
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_SHOP).build();

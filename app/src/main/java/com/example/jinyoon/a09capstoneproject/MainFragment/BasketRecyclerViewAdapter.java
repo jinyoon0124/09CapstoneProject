@@ -3,15 +3,8 @@ package com.example.jinyoon.a09capstoneproject.MainFragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.annotation.UiThread;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
@@ -19,14 +12,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.ItemTouchHelperAdapter;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.ItemTouchHelperViewHolder;
 import com.example.jinyoon.a09capstoneproject.R;
@@ -60,18 +50,18 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //
 //        Cursor c = getCursor();
 //        c.moveToPosition(fromPosition);
-//        int fromOrder = c.getInt(c.getColumnIndex(ShopLIstEntry.COLUMN_ORDERS));
+//        int fromOrder = c.getInt(c.getColumnIndex(ShopListEntry.COLUMN_ORDERS));
 //
 //        c.moveToPosition(toPosition);
-//        int toOrder = c.getInt(c.getColumnIndex(ShopLIstEntry.COLUMN_ORDERS));
+//        int toOrder = c.getInt(c.getColumnIndex(ShopListEntry.COLUMN_ORDERS));
 //
 //        Log.e("!!!FORMIDIDID", String.valueOf(fromPosition) +"  "+ String.valueOf(fromOrder));
 //        Log.e("!!!!TOIDIDID", String.valueOf(toPosition) + "   "+ String.valueOf(toOrder));
 //
 //        ContentValues cv = new ContentValues();
-//        cv.put(ShopLIstEntry.COLUMN_ORDERS, toPosition);
+//        cv.put(ShopListEntry.COLUMN_ORDERS, toPosition);
 //        mContext.getContentResolver().update(
-//                ShopLIstEntry.CONTENT_URI,
+//                ShopListEntry.CONTENT_URI,
 //                cv,
 //                "orders = ?",
 //                new String[]{String.valueOf(fromPosition)}
@@ -80,11 +70,11 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //        if(toPosition< fromPosition){
 //            for(int i =fromPosition; i>toPosition; i--){
 //                c.moveToPosition(i);
-//                int k = c.getInt(c.getColumnIndex(ShopLIstEntry.COLUMN_ORDERS));
-//                String name = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
-//                cv.put(ShopLIstEntry.COLUMN_ORDERS, k-1);
+//                int k = c.getInt(c.getColumnIndex(ShopListEntry.COLUMN_ORDERS));
+//                String name = c.getString(c.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
+//                cv.put(ShopListEntry.COLUMN_ORDERS, k-1);
 //                mContext.getContentResolver().update(
-//                        ShopLIstEntry.CONTENT_URI,
+//                        ShopListEntry.CONTENT_URI,
 //                        cv,
 //                        "name = ?",
 //                        new String[]{name}
@@ -93,11 +83,11 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //        }else if(fromPosition < toPosition){
 //            for(int i = fromPosition; i<toPosition; i++){
 //                c.moveToPosition(i);
-//                int k = c.getInt(c.getColumnIndex(ShopLIstEntry.COLUMN_ORDERS));
-//                String name = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
-//                cv.put(ShopLIstEntry.COLUMN_ORDERS, k+1);
+//                int k = c.getInt(c.getColumnIndex(ShopListEntry.COLUMN_ORDERS));
+//                String name = c.getString(c.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
+//                cv.put(ShopListEntry.COLUMN_ORDERS, k+1);
 //                mContext.getContentResolver().update(
-//                        ShopLIstEntry.CONTENT_URI,
+//                        ShopListEntry.CONTENT_URI,
 //                        cv,
 //                        "name = ?",
 //                        new String[]{name}
@@ -107,28 +97,28 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //////////////////////////////////////////////////////////
 //        notifyItemMoved(fromPosition,toPosition);
 
-////        String fromId = Long.toString(c.getLong(c.getColumnIndex(ShopLIstEntry._ID)));
+////        String fromId = Long.toString(c.getLong(c.getColumnIndex(ShopListEntry._ID)));
 ////        Log.e("!!!FORMIDIDID", fromId +"  "+ fromName);
 //        c.moveToPosition(toPosition);
-//        String toName = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
-////        String toId = Long.toString(c.getLong(c.getColumnIndex(ShopLIstEntry._ID)));
+//        String toName = c.getString(c.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
+////        String toId = Long.toString(c.getLong(c.getColumnIndex(ShopListEntry._ID)));
 ////        Log.e("!!!!TOIDIDID", toId + "   "+ toName);
 //
 //        ContentValues cv1 = new ContentValues();
-//        cv1.put(ShopLIstEntry.COLUMN_GROCERY_NAME, fromName);
+//        cv1.put(ShopListEntry.COLUMN_GROCERY_NAME, fromName);
 //
 //        mContext.getContentResolver().update(
-//                ShopLIstEntry.CONTENT_URI,
+//                ShopListEntry.CONTENT_URI,
 //                cv1,
 //                "name = ?",
 //                new String[]{toName}
 //        );
 //
 //        ContentValues cv2 = new ContentValues();
-//        cv2.put(ShopLIstEntry.COLUMN_GROCERY_NAME, toName);
+//        cv2.put(ShopListEntry.COLUMN_GROCERY_NAME, toName);
 //
 //        mContext.getContentResolver().update(
-//                ShopLIstEntry.CONTENT_URI,
+//                ShopListEntry.CONTENT_URI,
 //                cv2,
 //                "name = ?",
 //                new String[]{fromName}
@@ -144,10 +134,10 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
         //TODO: Modify the following code to get dialog to get expiration days and move to Fridge List
         Cursor c = getCursor();
         c.moveToPosition(position);
-        String name = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
+        String name = c.getString(c.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
 
         mContext.getContentResolver().delete(
-                ShopLIstEntry.CONTENT_URI,
+                ShopListEntry.CONTENT_URI,
                 "name = ?",
                 new String[]{name}
                 );
@@ -160,10 +150,10 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
     //Remove Item when an item is swiped to right
         Cursor c = getCursor();
         c.moveToPosition(position);
-        String name = c.getString(c.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
+        String name = c.getString(c.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
 
         mContext.getContentResolver().delete(
-                ShopLIstEntry.CONTENT_URI,
+                ShopListEntry.CONTENT_URI,
                 "name = ?",
                 new String[]{name}
         );
@@ -191,7 +181,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //        //Add what items to be included later... (after implementing database)
 //        viewHolder.mItemCheckBox.setChecked(true);
 //        viewHolder.mItemName.setText("Eggs");
-        final String name = cursor.getString(cursor.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
+        final String name = cursor.getString(cursor.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
         viewHolder.mItemName.setText(name);
 
     }
@@ -199,7 +189,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
     @Override
     public int getItemCount() {
 //        SQLiteDatabase db = new MyFridgeDataHelper(mContext).getReadableDatabase();
-//        int cnt = (int) DatabaseUtils.queryNumEntries(db, ShopLIstEntry.TABLE_NAME);
+//        int cnt = (int) DatabaseUtils.queryNumEntries(db, ShopListEntry.TABLE_NAME);
 //        db.close();
 //
 //
@@ -246,7 +236,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
             final int position = getAdapterPosition();
             final Context mContext = v.getContext();
             Cursor mCursor = mContext.getContentResolver().query(
-                    ShopLIstEntry.CONTENT_URI,
+                    ShopListEntry.CONTENT_URI,
                     null,
                     null,
                     null,
@@ -255,7 +245,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 
             if(mCursor !=null){
                 mCursor.moveToPosition(position);
-                final String name = mCursor.getString(mCursor.getColumnIndex(ShopLIstEntry.COLUMN_GROCERY_NAME));
+                final String name = mCursor.getString(mCursor.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
                 Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show();
 
                 new MaterialDialog.Builder(mContext).title("Edit Item")
@@ -265,9 +255,9 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 Cursor c= mContext.getContentResolver().query(
-                                        ShopLIstEntry.CONTENT_URI,
-                                        new String[]{ShopLIstEntry.COLUMN_GROCERY_NAME},
-                                        ShopLIstEntry.COLUMN_GROCERY_NAME +" = ? ",
+                                        ShopListEntry.CONTENT_URI,
+                                        new String[]{ShopListEntry.COLUMN_GROCERY_NAME},
+                                        ShopListEntry.COLUMN_GROCERY_NAME +" = ? ",
                                         new String[]{input.toString()},
                                         null
                                 );
@@ -281,13 +271,13 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                                     toast.show();
                                 }else{
                                     ContentValues cv = new ContentValues();
-                                    cv.put(ShopLIstEntry.COLUMN_GROCERY_NAME, input.toString());
+                                    cv.put(ShopListEntry.COLUMN_GROCERY_NAME, input.toString());
                                     mContext.getContentResolver().update(
-                                            ShopLIstEntry.CONTENT_URI,
+                                            ShopListEntry.CONTENT_URI,
                                             cv,
                                             "name = ? ",
                                             new String[]{name});
-                                    mContext.getContentResolver().notifyChange(ShopLIstEntry.CONTENT_URI, null);
+                                    mContext.getContentResolver().notifyChange(ShopListEntry.CONTENT_URI, null);
                                 }
                                 c.close();
                             }

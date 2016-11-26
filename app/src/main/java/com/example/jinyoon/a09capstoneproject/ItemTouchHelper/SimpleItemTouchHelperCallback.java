@@ -9,9 +9,11 @@ import android.graphics.RectF;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.method.BaseKeyListener;
 import android.view.View;
 
 import com.example.jinyoon.a09capstoneproject.MainFragment.BasketRecyclerViewAdapter;
+import com.example.jinyoon.a09capstoneproject.MainFragment.FridgeRecyclerViewAdapter;
 import com.example.jinyoon.a09capstoneproject.R;
 
 /**
@@ -24,6 +26,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
         this.mAdapter = adapter;
+
     }
 
     @Override
@@ -54,46 +57,88 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         Bitmap icon;
         Paint p = new Paint();
-        if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
-            View itemView = viewHolder.itemView;
-            float height = (float) itemView.getBottom() - (float) itemView.getTop();
-            float width = height/3;
-            if(dX >0){
-                //Item swiped to right >> Delete
-                p.setColor(Color.parseColor("#D32F2F"));
-                RectF background = new RectF(
-                        (float)itemView.getLeft(),
-                        (float)itemView.getTop(),
-                        dX,
-                        (float)itemView.getBottom());
-                c.drawRect(background,p);
-                icon = BitmapFactory.decodeResource(itemView.getContext().getResources(), R.drawable.ic_delete_white);
-                RectF icon_dest = new RectF(
-                        (float)itemView.getLeft()+width,
-                        (float) itemView.getTop()+width,
-                        (float)itemView.getLeft()+2*width,
-                        (float)itemView.getBottom()-width);
-                c.drawBitmap(icon, null, icon_dest, p);
+        if(mAdapter instanceof BasketRecyclerViewAdapter) {
+            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                View itemView = viewHolder.itemView;
+                float height = (float) itemView.getBottom() - (float) itemView.getTop();
+                float width = height / 3;
+                if (dX > 0) {
+                    //Item swiped to right >> Delete
+                    p.setColor(Color.parseColor("#D32F2F"));
+                    RectF background = new RectF(
+                            (float) itemView.getLeft(),
+                            (float) itemView.getTop(),
+                            dX,
+                            (float) itemView.getBottom());
+                    c.drawRect(background, p);
+                    icon = BitmapFactory.decodeResource(itemView.getContext().getResources(), R.drawable.ic_delete_white);
+                    RectF icon_dest = new RectF(
+                            (float) itemView.getLeft() + width,
+                            (float) itemView.getTop() + width,
+                            (float) itemView.getLeft() + 2 * width,
+                            (float) itemView.getBottom() - width);
+                    c.drawBitmap(icon, null, icon_dest, p);
 
-            }else{
-                //item swiped to left >> Add to Fridge list
-                p.setColor(Color.parseColor("#388E3C"));
-                RectF background = new RectF(
-                        (float)itemView.getRight() + dX,
-                        (float)itemView.getTop(),
-                        (float)itemView.getRight(),
-                        (float)itemView.getBottom());
-                c.drawRect(background,p);
-                icon = BitmapFactory.decodeResource(itemView.getContext().getResources(), R.drawable.ic_fridge_white);
-                RectF icon_dest = new RectF(
-                        (float)itemView.getRight()-2*width,
-                        (float) itemView.getTop()+width,
-                        (float)itemView.getRight()-width,
-                        (float)itemView.getBottom()-width);
-                c.drawBitmap(icon, null, icon_dest, p);
+                } else {
+                    //item swiped to left >> Add to Fridge list
+                    p.setColor(Color.parseColor("#388E3C"));
+                    RectF background = new RectF(
+                            (float) itemView.getRight() + dX,
+                            (float) itemView.getTop(),
+                            (float) itemView.getRight(),
+                            (float) itemView.getBottom());
+                    c.drawRect(background, p);
+                    icon = BitmapFactory.decodeResource(itemView.getContext().getResources(), R.drawable.ic_fridge_white);
+                    RectF icon_dest = new RectF(
+                            (float) itemView.getRight() - 2 * width,
+                            (float) itemView.getTop() + width,
+                            (float) itemView.getRight() - width,
+                            (float) itemView.getBottom() - width);
+                    c.drawBitmap(icon, null, icon_dest, p);
+                }
             }
-        }
+        }else if(mAdapter instanceof FridgeRecyclerViewAdapter){
+            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                View itemView = viewHolder.itemView;
+                float height = (float) itemView.getBottom() - (float) itemView.getTop();
+                float width = height / 3;
+                if (dX > 0) {
+                    //Item swiped to right >> Delete
+                    p.setColor(Color.parseColor("#D32F2F"));
+                    RectF background = new RectF(
+                            (float) itemView.getLeft(),
+                            (float) itemView.getTop(),
+                            dX,
+                            (float) itemView.getBottom());
+                    c.drawRect(background, p);
+                    icon = BitmapFactory.decodeResource(itemView.getContext().getResources(), R.drawable.ic_delete_white);
+                    RectF icon_dest = new RectF(
+                            (float) itemView.getLeft() + width,
+                            (float) itemView.getTop() + width,
+                            (float) itemView.getLeft() + 2 * width,
+                            (float) itemView.getBottom() - width);
+                    c.drawBitmap(icon, null, icon_dest, p);
+
+                } else {
+                    //item swiped to left >> Delete
+                    p.setColor(Color.parseColor("#D32F2F"));
+                    RectF background = new RectF(
+                            (float) itemView.getRight() + dX,
+                            (float) itemView.getTop(),
+                            (float) itemView.getRight(),
+                            (float) itemView.getBottom());
+                    c.drawRect(background, p);
+                    icon = BitmapFactory.decodeResource(itemView.getContext().getResources(), R.drawable.ic_delete_white);
+                    RectF icon_dest = new RectF(
+                            (float) itemView.getRight() - 2 * width,
+                            (float) itemView.getTop() + width,
+                            (float) itemView.getRight() - width,
+                            (float) itemView.getBottom() - width);
+                    c.drawBitmap(icon, null, icon_dest, p);
+                }
+            }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
     }
 
     @Override
