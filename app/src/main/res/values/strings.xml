@@ -15,5 +15,6 @@
     <string name="fridge_dialog_name_hint">Input Grocery Name here</string>
     <string name="fridge_dialog_days_hint">Input days to expiration</string>
     <string name="no_days_input_msg">Please enter expected days to expiration</string>
+    <string name="item_modified_msg">Item modified</string>
 
 </resources>

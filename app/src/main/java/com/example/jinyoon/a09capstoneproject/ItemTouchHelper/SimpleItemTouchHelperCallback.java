@@ -137,8 +137,9 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
                     c.drawBitmap(icon, null, icon_dest, p);
                 }
             }
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
+        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
     }
 
     @Override
