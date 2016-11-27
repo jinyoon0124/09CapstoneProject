@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:hint="@string/fridge_dialog_name_hint"
+            android:textColorHint="@color/colorTertiaryText"
             />
     </LinearLayout>
 
@@ -44,6 +45,7 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:hint="@string/fridge_dialog_days_hint"
+            android:textColorHint="@color/colorTertiaryText"
             />
     </LinearLayout>
 

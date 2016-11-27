@@ -12,9 +12,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.ItemTouchHelperAdapter;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.ItemTouchHelperViewHolder;
@@ -132,43 +134,92 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
 
             if(mCursor !=null){
                 mCursor.moveToPosition(position);
-                final String name = mCursor.getString(mCursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME));
-                Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show();
+                final String oldName = mCursor.getString(mCursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME));
+                final int oldDay = mCursor.getInt(mCursor.getColumnIndex(FridgeListEntry.COLUMN_EXPIRATION));
+                Toast.makeText(mContext, oldName, Toast.LENGTH_SHORT).show();
 
-                new MaterialDialog.Builder(mContext).title("Edit Item")
-                        .content("Edit Item name")
-                        .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input("", name, new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                                Cursor c= mContext.getContentResolver().query(
-                                        FridgeListEntry.CONTENT_URI,
-                                        new String[]{FridgeListEntry.COLUMN_GROCERY_NAME},
-                                        FridgeListEntry.COLUMN_GROCERY_NAME +" = ? ",
-                                        new String[]{input.toString()},
-                                        null
-                                );
-                                if(c!=null && c.getCount()!=0){
-                                    Toast toast = Toast.makeText(mContext, mContext.getString(R.string.item_exist_msg), Toast.LENGTH_SHORT);
-                                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
-                                    toast.show();
-                                }else if(input.toString().equals("")){
-                                    Toast toast = Toast.makeText(mContext, mContext.getString(R.string.no_input_msg), Toast.LENGTH_SHORT);
-                                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
-                                    toast.show();
-                                }else{
-                                    ContentValues cv = new ContentValues();
-                                    cv.put(FridgeListEntry.COLUMN_GROCERY_NAME, input.toString());
-                                    mContext.getContentResolver().update(
-                                            FridgeListEntry.CONTENT_URI,
-                                            cv,
-                                            "name = ? ",
-                                            new String[]{name});
-                                    mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
-                                }
-                                c.close();
-                            }
-                        }).show();
+                final MaterialDialog dialog = new MaterialDialog.Builder(mContext).title("Edit Item")
+                        .customView(R.layout.dialog_fridge, true)
+                        .negativeText("Cancel")
+                        .positiveText("Ok")
+                        .build();
+
+                dialog.show();
+                final View dialogView = dialog.getCustomView();
+                final EditText itemNameEditText = (EditText)dialogView.findViewById(R.id.fridge_dialog_name_input);
+                final EditText dayValueEditText = (EditText)dialogView.findViewById(R.id.fridge_dialog_days_input);
+                itemNameEditText.setHint(oldName);
+                dayValueEditText.setHint(String.valueOf(oldDay));
+
+                View positive = dialog.getActionButton(DialogAction.POSITIVE);
+                positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String itemName = String.valueOf(itemNameEditText.getText());
+                        String dayValue = String.valueOf(dayValueEditText.getText());
+
+                        Cursor c = mContext.getContentResolver().query(
+                                FridgeListEntry.CONTENT_URI,
+                                new String[]{FridgeListEntry.COLUMN_GROCERY_NAME},
+                                FridgeListEntry.COLUMN_GROCERY_NAME +" = ? ",
+                                new String[]{itemName},
+                                null);
+
+                        if(c!=null || c.getCount()!=0){
+                            Toast toast =
+                                    Toast.makeText(mContext, mContext.getString(R.string.item_exist_msg), Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                            toast.show();
+                        }else if(itemName.equals("")){
+                            Toast toast =
+                                    Toast.makeText(mContext, mContext.getString(R.string.no_input_msg), Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                            toast.show();
+
+                        }else if(dayValue==null){
+                            Toast toast =
+                                    Toast.makeText(mContext, mContext.getString(R.string.no_days_input_msg), Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                            toast.show();
+
+                        }
+                        else{
+//                                    SQLiteDatabase db = new MyFridgeDataHelper(mContext).getReadableDatabase();
+//                                    c = db.rawQuery("SELECT * FROM "+ ShopListEntry.TABLE_NAME, null);
+//                                    Log.e("!!!! INSIDE DIALOG!! C!", String.valueOf(c.getCount()));
+//                                    int itemOrder = c.getCount();
+
+                            ContentValues cv = new ContentValues();
+                            cv.put(FridgeListEntry.COLUMN_GROCERY_NAME, itemName);
+                            cv.put(FridgeListEntry.COLUMN_EXPIRATION, Integer.parseInt(dayValue));
+
+//                            mContext.getContentResolver().insert(FridgeListEntry.CONTENT_URI, cv);
+                            mContext.getContentResolver().update(
+                                    FridgeListEntry.CONTENT_URI,
+                                    cv,
+                                    "name = ?",
+                                    new String[]{oldName}
+                            );
+
+                            mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
+                            Toast.makeText(mContext, mContext.getString(R.string.item_modified_msg), Toast.LENGTH_SHORT).show();
+                        }
+
+                        c.close();
+
+//                        Toast.makeText(mContext, itemName + " : " + dayValue, Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+
+                View negative = dialog.getActionButton(DialogAction.NEGATIVE);
+                negative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
             }else{
                 Log.e(LOG_TAG, "Cursor doesn't exist");
             }

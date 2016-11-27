@@ -128,20 +128,63 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //    }
 
     @Override
-    public void onItemDismissLeft(int position) {
+    public void onItemDismissLeft(final int position) {
         //Move Item to Fridge list when swiped to left
-
-        //TODO: Modify the following code to get dialog to get expiration days and move to Fridge List
         Cursor c = getCursor();
         c.moveToPosition(position);
-        String name = c.getString(c.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
+        final String name = c.getString(c.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
+        c = mContext.getContentResolver().query(
+                FridgeListEntry.CONTENT_URI,
+                new String[]{FridgeListEntry.COLUMN_GROCERY_NAME},
+                FridgeListEntry.COLUMN_GROCERY_NAME +" = ? ",
+                new String[]{name},
+                null);
 
-        mContext.getContentResolver().delete(
-                ShopListEntry.CONTENT_URI,
-                "name = ?",
-                new String[]{name}
-                );
-        this.notifyItemRemoved(position);
+        if(c==null || c.getCount()!=0){
+            Toast toast =
+                    Toast.makeText(mContext, mContext.getString(R.string.item_exist_msg), Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+            toast.show();
+            notifyDataSetChanged();
+        }else{
+            Log.e("!!!!!!!!!!!!!!!", String.valueOf(c.getCount()));
+            new MaterialDialog.Builder(mContext)
+                    .title("Enter expiration")
+                    .content("Enter expected days to expiration")
+                    .inputType(InputType.TYPE_CLASS_NUMBER)
+                    .input("", "", new MaterialDialog.InputCallback() {
+                        @Override
+                        public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+
+                            if(input.toString().equals("")){
+                                Toast toast =
+                                        Toast.makeText(mContext, mContext.getString(R.string.no_days_input_msg), Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                                toast.show();
+
+                            }else{
+                                ContentValues cv = new ContentValues();
+                                cv.put(FridgeListEntry.COLUMN_GROCERY_NAME, name);
+                                cv.put(FridgeListEntry.COLUMN_EXPIRATION, Integer.parseInt(input.toString()));
+                                mContext.getContentResolver().insert(
+                                        FridgeListEntry.CONTENT_URI,
+                                        cv
+                                );
+                                mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
+
+
+                                mContext.getContentResolver().delete(
+                                        ShopListEntry.CONTENT_URI,
+                                        "name = ?",
+                                        new String[]{name}
+                                );
+                                notifyItemRemoved(position);
+
+                            }
+                        }
+                    }).show();
+        }
+        c.close();
         Toast.makeText(mContext, "Item moved to left", Toast.LENGTH_SHORT).show();
     }
 
@@ -165,41 +208,19 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
     public BasketRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_basket, parent, false);
-//        mThisAdapter = new BasketRecyclerViewAdapter(mContext,mCursor);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
-//        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-//            //Add OnClick Action later
-//            @Override
-//            public void onClick(View v) {
-//                Log.v(LOG_TAG, "RecyclerView item OnClick");
-//            }
-//        });
-//        //Add what items to be included later... (after implementing database)
-//        viewHolder.mItemCheckBox.setChecked(true);
-//        viewHolder.mItemName.setText("Eggs");
         final String name = cursor.getString(cursor.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
         viewHolder.mItemName.setText(name);
-
     }
 
     @Override
     public int getItemCount() {
-//        SQLiteDatabase db = new MyFridgeDataHelper(mContext).getReadableDatabase();
-//        int cnt = (int) DatabaseUtils.queryNumEntries(db, ShopListEntry.TABLE_NAME);
-//        db.close();
-//
-//
-//        return (mCursor==null? super.getItemCount(): cnt );
-
         return super.getItemCount();
     }
-
-
-
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder
@@ -216,7 +237,6 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
             mIconView = (ImageView) itemView.findViewById(R.id.reorder_icon);
 
             mView.setOnClickListener(this);
-//            mItemCheckBox = (CheckBox) itemView.findViewById(R.id.basket_checkBox);
         }
 
         //Called when an item is selected
@@ -278,6 +298,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                                             "name = ? ",
                                             new String[]{name});
                                     mContext.getContentResolver().notifyChange(ShopListEntry.CONTENT_URI, null);
+                                    Toast.makeText(mContext, mContext.getString(R.string.item_modified_msg), Toast.LENGTH_SHORT).show();
                                 }
                                 c.close();
                             }
