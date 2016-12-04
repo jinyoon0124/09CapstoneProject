@@ -33,7 +33,7 @@ public class MyFridgeDataHelper extends SQLiteOpenHelper{
                 FridgeListEntry.TABLE_NAME + " (" +
                 FridgeListEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 FridgeListEntry.COLUMN_GROCERY_NAME + " TEXT UNIQUE NOT NULL, "+
-                FridgeListEntry.COLUMN_EXPIRATION + " INTEGER NOT NULL "+
+                FridgeListEntry.COLUMN_EXPIRATION + " INTEGER NOT NULL, "+
                 FridgeListEntry.COLUMN_INPUTDATEINMIL + " INTEGER NOT NULL "+
                 " );";
 

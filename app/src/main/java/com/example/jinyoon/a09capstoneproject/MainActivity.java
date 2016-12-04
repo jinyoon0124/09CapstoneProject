@@ -30,8 +30,6 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     Context mContext;
-    private static final String ACTION_NOTIFICATION_SERVICE = "ACTION_NOTIFICATION_SERVICE";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,28 +38,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mContext = this;
-
-        //Move this to Fragment in the future
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                new MaterialDialog.Builder(mContext).title("test title")
-//                        .content("Test content")
-//                        .inputType(InputType.TYPE_CLASS_TEXT)
-//                        .inputType(InputType.TYPE_CLASS_NUMBER)
-//                        .input("Test Guide", "", new MaterialDialog.InputCallback() {
-//                            @Override
-//                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-//
-//                            }
-//                        });
-////                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-////                        .setAction("Action", null).show();
-//
-//            }
-//        });
-
 
         FragmentManager manager = getSupportFragmentManager();
         PagerAdapter adapter = new PageAdapter(this, manager);
@@ -76,37 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Notification
-        setupAlarm(mContext);
+        NotificationEventReceiver.setupAlarm(mContext);
 
     }
 
-    //Alarm for Notification
-    private void setupAlarm(Context context) {
-
-        //get trigger time (current time)
-        //TODO: In order the trigger time to be set at 4:00pm for example, use code in comment
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-//        calendar.setTimeInMillis(System.currentTimeMillis());
-//        calendar.set(Calendar.HOUR_OF_DAY, 16);
-//        calendar.set(Calendar.MINUTE, 30);
-        long triggerAt = calendar.getTimeInMillis();
-
-        //set up pending intent
-        Intent intent = new Intent(context, NotificationEventReceiver.class);
-        intent.setAction(ACTION_NOTIFICATION_SERVICE);
-        PendingIntent notificationPendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        //set up alarmManager
-        //TODO: In order to trigger everyday at 4:30 pm, use AlarmManager.INTERVAL_DAY for repeat
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                triggerAt,
-                1000*60,
-                notificationPendingIntent
-                );
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
