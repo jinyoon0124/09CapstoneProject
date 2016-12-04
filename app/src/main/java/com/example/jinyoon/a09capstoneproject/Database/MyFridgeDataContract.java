@@ -55,6 +55,7 @@ public final class MyFridgeDataContract {
         public static final String TABLE_NAME = "fridgelist";
         public static final String COLUMN_GROCERY_NAME = "name";
         public static final String COLUMN_EXPIRATION = "expiration";
+        public static final String COLUMN_INPUTDATEINMIL = "timestamp";
 
         //Add any method related to database here
         public static Uri buildFridgeListUri(long id){

@@ -3,6 +3,7 @@ package com.example.jinyoon.a09capstoneproject.MainFragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -128,6 +129,7 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
                             ContentValues cv = new ContentValues();
                             cv.put(FridgeListEntry.COLUMN_GROCERY_NAME, itemName);
                             cv.put(FridgeListEntry.COLUMN_EXPIRATION, Integer.parseInt(dayValue));
+                            cv.put(FridgeListEntry.COLUMN_INPUTDATEINMIL, System.currentTimeMillis());
 
                             mContext.getContentResolver().insert(FridgeListEntry.CONTENT_URI, cv);
 

@@ -8,7 +8,9 @@
     android:paddingStart="@dimen/list_item_padding"
     android:paddingRight="@dimen/list_item_padding"
     android:paddingEnd="@dimen/list_item_padding"
-    android:weightSum="10">
+    android:weightSum="10"
+    android:background="@color/listitem_background"
+    >
     <TextView
         android:id="@+id/item_name"
         android:layout_width="0dp"
