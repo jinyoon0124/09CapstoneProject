@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
@@ -166,6 +167,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                                 ContentValues cv = new ContentValues();
                                 cv.put(FridgeListEntry.COLUMN_GROCERY_NAME, name);
                                 cv.put(FridgeListEntry.COLUMN_EXPIRATION, Integer.parseInt(input.toString()));
+                                cv.put(FridgeListEntry.COLUMN_INPUTDATEINMIL, System.currentTimeMillis());
                                 mContext.getContentResolver().insert(
                                         FridgeListEntry.CONTENT_URI,
                                         cv
@@ -202,6 +204,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
         );
         this.notifyItemRemoved(position);
         Toast.makeText(mContext, "Item moved to right", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

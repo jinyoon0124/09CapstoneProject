@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -165,7 +166,7 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                                 new String[]{itemName},
                                 null);
 
-                        if(c!=null || c.getCount()!=0){
+                        if(c.getCount()!=0){
                             Toast toast =
                                     Toast.makeText(mContext, mContext.getString(R.string.item_exist_msg), Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
@@ -192,6 +193,7 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                             ContentValues cv = new ContentValues();
                             cv.put(FridgeListEntry.COLUMN_GROCERY_NAME, itemName);
                             cv.put(FridgeListEntry.COLUMN_EXPIRATION, Integer.parseInt(dayValue));
+                            cv.put(FridgeListEntry.COLUMN_INPUTDATEINMIL, System.currentTimeMillis());
 
 //                            mContext.getContentResolver().insert(FridgeListEntry.CONTENT_URI, cv);
                             mContext.getContentResolver().update(
