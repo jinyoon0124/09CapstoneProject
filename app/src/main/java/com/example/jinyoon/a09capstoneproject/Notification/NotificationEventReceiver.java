@@ -23,12 +23,12 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
     public static void setupAlarm(Context context) {
 
         //get trigger time (current time)
-        //TODO: In order the trigger time to be set at 4:00pm for example, use code in comment
+        //In order the trigger time to be set at 4:00pm for example, use code in comment
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-//        calendar.setTimeInMillis(System.currentTimeMillis());
-//        calendar.set(Calendar.HOUR_OF_DAY, 16);
-//        calendar.set(Calendar.MINUTE, 30);
+//        calendar.setTime(new Date());
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 16);
+        calendar.set(Calendar.MINUTE, 30);
         long triggerAt = calendar.getTimeInMillis();
 
         //set up pending intent
@@ -37,11 +37,11 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
         PendingIntent notificationPendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //set up alarmManager
-        //TODO: In order to trigger everyday at 4:30 pm, use AlarmManager.INTERVAL_DAY for repeat
+        //In order to trigger everyday at 4:30 pm, use AlarmManager.INTERVAL_DAY for repeat
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
                 triggerAt,
-                1000*20,
+                AlarmManager.INTERVAL_DAY,
                 notificationPendingIntent
         );
 
