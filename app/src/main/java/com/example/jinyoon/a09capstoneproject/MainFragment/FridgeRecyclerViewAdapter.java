@@ -69,11 +69,11 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
 
 //        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
 
-//        String testString="";
-//        for(String i : query){
-//            testString +=i;
-//        }
-//        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
+        String testString="";
+        for(String i : query){
+            testString +=i;
+        }
+        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -98,11 +98,11 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
         ed.putStringSet(INGREDIENT_KEY, query);
         ed.commit();
 //
-//        String testString="";
-//        for(String i : query){
-//            testString +=i;
-//        }
-//        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
+        String testString="";
+        for(String i : query){
+            testString +=i;
+        }
+        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -113,16 +113,18 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
         return new ViewHolder(view);
     }
 
-    @SuppressLint("NewApi")
+//    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
         final String name = cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME));
         int days = cursor.getInt(cursor.getColumnIndex(FridgeListEntry.COLUMN_EXPIRATION));
         viewHolder.mItemName.setText(name);
         viewHolder.mDay.setText(mContext.getString(R.string.days_string, days));
-        if(days==1){
-            viewHolder.mDay.setBackgroundColor(mContext.getColor(R.color.colorPrimaryLight));
-        }
+//
+//        if(days<=1){
+//            viewHolder.mDay.setBackgroundColor(mContext.getColor(R.color.colorPrimaryLight));
+//            viewHolder.mItemName.setBackgroundColor(mContext.getColor(R.color.colorPrimaryLight));
+//        }
     }
 
 
@@ -139,6 +141,8 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
         private TextView mItemName;
         private TextView mDay;
         private final String LOG_TAG = this.getClass().getSimpleName();
+        private final String INGREDIENT_KEY = "ingredient";
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -242,12 +246,35 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                             );
 
                             mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
+
+                            /////SHARED PREFERENCE
+                            SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
+                            Set<String> query = spf.getStringSet(INGREDIENT_KEY, null);
+                            query.remove(oldName);
+                            query.add(itemName);
+                            SharedPreferences.Editor ed = spf.edit();
+                            ed.putStringSet(INGREDIENT_KEY, query);
+                            ed.commit();
+
                             Toast.makeText(mContext, mContext.getString(R.string.item_modified_msg), Toast.LENGTH_SHORT).show();
                         }
 
                         c.close();
 
 //                        Toast.makeText(mContext, itemName + " : " + dayValue, Toast.LENGTH_SHORT).show();
+
+
+                        ///////TEST//////
+                        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
+                        Set<String> test = spf.getStringSet(INGREDIENT_KEY, null);
+
+                        String testString="";
+                        for(String i : test){
+                            testString +=i;
+                        }
+                        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
+                        ////////
+
                         dialog.dismiss();
                     }
                 });
