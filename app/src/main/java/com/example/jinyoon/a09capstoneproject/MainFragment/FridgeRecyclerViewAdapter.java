@@ -3,6 +3,7 @@ package com.example.jinyoon.a09capstoneproject.MainFragment;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.provider.Settings;
@@ -25,6 +26,8 @@ import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.ItemTouchHelperVie
 import com.example.jinyoon.a09capstoneproject.R;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 
+import java.util.Set;
+
 /**
  * FridgeFragment Recycler View Adapter
  */
@@ -34,6 +37,7 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
 
     private Context mContext;
     private Cursor mCurosr;
+    private final String INGREDIENT_KEY = "ingredient";
     private final String LOG_TAG = getClass().getSimpleName();
 
     public FridgeRecyclerViewAdapter(Context context, Cursor cursor) {
@@ -54,7 +58,22 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                 new String[]{name}
         );
         this.notifyItemRemoved(position);
-        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
+
+        //Delete from SharedPreference
+        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
+        Set<String> query = spf.getStringSet(INGREDIENT_KEY, null);
+        query.remove(name);
+        SharedPreferences.Editor ed = spf.edit();
+        ed.putStringSet(INGREDIENT_KEY, query);
+        ed.commit();
+
+//        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
+
+//        String testString="";
+//        for(String i : query){
+//            testString +=i;
+//        }
+//        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -69,7 +88,21 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                 new String[]{name}
         );
         this.notifyItemRemoved(position);
-        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
+
+        //Delete from SharedPreference
+        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
+        Set<String> query = spf.getStringSet(INGREDIENT_KEY, null);
+        query.remove(name);
+        SharedPreferences.Editor ed = spf.edit();
+        ed.putStringSet(INGREDIENT_KEY, query);
+        ed.commit();
+//
+//        String testString="";
+//        for(String i : query){
+//            testString +=i;
+//        }
+//        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
     }
 
     @Override
