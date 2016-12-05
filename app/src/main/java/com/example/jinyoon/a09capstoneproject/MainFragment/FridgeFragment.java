@@ -2,6 +2,7 @@ package com.example.jinyoon.a09capstoneproject.MainFragment;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
@@ -28,6 +29,9 @@ import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.SimpleItemTouchHelperCallback;
 import com.example.jinyoon.a09capstoneproject.R;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -40,6 +44,8 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
     private FridgeRecyclerViewAdapter mCursorAdapter;
     private static final int CURSOR_LOADER_ID = 0;
     private static final int TOUCH_HELPER_ID = 2;
+    private final String INGREDIENT_KEY = "ingredient";
+    private Set<String> query = new HashSet<>();
 
     private String[] mProjection = {
             FridgeListEntry._ID,
@@ -139,6 +145,15 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 
                             mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
 //                            Toast.makeText(mContext, getString(R.string.item_added_msg, itemName), Toast.LENGTH_SHORT).show();
+                            query.add(itemName);
+
+
+                            SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
+                            SharedPreferences.Editor ed = spf.edit();
+                            ed.putStringSet(INGREDIENT_KEY, query);
+                            ed.commit();
+
+
                         }
 
                         c.close();
@@ -146,7 +161,14 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 
 //                        Toast.makeText(mContext, itemName + " : " + dayValue, Toast.LENGTH_SHORT).show();
 //                        Toast.makeText(mContext.getApplicationContext(), String.valueOf(currentTime), Toast.LENGTH_SHORT).show();
-
+//                        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
+//                        Set<String> test = spf.getStringSet(INGREDIENT_KEY, null);
+//
+//                        String testString=null;
+//                        for(String i : test){
+//                            testString +=i;
+//                        }
+//                        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
                 });

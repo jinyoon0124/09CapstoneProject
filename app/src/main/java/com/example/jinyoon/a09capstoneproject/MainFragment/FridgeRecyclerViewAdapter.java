@@ -26,7 +26,7 @@ import com.example.jinyoon.a09capstoneproject.R;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 
 /**
- * Created by Jin Yoon on 10/9/2016.
+ * FridgeFragment Recycler View Adapter
  */
 
 public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeRecyclerViewAdapter.ViewHolder>
