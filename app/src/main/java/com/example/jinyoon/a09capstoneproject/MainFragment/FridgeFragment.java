@@ -13,6 +13,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,7 +95,6 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
                     public void onClick(View v) {
                         String itemName = String.valueOf(((EditText)dialogView.findViewById(R.id.fridge_dialog_name_input)).getText());
                         String dayValue = String.valueOf(((EditText)dialogView.findViewById(R.id.fridge_dialog_days_input)).getText());
-
                         Cursor c = getContext().getContentResolver().query(
                                 FridgeListEntry.CONTENT_URI,
                                 new String[]{FridgeListEntry.COLUMN_GROCERY_NAME},
@@ -113,7 +113,7 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
                             toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                             toast.show();
 
-                        }else if(dayValue==null){
+                        }else if(dayValue.equals("")){
                             Toast toast =
                                     Toast.makeText(mContext, getString(R.string.no_days_input_msg), Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
@@ -127,20 +127,26 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 //                                    int itemOrder = c.getCount();
 
                             ContentValues cv = new ContentValues();
+
+                            long currentTime = System.currentTimeMillis();
                             cv.put(FridgeListEntry.COLUMN_GROCERY_NAME, itemName);
                             cv.put(FridgeListEntry.COLUMN_EXPIRATION, Integer.parseInt(dayValue));
-                            cv.put(FridgeListEntry.COLUMN_INPUTDATEINMIL, System.currentTimeMillis());
+                            cv.put(FridgeListEntry.COLUMN_INPUTDATEINMIL,  String.valueOf(currentTime));
+
+                            Log.e("....FridgeFragment", String.valueOf(currentTime));
 
                             mContext.getContentResolver().insert(FridgeListEntry.CONTENT_URI, cv);
 
                             mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
-                            Toast.makeText(mContext, getString(R.string.item_added_msg, itemName), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(mContext, getString(R.string.item_added_msg, itemName), Toast.LENGTH_SHORT).show();
                         }
 
                         c.close();
 
 
 //                        Toast.makeText(mContext, itemName + " : " + dayValue, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(mContext.getApplicationContext(), String.valueOf(currentTime), Toast.LENGTH_SHORT).show();
+
                         dialog.dismiss();
                     }
                 });
