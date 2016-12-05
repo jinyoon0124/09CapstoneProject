@@ -1,5 +1,6 @@
 package com.example.jinyoon.a09capstoneproject.MainFragment;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -79,12 +80,16 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
         return new ViewHolder(view);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
         final String name = cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME));
         int days = cursor.getInt(cursor.getColumnIndex(FridgeListEntry.COLUMN_EXPIRATION));
         viewHolder.mItemName.setText(name);
         viewHolder.mDay.setText(mContext.getString(R.string.days_string, days));
+        if(days==1){
+            viewHolder.mDay.setBackgroundColor(mContext.getColor(R.color.colorPrimaryLight));
+        }
     }
 
 
