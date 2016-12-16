@@ -162,15 +162,15 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 //                        Toast.makeText(mContext, itemName + " : " + dayValue, Toast.LENGTH_SHORT).show();
 //                        Toast.makeText(mContext.getApplicationContext(), String.valueOf(currentTime), Toast.LENGTH_SHORT).show();
 
-                        ///////TEST//////
-                        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
-                        Set<String> test = spf.getStringSet(INGREDIENT_KEY, null);
-
-                        String testString="";
-                        for(String i : test){
-                            testString +=i;
-                        }
-                        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
+//                        ///////TEST//////
+//                        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
+//                        Set<String> test = spf.getStringSet(INGREDIENT_KEY, null);
+//
+//                        String testString="";
+//                        for(String i : test){
+//                            testString +=i;
+//                        }
+//                        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
                         ////////
 
                         dialog.dismiss();

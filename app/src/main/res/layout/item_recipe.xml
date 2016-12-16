@@ -28,6 +28,7 @@
             android:id="@+id/recipe_title"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/colorTitleText"
+            android:textStyle="bold"
             android:background="@color/title_background_protection"
             android:layout_gravity="bottom"
             android:gravity="center_vertical"

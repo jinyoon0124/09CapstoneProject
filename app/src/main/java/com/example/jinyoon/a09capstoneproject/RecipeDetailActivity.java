@@ -11,6 +11,8 @@ import android.webkit.WebViewClient;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
+    private final String PUBLISHER_URL_KEY = "publisher_url";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +24,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
         WebView webview = (WebView) findViewById(R.id.recipe_webview);
         webview.setWebViewClient(new WebViewClient());
-        webview.loadUrl("http://www.closetcooking.com/2012/05/tequila-lime-grilled-chicken-club.html");
+        webview.loadUrl(getIntent().getExtras().getString(PUBLISHER_URL_KEY));
 
     }
 
