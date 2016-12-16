@@ -10,7 +10,7 @@
     <color name="colorSecondaryText">#757575</color>
     <color name="colorTertiaryText">#F4F4F4</color>
     <color name="photo_placeholder">#ccc</color>
-    <color name="title_background_protection">#3000</color>
+    <color name="title_background_protection">#80000000</color>
     <color name="listitem_background">#FFFFFF</color>
 
 

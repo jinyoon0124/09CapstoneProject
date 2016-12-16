@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.jinyoon.a09capstoneproject.MainActivity;
 import com.example.jinyoon.a09capstoneproject.R;
 import com.example.jinyoon.a09capstoneproject.RecipeDetailActivity;
+import com.example.jinyoon.a09capstoneproject.Retrofit.Recipes;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * Created by Jin Yoon on 10/22/2016.
@@ -22,10 +24,57 @@ import com.squareup.picasso.Picasso;
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
+    private List<Recipes> mRecipeDetails;
+    private final String PUBLISHER_URL_KEY = "publisher_url";
     private final String LOG_TAG = getClass().getSimpleName();
 
-    public RecipeRecyclerViewAdapter(Context context) {
+    public RecipeRecyclerViewAdapter(Context context, List<Recipes> details) {
         this.mContext = context;
+        this.mRecipeDetails = details;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_recipe, parent, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Recipes recipes = mRecipeDetails.get(position);
+        final String resourceUrl = recipes.getPublisherUrl();
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            //Add OnClick Action later
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, RecipeDetailActivity.class);
+                intent.putExtra(PUBLISHER_URL_KEY, resourceUrl);
+                mContext.startActivity(intent);
+                Log.v(LOG_TAG, "RecyclerView item OnClick");
+            }
+        });
+
+
+        holder.mTitleView.setText(recipes.getTitle());
+
+        //TODO: Place holder when no image_url is available
+        Picasso.with(mContext)
+                .load(recipes.getImageUrl())
+                .into(holder.mThumbnailView);
+
+    }
+
+    @Override
+    public int getItemCount() {
+        if(mRecipeDetails!=null){
+            return mRecipeDetails.size();
+        }else{
+            return 0;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -41,41 +90,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
         }
     }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_recipe, parent, false);
-
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            //Add OnClick Action later
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, RecipeDetailActivity.class);
-                mContext.startActivity(intent);
-                Log.v(LOG_TAG, "RecyclerView item OnClick");
-            }
-        });
-
-        holder.mTitleView.setText("Egg Roll Roll Roll Roll");
-        Picasso.with(mContext)
-                .load(R.drawable.recipe_test_thumbnail)
-
-                .into(holder.mThumbnailView);
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return 5;
-    }
-
 }
 
 
