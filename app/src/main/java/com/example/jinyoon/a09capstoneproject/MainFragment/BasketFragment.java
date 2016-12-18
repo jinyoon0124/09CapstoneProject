@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.example.jinyoon.a09capstoneproject.R;
  */
 public class BasketFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
+    private final String LOG_TAG = this.getClass().getSimpleName();
     private Context mContext;
     private Cursor mCursor;
     private TextView mEmptyView;
@@ -54,6 +56,10 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+//        Log.e(LOG_TAG, "BASKET ONCREATEVIEW");
+
+
         // Inflate the layout for this fragment
         mContext=getContext();
         View view = inflater.inflate(R.layout.fragment_basket, container, false);
@@ -63,6 +69,8 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         mEmptyView.setVisibility(View.GONE);
 
         if(mCursorAdapter==null){
+//            Log.e(LOG_TAG, "BASKET CURSOR ADAPTER NULL");
+
             mEmptyView.setVisibility(View.VISIBLE);
             mEmptyView.setText(getString(R.string.basket_empty_msg));
         }
@@ -70,7 +78,6 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_basket);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-
 
         mCursorAdapter = new BasketRecyclerViewAdapter(mContext, null);
         mRecyclerView.setAdapter(mCursorAdapter);
@@ -137,6 +144,8 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onResume() {
+//        Log.e(LOG_TAG, "BASKET ONRESUME");
+
         super.onResume();
         getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
     }
@@ -144,6 +153,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+//        Log.e(LOG_TAG, "BASKET ONCREATELOADER");
 
         CursorLoader loader = new CursorLoader(mContext,
                 ShopListEntry.CONTENT_URI,
@@ -159,6 +169,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+//        Log.e(LOG_TAG, "BASKET ONLOADERFINISHED");
 
         mCursorAdapter.swapCursor(cursor);
         mCursor=cursor;
@@ -168,6 +179,9 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
             mEmptyView.setVisibility(View.GONE);
         }else{
             mEmptyView.setVisibility(View.VISIBLE);
+            mEmptyView.setText(getString(R.string.basket_empty_msg));
+//            Log.e(LOG_TAG, "SET VISIBLITY VISIBLE");
+
         }
     }
 
