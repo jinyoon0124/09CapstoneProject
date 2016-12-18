@@ -67,7 +67,7 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
         ed.putStringSet(INGREDIENT_KEY, query);
         ed.commit();
 
-//        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
 
         String testString="";
         for(String i : query){
@@ -88,7 +88,7 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                 new String[]{name}
         );
         this.notifyItemRemoved(position);
-//        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
 
         //Delete from SharedPreference
         SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
