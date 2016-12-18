@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.jinyoon.a09capstoneproject.BuildConfig;
 import com.example.jinyoon.a09capstoneproject.R;
@@ -37,6 +39,7 @@ public class RecipeFragment extends Fragment {
     private final String LOG_TAG = this.getClass().getSimpleName();
     private RecyclerView mRecyclerView;
     private Context mContext;
+    private TextView mEmptyView;
 
     private final String INGREDIENT_KEY = "ingredient";
     private final String BASE_URL = "http://food2fork.com";
@@ -54,17 +57,31 @@ public class RecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mContext = getContext();
-
+        Log.e(LOG_TAG, "ON CREATE VIEW IS CALLED");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe, container, false);
+
+        mEmptyView = (TextView) view.findViewById(R.id.recipe_empty_textview);
+        mEmptyView.setVisibility(View.GONE);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_recipe);
 
         String queryString=getParamFromPreference();
 
-        Log.e(LOG_TAG, "!!!!!!!!!!!!!ON CREATE VIEW CALLED");
         if(!queryString .equals("")){
             updateRecipe(queryString);
+        }else{
+            mRecipeRecyclerViewAdapter=null;
+        }
+
+//        if(mRecipeRecyclerViewAdapter!=null){
+//            Log.e(LOG_TAG, "ADAPTER NOT NULL.. SIZE =  "+mRecipeRecyclerViewAdapter.getItemCount());
+//        }
+
+        if(mRecipeRecyclerViewAdapter ==null || mRecipeRecyclerViewAdapter.getItemCount()==0){
+            Log.e(LOG_TAG, "RECIPE ADAPTER NULL");
+            mEmptyView.setVisibility(View.VISIBLE);
+            mEmptyView.setText(getString(R.string.recipe_empty_msg));
         }
 
 
@@ -89,7 +106,9 @@ public class RecipeFragment extends Fragment {
         SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
         Set<String> querySet = spf.getStringSet(INGREDIENT_KEY, null);
         String queryString="";
-        for(String i : querySet){queryString +=","+i;}
+        if(querySet!=null){
+            for(String i : querySet){queryString +=","+i;}
+        }
         Log.e("SHARED PREFERENCE", queryString);
         return queryString;
     }
@@ -132,8 +151,21 @@ public class RecipeFragment extends Fragment {
 
                 mRecipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(mContext, mRecipeDetails);
 
-                mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
+                int columnCount= getResources().getInteger(R.integer.list_column_count);
+                StaggeredGridLayoutManager sgim =
+                        new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+                mRecyclerView.setLayoutManager(sgim);
+
+//                mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
                 mRecyclerView.setAdapter(mRecipeRecyclerViewAdapter);
+
+                if(mRecipeRecyclerViewAdapter.getItemCount()!=0){
+                    mEmptyView.setVisibility(View.GONE);
+                }else{
+                    mEmptyView.setVisibility(View.VISIBLE);
+//            Log.e(LOG_TAG, "SET VISIBLITY VISIBLE");
+                    mEmptyView.setText(getString(R.string.recipe_empty_msg));
+                }
 
 
             }
@@ -143,14 +175,6 @@ public class RecipeFragment extends Fragment {
                 Log.e(LOG_TAG, "RecipeBody call failed");
             }
         });
-//
-//        int columnCount= getResources().getInteger(R.integer.list_column_count);
-//        StaggeredGridLayoutManager sgim =
-//                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-//        mRecyclerView.setLayoutManager(sgim);
-
-
-
 
     }
 
