@@ -1,15 +1,12 @@
 package com.example.jinyoon.a09capstoneproject.MainFragment;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -47,7 +44,7 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
     }
 
     @Override
-    public void onItemDismissLeft(int position) {
+    public void onItemDismissLeft(int position, RecyclerView rv) {
         Cursor c = getCursor();
         c.moveToPosition(position);
         String name = c.getString(c.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME));
@@ -74,13 +71,12 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
 //        }
 //        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
 /////////////////////////////////////////////////////////////////////
-        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
-
-
+//        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
+        Snackbar.make(rv, mContext.getString(R.string.remove_msg), Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onItemDismissRight(int position) {
+    public void onItemDismissRight(int position, RecyclerView rv) {
         Cursor c = getCursor();
         c.moveToPosition(position);
         String name = c.getString(c.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME));
@@ -91,8 +87,8 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                 new String[]{name}
         );
         this.notifyItemRemoved(position);
-        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
-
+//        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
+        Snackbar.make(rv, mContext.getString(R.string.remove_msg), Snackbar.LENGTH_SHORT).show();
         //Delete from SharedPreference
 ///////////////////////////////////////////////////////////////
 //        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);

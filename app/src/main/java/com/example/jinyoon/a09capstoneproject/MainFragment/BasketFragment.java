@@ -85,7 +85,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
 
         //Item Touch Helper Implementation
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter, mRecyclerView);
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
