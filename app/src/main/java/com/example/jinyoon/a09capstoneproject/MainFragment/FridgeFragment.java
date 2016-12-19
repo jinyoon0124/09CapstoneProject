@@ -149,11 +149,12 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 
                             mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
 //                            Toast.makeText(mContext, getString(R.string.item_added_msg, itemName), Toast.LENGTH_SHORT).show();
-                            query.add(itemName);
 
 
                             SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
                             SharedPreferences.Editor ed = spf.edit();
+                            query = spf.getStringSet(INGREDIENT_KEY, new HashSet<String>());
+                            query.add(itemName);
                             ed.putStringSet(INGREDIENT_KEY, query);
                             ed.commit();
 
