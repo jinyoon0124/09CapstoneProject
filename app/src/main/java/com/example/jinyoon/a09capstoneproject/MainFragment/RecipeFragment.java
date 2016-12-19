@@ -3,6 +3,8 @@ package com.example.jinyoon.a09capstoneproject.MainFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,12 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jinyoon.a09capstoneproject.BuildConfig;
+import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract;
+import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
 import com.example.jinyoon.a09capstoneproject.R;
 import com.example.jinyoon.a09capstoneproject.Retrofit.RecipeBody;
 import com.example.jinyoon.a09capstoneproject.Retrofit.Recipes;
 import com.example.jinyoon.a09capstoneproject.Retrofit.RecipeService;
+import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -66,10 +72,12 @@ public class RecipeFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_recipe);
 
-        String queryString=getParamFromPreference();
+//        String queryString=getParamFromPreference();
+        String queryString = getParamFromFridge();
 
         if(!queryString .equals("")){
             updateRecipe(queryString);
+//            Toast.makeText(mContext, queryString, Toast.LENGTH_SHORT).show();
         }else{
             mRecipeRecyclerViewAdapter=null;
         }
@@ -97,19 +105,51 @@ public class RecipeFragment extends Fragment {
 //
 //    }
 
-    //GET Query param from shared preference
-    private String getParamFromPreference(){
+    private String getParamFromFridge(){
+        Log.e(LOG_TAG, "INSIDE GET PARAM FROM FRIDGE");
+        Cursor cursor = mContext.getContentResolver().query(
+                FridgeListEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
 
-        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
-        Set<String> querySet = spf.getStringSet(INGREDIENT_KEY, null);
-        String queryString="";
-        if(querySet!=null){
-            for(String i : querySet){queryString +=","+i;}
+        String param ="";
+
+        if(cursor!=null){
+            if(cursor.moveToFirst()){
+                do{
+                    param +=
+                            cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME)) +",";
+                }while (cursor.moveToNext());
+            }
+            cursor.close();
+
+        }else{
+            Log.e(LOG_TAG, "CURSOR NULL");
         }
-        Log.e("SHARED PREFERENCE", queryString);
-        return queryString;
+
+        Log.e(LOG_TAG, "++++++++++++++++"+ param);
+        return param;
     }
 
+
+
+    //GET Query param from shared preference
+///////////////////////////////////////////////////////////////
+//    private String getParamFromPreference(){
+//
+//        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
+//        Set<String> querySet = spf.getStringSet(INGREDIENT_KEY, null);
+//        String queryString="";
+//        if(querySet!=null){
+//            for(String i : querySet){queryString +=","+i;}
+//        }
+//        Log.e("SHARED PREFERENCE", queryString);
+//        return queryString;
+//    }
+///////////////////////////////////////////////////////////////
 
     private void updateRecipe(String param){
         Log.e(LOG_TAG, "!!!!!!!!!!!UPDATE RECIPE CALLED");
@@ -134,18 +174,9 @@ public class RecipeFragment extends Fragment {
         call.enqueue(new Callback<RecipeBody>() {
             @Override
             public void onResponse(Call<RecipeBody> call, Response<RecipeBody> response) {
-                Log.e(LOG_TAG, "!!!!!!!!!!!!! RETROFIT ON RESPONSE CALLED");
                 mRecipeBody = response.body();
 
                 mRecipeDetails= mRecipeBody.getRecipes();
-
-                if(mRecipeDetails.size()==0){
-                    Log.e(LOG_TAG, "!!! NO RECIPE ITEM IS RETRIEVED");
-
-                }else{
-                    Log.e(LOG_TAG, "There are some items in the recipe!");
-                }
-
                 mRecipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(mContext, mRecipeDetails);
 
                 int columnCount= getResources().getInteger(R.integer.list_column_count);
@@ -153,18 +184,14 @@ public class RecipeFragment extends Fragment {
                         new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
                 mRecyclerView.setLayoutManager(sgim);
 
-//                mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
                 mRecyclerView.setAdapter(mRecipeRecyclerViewAdapter);
 
                 if(mRecipeRecyclerViewAdapter.getItemCount()!=0){
                     mEmptyView.setVisibility(View.GONE);
                 }else{
                     mEmptyView.setVisibility(View.VISIBLE);
-//            Log.e(LOG_TAG, "SET VISIBLITY VISIBLE");
                     mEmptyView.setText(getString(R.string.recipe_empty_msg));
                 }
-
-
             }
 
             @Override

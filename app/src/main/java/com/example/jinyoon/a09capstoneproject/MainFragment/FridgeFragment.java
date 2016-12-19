@@ -2,7 +2,6 @@ package com.example.jinyoon.a09capstoneproject.MainFragment;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,11 +37,10 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
     private final String LOG_TAG = this.getClass().getSimpleName();
     private RecyclerView mfRecyclerView;
     private Context mContext;
-    private Cursor mFCursor;
+    private Cursor mCursor;
     private TextView mEmptyView;
-    private FridgeRecyclerViewAdapter mfCursorAdapter;
+    private FridgeRecyclerViewAdapter mCursorAdapter;
     private static final int CURSOR_LOADER_ID = 1;
-    private static final int TOUCH_HELPER_ID = 2;
     private final String INGREDIENT_KEY = "ingredient";
     private Set<String> query = new HashSet<>();
 
@@ -68,7 +65,7 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
         mEmptyView = (TextView) view.findViewById(R.id.fridge_empty_textview);
         mEmptyView.setVisibility(View.GONE);
 
-        if(mfCursorAdapter ==null){
+        if(mCursorAdapter ==null){
 //            Log.e(LOG_TAG, "CRSOR ADAPTER NULL");
             mEmptyView.setVisibility(View.VISIBLE);
             mEmptyView.setText(getString(R.string.fridge_empty_msg));
@@ -78,11 +75,11 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
         mfRecyclerView.setHasFixedSize(true);
         mfRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
-        mfCursorAdapter = new FridgeRecyclerViewAdapter(mContext, null);
-        mfRecyclerView.setAdapter(mfCursorAdapter);
+        mCursorAdapter = new FridgeRecyclerViewAdapter(mContext, null);
+        mfRecyclerView.setAdapter(mCursorAdapter);
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mfCursorAdapter);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter);
         final ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mfRecyclerView);
 
@@ -150,14 +147,14 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
                             mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
 //                            Toast.makeText(mContext, getString(R.string.item_added_msg, itemName), Toast.LENGTH_SHORT).show();
 
-
-                            SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
-                            SharedPreferences.Editor ed = spf.edit();
-                            query = spf.getStringSet(INGREDIENT_KEY, new HashSet<String>());
-                            query.add(itemName);
-                            ed.putStringSet(INGREDIENT_KEY, query);
-                            ed.commit();
-
+//////////////////////////////////////////////////////////////////
+//                            SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
+//                            SharedPreferences.Editor ed = spf.edit();
+//                            query = spf.getStringSet(INGREDIENT_KEY, new HashSet<String>());
+//                            query.add(itemName);
+//                            ed.putStringSet(INGREDIENT_KEY, query);
+//                            ed.commit();
+///////////////////////////////////////////////////////////////////
 
                         }
 
@@ -269,9 +266,9 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 //        Log.e(LOG_TAG, "FRIDGE ONCLOADFINISHED");
 
-        mfCursorAdapter.swapCursor(cursor);
-        mFCursor =cursor;
-        int adapterSize = mfCursorAdapter.getItemCount();
+        mCursorAdapter.swapCursor(cursor);
+        mCursor =cursor;
+        int adapterSize = mCursorAdapter.getItemCount();
 //        Log.e(LOG_TAG, "FRIDGE LOADER SIZE"+String.valueOf(adapterSize));
 
         if(adapterSize!=0){
@@ -285,6 +282,6 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mfCursorAdapter.swapCursor(null);
+        mCursorAdapter.swapCursor(null);
     }
 }
