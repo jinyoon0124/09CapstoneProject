@@ -22,11 +22,12 @@ import com.example.jinyoon.a09capstoneproject.R;
 
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private final ItemTouchHelperAdapter mAdapter;
+    private final RecyclerView rv;
     public static final float ALPHA_FULL = 1.0f;
 
-    public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+    public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter, RecyclerView rv) {
         this.mAdapter = adapter;
-
+        this.rv = rv;
     }
 
     @Override
@@ -47,9 +48,10 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         if(direction == ItemTouchHelper.LEFT){
-            mAdapter.onItemDismissLeft(viewHolder.getAdapterPosition());
+
+            mAdapter.onItemDismissLeft(viewHolder.getAdapterPosition(), rv);
         }else if(direction == ItemTouchHelper.RIGHT){
-            mAdapter.onItemDismissRight(viewHolder.getAdapterPosition());
+            mAdapter.onItemDismissRight(viewHolder.getAdapterPosition(), rv);
         }
     }
 

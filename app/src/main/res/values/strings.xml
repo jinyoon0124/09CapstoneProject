@@ -17,5 +17,7 @@
     <string name="no_days_input_msg">Please enter expected days to expiration</string>
     <string name="item_modified_msg">Item modified</string>
     <string name="recipe_empty_msg">No Recipes to show. Please add more ingredients in Fridge LIst</string>
+    <string name="remove_msg">ITEM REMOVED</string>
+    <string name="item_move_to_fridge_msg">ITEM MOVED TO FRIDGE LIST</string>
 
 </resources>

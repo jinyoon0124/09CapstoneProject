@@ -43,7 +43,6 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
         super(context, cursor);
         this.mContext = context;
         this.mCursor = cursor;
-
     }
 //
 //    @Override
@@ -129,7 +128,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
 //    }
 
     @Override
-    public void onItemDismissLeft(final int position) {
+    public void onItemDismissLeft(final int position, final RecyclerView rv) {
         //Move Item to Fridge list when swiped to left
         Cursor c = getCursor();
         c.moveToPosition(position);
@@ -183,15 +182,17 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                                 notifyItemRemoved(position);
 
                             }
+                            Snackbar.make(rv, mContext.getString(R.string.item_move_to_fridge_msg), Snackbar.LENGTH_SHORT).show();
+
                         }
                     }).show();
         }
         c.close();
-        Toast.makeText(mContext, "Item moved to left", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, "Item moved to left", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onItemDismissRight(int position) {
+    public void onItemDismissRight(int position, RecyclerView rv) {
     //Remove Item when an item is swiped to right
         Cursor c = getCursor();
         c.moveToPosition(position);
@@ -203,8 +204,8 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                 new String[]{name}
         );
         this.notifyItemRemoved(position);
-        Toast.makeText(mContext, "Item moved to right", Toast.LENGTH_SHORT).show();
-
+//        Toast.makeText(mContext, "Item moved to right", Toast.LENGTH_SHORT).show();
+        Snackbar.make(rv, mContext.getString(R.string.remove_msg), Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

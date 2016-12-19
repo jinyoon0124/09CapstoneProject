@@ -35,7 +35,7 @@ import java.util.Set;
 public class FridgeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private final String LOG_TAG = this.getClass().getSimpleName();
-    private RecyclerView mfRecyclerView;
+    private RecyclerView mRecyclerView;
     private Context mContext;
     private Cursor mCursor;
     private TextView mEmptyView;
@@ -71,17 +71,17 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
             mEmptyView.setText(getString(R.string.fridge_empty_msg));
         }
 
-        mfRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_fridge);
-        mfRecyclerView.setHasFixedSize(true);
-        mfRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_fridge);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
         mCursorAdapter = new FridgeRecyclerViewAdapter(mContext, null);
-        mfRecyclerView.setAdapter(mCursorAdapter);
+        mRecyclerView.setAdapter(mCursorAdapter);
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter, mRecyclerView);
         final ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(mfRecyclerView);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fridge_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +132,6 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 //                                    c = db.rawQuery("SELECT * FROM "+ ShopListEntry.TABLE_NAME, null);
 //                                    Log.e("!!!! INSIDE DIALOG!! C!", String.valueOf(c.getCount()));
 //                                    int itemOrder = c.getCount();
-
                             ContentValues cv = new ContentValues();
 
                             long currentTime = System.currentTimeMillis();
@@ -143,7 +142,6 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 //                            Log.e("....FridgeFragment", String.valueOf(currentTime));
 
                             mContext.getContentResolver().insert(FridgeListEntry.CONTENT_URI, cv);
-
                             mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
 //                            Toast.makeText(mContext, getString(R.string.item_added_msg, itemName), Toast.LENGTH_SHORT).show();
 
@@ -155,12 +153,8 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 //                            ed.putStringSet(INGREDIENT_KEY, query);
 //                            ed.commit();
 ///////////////////////////////////////////////////////////////////
-
                         }
-
                         c.close();
-
-
 //                        Toast.makeText(mContext, itemName + " : " + dayValue, Toast.LENGTH_SHORT).show();
 //                        Toast.makeText(mContext.getApplicationContext(), String.valueOf(currentTime), Toast.LENGTH_SHORT).show();
 
@@ -174,11 +168,9 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 //                        }
 //                        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
                         ////////
-
                         dialog.dismiss();
                     }
                 });
-
                 View negative = dialog.getActionButton(DialogAction.NEGATIVE);
                 negative.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -186,9 +178,6 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
                         dialog.dismiss();
                     }
                 });
-
-
-
             }
         });
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -237,7 +226,6 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 //
 //            }
 //        });
-
         return view;
     }
 
