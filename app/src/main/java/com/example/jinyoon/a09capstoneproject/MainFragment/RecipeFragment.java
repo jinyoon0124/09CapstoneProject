@@ -74,9 +74,6 @@ public class RecipeFragment extends Fragment {
             mRecipeRecyclerViewAdapter=null;
         }
 
-//        if(mRecipeRecyclerViewAdapter!=null){
-//            Log.e(LOG_TAG, "ADAPTER NOT NULL.. SIZE =  "+mRecipeRecyclerViewAdapter.getItemCount());
-//        }
 
         if(mRecipeRecyclerViewAdapter ==null || mRecipeRecyclerViewAdapter.getItemCount()==0){
             Log.e(LOG_TAG, "RECIPE ADAPTER NULL");
