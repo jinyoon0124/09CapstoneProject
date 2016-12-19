@@ -60,20 +60,23 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
         this.notifyItemRemoved(position);
 
         //Delete from SharedPreference
-        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
-        Set<String> query = spf.getStringSet(INGREDIENT_KEY, null);
-        query.remove(name);
-        SharedPreferences.Editor ed = spf.edit();
-        ed.putStringSet(INGREDIENT_KEY, query);
-        ed.commit();
-
+///////////////////////////////////////////////////////////////////
+//        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
+//        Set<String> query = spf.getStringSet(INGREDIENT_KEY, null);
+//        query.remove(name);
+//        SharedPreferences.Editor ed = spf.edit();
+//        ed.putStringSet(INGREDIENT_KEY, query);
+//        ed.commit();
+//
+//        String testString="";
+//        for(String i : query){
+//            testString +=i;
+//        }
+//        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
+/////////////////////////////////////////////////////////////////////
         Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
 
-        String testString="";
-        for(String i : query){
-            testString +=i;
-        }
-        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -91,12 +94,14 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
         Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
 
         //Delete from SharedPreference
-        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
-        Set<String> query = spf.getStringSet(INGREDIENT_KEY, null);
-        query.remove(name);
-        SharedPreferences.Editor ed = spf.edit();
-        ed.putStringSet(INGREDIENT_KEY, query);
-        ed.commit();
+///////////////////////////////////////////////////////////////
+//        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
+//        Set<String> query = spf.getStringSet(INGREDIENT_KEY, null);
+//        query.remove(name);
+//        SharedPreferences.Editor ed = spf.edit();
+//        ed.putStringSet(INGREDIENT_KEY, query);
+//        ed.commit();
+///////////////////////////////////////////////////////////////
 //
 //        String testString="";
 //        for(String i : query){
@@ -113,7 +118,6 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
         return new ViewHolder(view);
     }
 
-//    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
         final String name = cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME));
