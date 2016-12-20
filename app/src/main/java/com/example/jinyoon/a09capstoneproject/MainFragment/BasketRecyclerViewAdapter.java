@@ -180,9 +180,9 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                                         new String[]{name}
                                 );
                                 notifyItemRemoved(position);
+                                Snackbar.make(rv, mContext.getString(R.string.item_move_to_fridge_msg), Snackbar.LENGTH_SHORT).show();
 
                             }
-                            Snackbar.make(rv, mContext.getString(R.string.item_move_to_fridge_msg), Snackbar.LENGTH_SHORT).show();
 
                         }
                     }).show();
