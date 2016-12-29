@@ -40,6 +40,9 @@
             android:name=".Notification.NotificationIntentService"
             android:enabled="true"
             android:exported="false"/>
+        <service
+            android:name=".Widget.BasketWidgetRemoteViewService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
         <receiver android:name=".Notification.NotificationEventReceiver"/>
         <receiver android:name=".Notification.NotificationServiceStarterReceiver">
@@ -48,6 +51,19 @@
                 <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
                 <action android:name="android.intent.action.TIME_SET"/>
             </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".Widget.BasketWidgetProvider"
+            android:label="@string/title_widget_today">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.example.jinyoon.a09capstoneproject.ACTION_DATA_UPDATED"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_basket_list"/>
+
         </receiver>
 
 

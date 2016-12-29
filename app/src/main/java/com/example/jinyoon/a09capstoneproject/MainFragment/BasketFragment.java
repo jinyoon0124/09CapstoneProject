@@ -3,6 +3,7 @@ package com.example.jinyoon.a09capstoneproject.MainFragment;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
             ShopListEntry.COLUMN_GROCERY_NAME,
             ShopListEntry.COLUMN_ORDERS
     };
+    public static final String ACTION_DATA_UPDATED = "com.example.jinyoon.a09capstoneproject.ACTION_DATA_UPDATED";
 
     private RecyclerView mRecyclerView;
 
@@ -57,7 +59,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-//        Log.e(LOG_TAG, "BASKET ONCREATEVIEW");
+        Log.e(LOG_TAG, "BASKET ONCREATEVIEW");
 
 
         // Inflate the layout for this fragment
@@ -144,7 +146,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onResume() {
-//        Log.e(LOG_TAG, "BASKET ONRESUME");
+        Log.e(LOG_TAG, "BASKET ONRESUME");
 
         super.onResume();
         getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
@@ -153,7 +155,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        Log.e(LOG_TAG, "BASKET ONCREATELOADER");
+        Log.e(LOG_TAG, "BASKET ONCREATELOADER");
 
         CursorLoader loader = new CursorLoader(mContext,
                 ShopListEntry.CONTENT_URI,
@@ -169,7 +171,9 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-//        Log.e(LOG_TAG, "BASKET ONLOADERFINISHED");
+        Log.e(LOG_TAG, "BASKET ONLOADERFINISHED");
+
+        updateWidgets();
 
         mCursorAdapter.swapCursor(cursor);
         mCursor=cursor;
@@ -191,5 +195,11 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         mCursorAdapter.swapCursor(null);
     }
 
+    public void updateWidgets(){
+        Intent dataUpdatedIntent = new Intent();
+        dataUpdatedIntent.setAction(ACTION_DATA_UPDATED);
+        mContext.sendBroadcast(dataUpdatedIntent);
+        Log.e(LOG_TAG, "WIDGET UPDATE METHOD CALLED");
+    }
 
 }

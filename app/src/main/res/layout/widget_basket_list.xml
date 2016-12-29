@@ -1,20 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/widget"
-    >
-    <ListView
-        android:id="@+id/widget_list"
+    android:orientation="vertical"
+    android:padding="@dimen/widget_padding">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/widget_basket_list_item"/>
-    <TextView
-        android:id="@+id/widget_empty"
+        android:layout_height="@dimen/widget_title_height"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
+        <ImageView
+            android:id="@+id/widget_title_icon"
+            android:layout_width="@dimen/widget_title_height"
+            android:layout_height="match_parent"
+            android:padding="@dimen/widget_list_title_imageview_padding"
+            android:gravity="center_vertical|start"
+            android:src="@drawable/ic_basket_black"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/widget_list_title_imageview_padding"
+            android:paddingLeft="@dimen/widget_list_title_imageview_padding"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/widget_list_title_textsize"
+            android:text="@string/app_name"
+            android:layout_toEndOf="@+id/widget_title_icon"
+            android:layout_toRightOf="@+id/widget_title_icon"/>
+    </RelativeLayout>
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textAppearance="?android:textAppearanceLarge"/>
-</FrameLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/listitem_background">
+        <ListView
+            android:id="@+id/widget_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/colorPrimaryLight"
+            android:dividerHeight="0.5dp"
+            tools:listitem="@layout/widget_basket_list_item"/>
+        <TextView
+            android:id="@+id/widget_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/colorPrimaryText"
+            android:text="@string/widget_empty_view_text"/>
+    </FrameLayout>
+</LinearLayout>
