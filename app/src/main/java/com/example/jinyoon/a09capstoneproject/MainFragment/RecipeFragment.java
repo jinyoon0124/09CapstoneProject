@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.example.jinyoon.a09capstoneproject.BuildConfig;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
+import com.example.jinyoon.a09capstoneproject.MainActivity;
 import com.example.jinyoon.a09capstoneproject.R;
 import com.example.jinyoon.a09capstoneproject.Retrofit.RecipeBody;
 import com.example.jinyoon.a09capstoneproject.Retrofit.Recipes;
@@ -36,6 +38,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.R.attr.columnCount;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -180,7 +184,14 @@ public class RecipeFragment extends Fragment {
                 mRecipeDetails= mRecipeBody.getRecipes();
                 mRecipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(mContext, mRecipeDetails);
 
-                int columnCount= getResources().getInteger(R.integer.list_column_count);
+                int columnCount=0;
+                if(getActivity().getResources().getConfiguration().orientation==1){
+                    columnCount= getResources().getInteger(R.integer.list_column_count_portrait);
+                }else{
+                    columnCount= getResources().getInteger(R.integer.list_column_count_horizontal);
+                }
+//                int columnCount= getResources().getInteger(R.integer.list_column_count_portrait);
+
                 StaggeredGridLayoutManager sgim =
                         new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
                 mRecyclerView.setLayoutManager(sgim);
