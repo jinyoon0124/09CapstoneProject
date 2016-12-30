@@ -238,7 +238,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
             super(itemView);
             mView = itemView;
             mItemName = (TextView) itemView.findViewById(R.id.basket_item_name);
-            mIconView = (ImageView) itemView.findViewById(R.id.reorder_icon);
+//            mIconView = (ImageView) itemView.findViewById(R.id.reorder_icon);
 
             mView.setOnClickListener(this);
         }
@@ -270,7 +270,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
             if(mCursor !=null){
                 mCursor.moveToPosition(position);
                 final String name = mCursor.getString(mCursor.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
-                Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show();
 
                 new MaterialDialog.Builder(mContext).title("Edit Item")
                         .content("Edit Item name")
@@ -285,7 +285,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                                         new String[]{input.toString()},
                                         null
                                 );
-                                if(c!=null && c.getCount()!=0){
+                                if(c!=null && c.getCount()>1){
                                     Toast toast = Toast.makeText(mContext, mContext.getString(R.string.item_exist_msg), Toast.LENGTH_SHORT);
                                     toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                                     toast.show();

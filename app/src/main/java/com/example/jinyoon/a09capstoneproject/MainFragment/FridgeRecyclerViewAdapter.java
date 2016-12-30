@@ -191,8 +191,10 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                 final View dialogView = dialog.getCustomView();
                 final EditText itemNameEditText = (EditText)dialogView.findViewById(R.id.fridge_dialog_name_input);
                 final EditText dayValueEditText = (EditText)dialogView.findViewById(R.id.fridge_dialog_days_input);
-                itemNameEditText.setHint(oldName);
-                dayValueEditText.setHint(String.valueOf(oldDay));
+//                itemNameEditText.setHint(oldName);
+//                dayValueEditText.setHint(String.valueOf(oldDay));
+                itemNameEditText.setText(oldName);
+                dayValueEditText.setText(String.valueOf(oldDay));
 
                 View positive = dialog.getActionButton(DialogAction.POSITIVE);
                 positive.setOnClickListener(new View.OnClickListener() {
@@ -208,7 +210,7 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                                 new String[]{itemName},
                                 null);
 
-                        if(c.getCount()!=0){
+                        if(c!=null && c.getCount()>1){
                             Toast toast =
                                     Toast.makeText(mContext, mContext.getString(R.string.item_exist_msg), Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
@@ -247,14 +249,14 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
 
                             mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
 
-                            /////SHARED PREFERENCE
-                            SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
-                            Set<String> query = spf.getStringSet(INGREDIENT_KEY, null);
-                            query.remove(oldName);
-                            query.add(itemName);
-                            SharedPreferences.Editor ed = spf.edit();
-                            ed.putStringSet(INGREDIENT_KEY, query);
-                            ed.commit();
+//                            /////SHARED PREFERENCE
+//                            SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
+//                            Set<String> query = spf.getStringSet(INGREDIENT_KEY, null);
+//                            query.remove(oldName);
+//                            query.add(itemName);
+//                            SharedPreferences.Editor ed = spf.edit();
+//                            ed.putStringSet(INGREDIENT_KEY, query);
+//                            ed.commit();
 
                             Toast.makeText(mContext, mContext.getString(R.string.item_modified_msg), Toast.LENGTH_SHORT).show();
                         }
