@@ -19,9 +19,9 @@ public class Recipes implements Serializable {
     @Expose
     private String title;
 
-    @SerializedName("publisher_url")
+    @SerializedName("source_url")
     @Expose
-    private String publisherUrl;
+    private String sourceUrl;
 
     public String getImageUrl() {
         return imageUrl;
@@ -39,12 +39,12 @@ public class Recipes implements Serializable {
         this.title = title;
     }
 
-    public String getPublisherUrl() {
-        return publisherUrl;
+    public String getSourceUrl() {
+        return sourceUrl;
     }
 
-    public void setPublisherUrl(String publisherUrl) {
-        this.publisherUrl = publisherUrl;
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
     }
 
 

@@ -34,7 +34,6 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
 
     private Context mContext;
     private Cursor mCurosr;
-    private final String INGREDIENT_KEY = "ingredient";
     private final String LOG_TAG = getClass().getSimpleName();
 
     public FridgeRecyclerViewAdapter(Context context, Cursor cursor) {
@@ -141,8 +140,6 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
         private TextView mItemName;
         private TextView mDay;
         private final String LOG_TAG = this.getClass().getSimpleName();
-        private final String INGREDIENT_KEY = "ingredient";
-
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -181,10 +178,10 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                 final int oldDay = mCursor.getInt(mCursor.getColumnIndex(FridgeListEntry.COLUMN_EXPIRATION));
                 Toast.makeText(mContext, oldName, Toast.LENGTH_SHORT).show();
 
-                final MaterialDialog dialog = new MaterialDialog.Builder(mContext).title("Edit Item")
+                final MaterialDialog dialog = new MaterialDialog.Builder(mContext).title(mContext.getString(R.string.fridge_dialog_edit_title))
                         .customView(R.layout.dialog_fridge, true)
-                        .negativeText("Cancel")
-                        .positiveText("Ok")
+                        .negativeText(mContext.getString(R.string.fridge_dialog_negative_text))
+                        .positiveText(mContext.getString(R.string.fridge_dialog_positive_text))
                         .build();
 
                 dialog.show();
@@ -233,7 +230,6 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
 //                                    c = db.rawQuery("SELECT * FROM "+ ShopListEntry.TABLE_NAME, null);
 //                                    Log.e("!!!! INSIDE DIALOG!! C!", String.valueOf(c.getCount()));
 //                                    int itemOrder = c.getCount();
-
                             ContentValues cv = new ContentValues();
                             cv.put(FridgeListEntry.COLUMN_GROCERY_NAME, itemName);
                             cv.put(FridgeListEntry.COLUMN_EXPIRATION, Integer.parseInt(dayValue));
@@ -248,7 +244,6 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                             );
 
                             mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
-
 //                            /////SHARED PREFERENCE
 //                            SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
 //                            Set<String> query = spf.getStringSet(INGREDIENT_KEY, null);
@@ -257,12 +252,10 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
 //                            SharedPreferences.Editor ed = spf.edit();
 //                            ed.putStringSet(INGREDIENT_KEY, query);
 //                            ed.commit();
-
                             Toast.makeText(mContext, mContext.getString(R.string.item_modified_msg), Toast.LENGTH_SHORT).show();
                         }
 
                         c.close();
-
 //                        Toast.makeText(mContext, itemName + " : " + dayValue, Toast.LENGTH_SHORT).show();
 
 
@@ -276,7 +269,6 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
 //                        }
 //                        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
                         ////////
-
                         dialog.dismiss();
                     }
                 });
@@ -288,6 +280,8 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                         dialog.dismiss();
                     }
                 });
+
+                mCursor.close();
 
             }else{
                 Log.e(LOG_TAG, "Cursor doesn't exist");

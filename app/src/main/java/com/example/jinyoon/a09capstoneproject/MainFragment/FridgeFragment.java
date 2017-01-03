@@ -41,8 +41,7 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mEmptyView;
     private FridgeRecyclerViewAdapter mCursorAdapter;
     private static final int CURSOR_LOADER_ID = 1;
-    private final String INGREDIENT_KEY = "ingredient";
-    private Set<String> query = new HashSet<>();
+//    private Set<String> query = new HashSet<>();
 
     private String[] mProjection = {
             FridgeListEntry._ID,
@@ -87,10 +86,10 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
-                final MaterialDialog dialog = new MaterialDialog.Builder(mContext).title("Add item to fridge")
+                final MaterialDialog dialog = new MaterialDialog.Builder(mContext).title(getString(R.string.fridge_dialog_title))
                         .customView(R.layout.dialog_fridge, true)
-                        .negativeText("Cancel")
-                        .positiveText("Ok")
+                        .negativeText(getString(R.string.fridge_dialog_negative_text))
+                        .positiveText(getString(R.string.fridge_dialog_positive_text))
                         .build();
 
                 dialog.show();
@@ -240,14 +239,13 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 //        Log.e(LOG_TAG, "FRIDGE ONCREATELOADER");
 
-        CursorLoader loader = new CursorLoader(mContext,
+        return new CursorLoader(mContext,
                 FridgeListEntry.CONTENT_URI,
                 mProjection,
                 null,
                 null,
                 null
         );
-        return loader;
     }
 
     @Override

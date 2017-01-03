@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -96,11 +97,11 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new MaterialDialog.Builder(getContext()).title("Add Item to basket")
+                new MaterialDialog.Builder(getContext()).title(getString(R.string.basket_dialog_title))
                         .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input("Eggs", "", new MaterialDialog.InputCallback() {
+                        .input(getString(R.string.basket_dialog_item_hint), "", new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 Cursor c = getContext().getContentResolver().query(
                                         ShopListEntry.CONTENT_URI,
                                         new String[]{ShopListEntry.COLUMN_GROCERY_NAME},
@@ -136,7 +137,7 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
                         c.close();
                             }
-                        }).negativeText("Cancel")
+                        }).negativeText(R.string.basket_dialog_negative_text)
                         .show();
 
             }
@@ -156,17 +157,21 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.e(LOG_TAG, "BASKET ONCREATELOADER");
-
-        CursorLoader loader = new CursorLoader(mContext,
+//        CursorLoader loader = new CursorLoader(mContext,
+//                ShopListEntry.CONTENT_URI,
+//                mProjection,
+//                null,
+//                null,
+//                ShopListEntry.COLUMN_ORDERS+ " ASC"
+//                );
+        return new CursorLoader(mContext,
                 ShopListEntry.CONTENT_URI,
                 mProjection,
                 null,
                 null,
                 ShopListEntry.COLUMN_ORDERS+ " ASC"
-                );
+        );
 
-
-        return loader;
     }
 
     @Override

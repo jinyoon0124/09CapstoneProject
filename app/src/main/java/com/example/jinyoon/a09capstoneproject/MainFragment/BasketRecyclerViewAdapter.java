@@ -149,8 +149,8 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
         }else{
             Log.e("!!!!!!!!!!!!!!!", String.valueOf(c.getCount()));
             new MaterialDialog.Builder(mContext)
-                    .title("Enter expiration")
-                    .content("Enter expected days to expiration")
+                    .title(mContext.getString(R.string.basket_dialog_expiration_title))
+                    .content(mContext.getString(R.string.basket_dialog_expiration_content))
                     .inputType(InputType.TYPE_CLASS_NUMBER)
                     .input("", "", new MaterialDialog.InputCallback() {
                         @Override
@@ -231,14 +231,12 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
             implements ItemTouchHelperViewHolder, View.OnClickListener{
         private View mView;
         private TextView mItemName;
-        private ImageView mIconView;
         private String LOG_TAG = this.getClass().getSimpleName();
 
         public ViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
             mItemName = (TextView) itemView.findViewById(R.id.basket_item_name);
-//            mIconView = (ImageView) itemView.findViewById(R.id.reorder_icon);
 
             mView.setOnClickListener(this);
         }
@@ -272,8 +270,8 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                 final String name = mCursor.getString(mCursor.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
 //                Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show();
 
-                new MaterialDialog.Builder(mContext).title("Edit Item")
-                        .content("Edit Item name")
+                new MaterialDialog.Builder(mContext).title(mContext.getString(R.string.basket_dialog_edit_tile))
+                        .content(mContext.getString(R.string.basket_dialog_edit_content))
                         .inputType(InputType.TYPE_CLASS_TEXT)
                         .input("", name, new MaterialDialog.InputCallback() {
                             @Override
@@ -307,6 +305,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                                 c.close();
                             }
                         }).show();
+                mCursor.close();
             }else{
                 Log.e(LOG_TAG, "Cursor doesn't exist");
             }

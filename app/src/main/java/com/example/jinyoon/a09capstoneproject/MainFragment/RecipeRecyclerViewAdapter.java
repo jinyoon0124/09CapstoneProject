@@ -18,14 +18,13 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 /**
- * Created by Jin Yoon on 10/22/2016.
+ * Created by Jin Yoon on 10/22/2016
  */
 
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Recipes> mRecipeDetails;
-    private final String PUBLISHER_URL_KEY = "publisher_url";
     private final String LOG_TAG = getClass().getSimpleName();
 
     public RecipeRecyclerViewAdapter(Context context, List<Recipes> details) {
@@ -45,14 +44,14 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Recipes recipes = mRecipeDetails.get(position);
-        final String resourceUrl = recipes.getPublisherUrl();
+        final String sourceUrl = recipes.getSourceUrl();
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             //Add OnClick Action later
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, RecipeDetailActivity.class);
-                intent.putExtra(PUBLISHER_URL_KEY, resourceUrl);
+                intent.putExtra(mContext.getString(R.string.publisher_url_key), sourceUrl);
                 mContext.startActivity(intent);
                 Log.v(LOG_TAG, "RecyclerView item OnClick");
             }
@@ -61,7 +60,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
         holder.mTitleView.setText(recipes.getTitle());
 
-        //TODO: Place holder when no image_url is available
         Picasso.with(mContext)
                 .load(recipes.getImageUrl())
                 .into(holder.mThumbnailView);
