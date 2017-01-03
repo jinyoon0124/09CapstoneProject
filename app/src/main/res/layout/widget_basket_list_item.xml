@@ -12,13 +12,6 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical|start"
         android:textSize="@dimen/widget_list_item_textsize"
-        android:text="TEST TEXT"
         android:textColor="@color/colorPrimaryText"/>
-    <!--<CheckBox-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_weight="1"-->
-        <!--android:gravity="center_vertical|end"-->
-        <!--android:checked="false"/>-->
 
 </FrameLayout>

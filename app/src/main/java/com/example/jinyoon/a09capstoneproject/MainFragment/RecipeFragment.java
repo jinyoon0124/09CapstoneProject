@@ -51,7 +51,6 @@ public class RecipeFragment extends Fragment {
     private Context mContext;
     private TextView mEmptyView;
 
-    private final String INGREDIENT_KEY = "ingredient";
     private final String BASE_URL = "http://food2fork.com";
     private Call<RecipeBody> call;
     private List<Recipes> mRecipeDetails;
@@ -137,9 +136,6 @@ public class RecipeFragment extends Fragment {
         Log.e(LOG_TAG, "++++++++++++++++"+ param);
         return param;
     }
-
-
-
     //GET Query param from shared preference
 ///////////////////////////////////////////////////////////////
 //    private String getParamFromPreference(){
@@ -168,8 +164,8 @@ public class RecipeFragment extends Fragment {
 
         //Add parameters
         Map<String, String> query = new HashMap<>();
-        query.put("key", BuildConfig.FOOD2FORK_API_KEY);
-        query.put("q", param);
+        query.put(getString(R.string.recipe_query_api_key_param), BuildConfig.FOOD2FORK_API_KEY);
+        query.put(getString(R.string.recipe_query_ingredient_param), param);
 
         call = recipeApi.getRecipe(query);
 

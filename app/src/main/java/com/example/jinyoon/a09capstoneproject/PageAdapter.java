@@ -15,7 +15,7 @@ import com.example.jinyoon.a09capstoneproject.MainFragment.FridgeFragment;
 import com.example.jinyoon.a09capstoneproject.MainFragment.RecipeFragment;
 
 /**
- * Created by Jin Yoon on 10/8/2016.
+ * PageAdapter for fragments
  */
 
 public class PageAdapter extends FragmentPagerAdapter {

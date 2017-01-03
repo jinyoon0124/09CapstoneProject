@@ -21,5 +21,26 @@
     <string name="item_move_to_fridge_msg">ITEM MOVED TO FRIDGE LIST</string>
     <string name="title_widget_today">Basket List</string>
     <string name="widget_empty_view_text">No grocery item is available. Please add items in the app.</string>
+    <string name="basket_dialog_title">Add Item to basket</string>
+    <string name="basket_dialog_item_hint">Eggs</string>
+    <string name="basket_dialog_negative_text">Cancel</string>
+    <string name="basket_dialog_expiration_title">Enter expiration</string>
+    <string name="basket_dialog_expiration_content">Enter expected days to expiration</string>
+    <string name="basket_dialog_edit_tile">Edit Item</string>
+    <string name="basket_dialog_edit_content">Edit Item name</string>
+    <string name="fridge_dialog_title">Add item to fridge</string>
+    <string name="fridge_dialog_negative_text">Cancel</string>
+    <string name="fridge_dialog_positive_text">Ok</string>
+    <string name="fridge_dialog_edit_title">Edit Item</string>
+    <string name="publisher_url_key">publisher_url</string>
+    <string name="recipe_query_api_key_param">key</string>
+    <string name="recipe_query_ingredient_param">q</string>
+    <string name="notification_msg">Grocery in your fridge is about to expire. Click to check out recipes!</string>
+    <string name="recipe_detail">recipe detail is shown in this screen</string>
+    <string name="content_description_basket_fab">click this button to add item to basket list</string>
+    <string name="content_description_fridge_fab">click this button to add item to fridge list</string>
+    <string name="recipe_thumbnail">Click to see recipe</string>
+    <string name="content_description_widget_title">widget is shown</string>
+
 
 </resources>

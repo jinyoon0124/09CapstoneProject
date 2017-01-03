@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -66,7 +68,9 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
                 float width = height / 3;
                 if (dX > 0) {
                     //Item swiped to right >> Delete
-                    p.setColor(Color.parseColor("#D32F2F"));
+//                    p.setColor(Color.parseColor("#D32F2F"));
+                    p.setColor(ContextCompat.getColor(itemView.getContext(), R.color.colorRedDark));
+
                     RectF background = new RectF(
                             (float) itemView.getLeft(),
                             (float) itemView.getTop(),
@@ -83,7 +87,9 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
                 } else {
                     //item swiped to left >> Add to Fridge list
-                    p.setColor(Color.parseColor("#388E3C"));
+//                    p.setColor(Color.parseColor("#388E3C"));
+                    p.setColor(ContextCompat.getColor(itemView.getContext(), R.color.colorPrimaryDark));
+
                     RectF background = new RectF(
                             (float) itemView.getRight() + dX,
                             (float) itemView.getTop(),
@@ -106,7 +112,9 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
                 float width = height / 3;
                 if (dX > 0) {
                     //Item swiped to right >> Delete
-                    p.setColor(Color.parseColor("#D32F2F"));
+//                    p.setColor(Color.parseColor("#D32F2F"));
+                    p.setColor(ContextCompat.getColor(itemView.getContext(), R.color.colorRedDark));
+
                     RectF background = new RectF(
                             (float) itemView.getLeft(),
                             (float) itemView.getTop(),
@@ -123,7 +131,9 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
                 } else {
                     //item swiped to left >> Delete
-                    p.setColor(Color.parseColor("#D32F2F"));
+//                    p.setColor(Color.parseColor("#D32F2F"));
+                    p.setColor(ContextCompat.getColor(itemView.getContext(), R.color.colorPrimaryDark));
+
                     RectF background = new RectF(
                             (float) itemView.getRight() + dX,
                             (float) itemView.getTop(),

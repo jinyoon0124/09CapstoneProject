@@ -15,6 +15,7 @@
         android:background="@color/colorPrimary">
         <ImageView
             android:id="@+id/widget_title_icon"
+            android:contentDescription="@string/content_description_widget_title"
             android:layout_width="@dimen/widget_title_height"
             android:layout_height="match_parent"
             android:padding="@dimen/widget_list_title_imageview_padding"

@@ -95,7 +95,7 @@ public class NotificationIntentService extends IntentService{
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
                 builder.setContentTitle(context.getString(R.string.app_name))
                         .setAutoCancel(true)
-                        .setContentText("ITEM IS ABOUT TO EXPIRE... CLICK TO CHECK RECIPE")
+                        .setContentText(getString(R.string.notification_msg))
                         .setSmallIcon(R.drawable.ic_fridge_black);
 
                 PendingIntent pendingIntent = PendingIntent.getActivity(this,
