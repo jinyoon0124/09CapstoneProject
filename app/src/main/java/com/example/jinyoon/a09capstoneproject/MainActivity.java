@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ((MyApplication) getApplication()).startTracking();
+
         mContext = this;
 
         FragmentManager manager = getSupportFragmentManager();
