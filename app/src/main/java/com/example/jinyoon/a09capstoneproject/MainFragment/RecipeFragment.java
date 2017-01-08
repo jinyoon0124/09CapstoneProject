@@ -22,11 +22,14 @@ import com.example.jinyoon.a09capstoneproject.BuildConfig;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
 import com.example.jinyoon.a09capstoneproject.MainActivity;
+import com.example.jinyoon.a09capstoneproject.MyApplication;
 import com.example.jinyoon.a09capstoneproject.R;
 import com.example.jinyoon.a09capstoneproject.Retrofit.RecipeBody;
 import com.example.jinyoon.a09capstoneproject.Retrofit.Recipes;
 import com.example.jinyoon.a09capstoneproject.Retrofit.RecipeService;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.HashMap;
 import java.util.List;
@@ -150,6 +153,18 @@ public class RecipeFragment extends Fragment {
 //        return queryString;
 //    }
 ///////////////////////////////////////////////////////////////
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Get tracker.
+        Tracker tracker = ((MyApplication) getActivity().getApplication()).getTracker();
+
+        //Set screen name
+        tracker.setScreenName(LOG_TAG);
+        //Send a screen view.
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
     private void updateRecipe(String param){
         Log.e(LOG_TAG, "!!!!!!!!!!!UPDATE RECIPE CALLED");
