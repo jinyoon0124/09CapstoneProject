@@ -15,8 +15,11 @@ public class MyApplication extends Application {
     public void startTracking(){
         if(mTracker==null){
             GoogleAnalytics ga = GoogleAnalytics.getInstance(this);
+            //Get the config data for the tracker
             mTracker=ga.newTracker(R.xml.track_app);
+            //Enable tracking of activities
             ga.enableAutoActivityReports(this);
+
         }
     }
     public Tracker getTracker(){
