@@ -55,22 +55,6 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
         );
         this.notifyItemRemoved(position);
 
-        //Delete from SharedPreference
-///////////////////////////////////////////////////////////////////
-//        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
-//        Set<String> query = spf.getStringSet(INGREDIENT_KEY, null);
-//        query.remove(name);
-//        SharedPreferences.Editor ed = spf.edit();
-//        ed.putStringSet(INGREDIENT_KEY, query);
-//        ed.commit();
-//
-//        String testString="";
-//        for(String i : query){
-//            testString +=i;
-//        }
-//        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
-/////////////////////////////////////////////////////////////////////
-//        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
         Snackbar.make(rv, mContext.getString(R.string.remove_msg), Snackbar.LENGTH_SHORT).show();
     }
 
@@ -88,21 +72,7 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
         this.notifyItemRemoved(position);
 //        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
         Snackbar.make(rv, mContext.getString(R.string.remove_msg), Snackbar.LENGTH_SHORT).show();
-        //Delete from SharedPreference
-///////////////////////////////////////////////////////////////
-//        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
-//        Set<String> query = spf.getStringSet(INGREDIENT_KEY, null);
-//        query.remove(name);
-//        SharedPreferences.Editor ed = spf.edit();
-//        ed.putStringSet(INGREDIENT_KEY, query);
-//        ed.commit();
-///////////////////////////////////////////////////////////////
-//
-//        String testString="";
-//        for(String i : query){
-//            testString +=i;
-//        }
-//        Toast.makeText(mContext, testString, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

@@ -139,20 +139,6 @@ public class RecipeFragment extends Fragment {
         Log.e(LOG_TAG, "++++++++++++++++"+ param);
         return param;
     }
-    //GET Query param from shared preference
-///////////////////////////////////////////////////////////////
-//    private String getParamFromPreference(){
-//
-//        SharedPreferences spf = mContext.getSharedPreferences(INGREDIENT_KEY, Context.MODE_APPEND);
-//        Set<String> querySet = spf.getStringSet(INGREDIENT_KEY, null);
-//        String queryString="";
-//        if(querySet!=null){
-//            for(String i : querySet){queryString +=","+i;}
-//        }
-//        Log.e("SHARED PREFERENCE", queryString);
-//        return queryString;
-//    }
-///////////////////////////////////////////////////////////////
 
     @Override
     public void onStart() {

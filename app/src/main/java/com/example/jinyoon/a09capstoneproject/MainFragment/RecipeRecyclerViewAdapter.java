@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jinyoon.a09capstoneproject.MyApplication;
 import com.example.jinyoon.a09capstoneproject.R;
 import com.example.jinyoon.a09capstoneproject.RecipeDetailActivity;
 import com.example.jinyoon.a09capstoneproject.Retrofit.Recipes;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -54,6 +56,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
                 intent.putExtra(mContext.getString(R.string.publisher_url_key), sourceUrl);
                 mContext.startActivity(intent);
                 Log.v(LOG_TAG, "RecyclerView item OnClick");
+
             }
         });
 
