@@ -66,7 +66,12 @@ public class NotificationIntentService extends IntentService{
                     Log.e("!!!!!!!!!!!newDay", String.valueOf(newDays));
 
                     ContentValues cv = new ContentValues();
-                    cv.put(FridgeListEntry.COLUMN_EXPIRATION, newDays);
+                    if(newDays>0){
+                        cv.put(FridgeListEntry.COLUMN_EXPIRATION, newDays);
+                    }else{
+                        cv.put(FridgeListEntry.COLUMN_EXPIRATION, 0);
+                    }
+
                     cv.put(FridgeListEntry.COLUMN_INPUTDATEINMIL, String.valueOf(currentTimeinMil));
 
                     context.getContentResolver().update(
