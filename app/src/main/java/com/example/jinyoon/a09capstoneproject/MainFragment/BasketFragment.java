@@ -29,7 +29,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.SimpleItemTouchHelperCallback;
+import com.example.jinyoon.a09capstoneproject.MyApplication;
 import com.example.jinyoon.a09capstoneproject.R;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -143,6 +146,18 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
             }
         });
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Get tracker.
+        Tracker tracker = ((MyApplication) getActivity().getApplication()).getTracker();
+
+        //Set screen name
+        tracker.setScreenName(LOG_TAG);
+        //Send a screen view.
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
