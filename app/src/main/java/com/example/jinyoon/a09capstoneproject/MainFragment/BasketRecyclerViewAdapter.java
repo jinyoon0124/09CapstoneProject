@@ -171,7 +171,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                                         FridgeListEntry.CONTENT_URI,
                                         cv
                                 );
-                                mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
+//                                mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
 
 
                                 mContext.getContentResolver().delete(
@@ -203,7 +203,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                 "name = ?",
                 new String[]{name}
         );
-        this.notifyItemRemoved(position);
+        mContext.getContentResolver().notifyChange(ShopListEntry.CONTENT_URI, null);
 //        Toast.makeText(mContext, "Item moved to right", Toast.LENGTH_SHORT).show();
         Snackbar.make(rv, mContext.getString(R.string.remove_msg), Snackbar.LENGTH_SHORT).show();
     }
@@ -299,7 +299,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                                             cv,
                                             "name = ? ",
                                             new String[]{name});
-                                    mContext.getContentResolver().notifyChange(ShopListEntry.CONTENT_URI, null);
+//                                    mContext.getContentResolver().notifyChange(ShopListEntry.CONTENT_URI, null);
                                     Toast.makeText(mContext, mContext.getString(R.string.item_modified_msg), Toast.LENGTH_SHORT).show();
                                 }
                                 c.close();

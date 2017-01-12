@@ -8,48 +8,13 @@ import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 
 /**
- * Created by Jin Yoon on 11/13/16.
- * Credit to skyfishjy gist:
+ * Originally created by skyfishjy on 10/31/14
+ * Modified by emuneee on 1/5/16:
  * https://gist.github.com/skyfishjy/443b7448f59be978bc59
- * for the code structure
+ * for the code structure *
  */
 
 public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
-//    private Cursor mCursor;
-//
-//    public void swapCursor(final Cursor cursor){
-//        this.mCursor = cursor;
-//        this.notifyDataSetChanged();
-//    }
-//
-//    public Cursor getItem(final int position){
-//        if(this.mCursor!=null && !this.mCursor.isClosed()){
-//            this.mCursor.moveToPosition(position);
-//        }
-//        return this.mCursor;
-//    }
-//
-//    public Cursor getCursor(){
-//        return this.mCursor;
-//    }
-//
-//
-//    @Override
-//    public int getItemCount() {
-//        return this.mCursor !=null
-//                ? this.mCursor.getCount()
-//                : 0;
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(VH holder, int position) {
-//        final Cursor cursor = this.getItem(position);
-//        this.onBindViewHolder(holder, cursor);
-//    }
-//
-//    public abstract void onBindViewHolder(final VH holder, final Cursor cursor);
-//}
-
 
     private static final String LOG_TAG = CursorRecyclerViewAdapter.class.getSimpleName();
     private Cursor mCursor;
@@ -106,6 +71,14 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         onBindViewHolder(viewHolder, mCursor);
     }
 
+    public void changeCursor(Cursor cursor){
+        Cursor old = swapCursor(cursor);
+        if(old != null){
+            old.close();
+        }
+    }
+
+
     public Cursor swapCursor(Cursor newCursor) {
         if (newCursor == mCursor) {
             return null;
@@ -127,6 +100,7 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
             rowIdColumn = -1;
             dataIsValid = false;
             notifyDataSetChanged();
+//            notifyItemRangeRemoved(0, oldCursor.getCount());
         }
         return oldCursor;
     }

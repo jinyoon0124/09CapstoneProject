@@ -69,7 +69,7 @@ public class RecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mContext = getContext();
-        Log.e(LOG_TAG, "ON CREATE VIEW IS CALLED");
+//        Log.e(LOG_TAG, "ON CREATE VIEW IS CALLED");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe, container, false);
 
@@ -90,7 +90,7 @@ public class RecipeFragment extends Fragment {
 
 
         if(mRecipeRecyclerViewAdapter ==null || mRecipeRecyclerViewAdapter.getItemCount()==0){
-            Log.e(LOG_TAG, "RECIPE ADAPTER NULL");
+//            Log.e(LOG_TAG, "RECIPE ADAPTER NULL");
             mEmptyView.setVisibility(View.VISIBLE);
             mEmptyView.setText(getString(R.string.recipe_empty_msg));
         }
@@ -98,21 +98,10 @@ public class RecipeFragment extends Fragment {
 
         return view;
     }
-//
-//    @Override
-//    public void onResume() {
-//
-//        Log.e(LOG_TAG, "!!!!!!!!!!!ON RESUME CALLED");
-//        String queryString= getParamFromPreference();
-//        if(!queryString .equals("")) {
-//            updateRecipe(queryString);
-//        }
-//        super.onResume();
-//
-//    }
+
 
     private String getParamFromFridge(){
-        Log.e(LOG_TAG, "INSIDE GET PARAM FROM FRIDGE");
+//        Log.e(LOG_TAG, "INSIDE GET PARAM FROM FRIDGE");
         Cursor cursor = mContext.getContentResolver().query(
                 FridgeListEntry.CONTENT_URI,
                 null,
@@ -136,7 +125,7 @@ public class RecipeFragment extends Fragment {
             Log.e(LOG_TAG, "CURSOR NULL");
         }
 
-        Log.e(LOG_TAG, "++++++++++++++++"+ param);
+//        Log.e(LOG_TAG, "++++++++++++++++"+ param);
         return param;
     }
 
@@ -153,8 +142,8 @@ public class RecipeFragment extends Fragment {
     }
 
     private void updateRecipe(String param){
-        Log.e(LOG_TAG, "!!!!!!!!!!!UPDATE RECIPE CALLED");
-        Log.e(LOG_TAG, param);
+//        Log.e(LOG_TAG, "!!!!!!!!!!!UPDATE RECIPE CALLED");
+//        Log.e(LOG_TAG, param);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -170,7 +159,7 @@ public class RecipeFragment extends Fragment {
 
         call = recipeApi.getRecipe(query);
 
-        Log.e(LOG_TAG,call.request().url().toString());
+//        Log.e(LOG_TAG,call.request().url().toString());
 
         call.enqueue(new Callback<RecipeBody>() {
             @Override
