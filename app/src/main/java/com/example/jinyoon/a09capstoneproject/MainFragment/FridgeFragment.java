@@ -12,6 +12,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,7 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-//        Log.e(LOG_TAG, "FRIDGE ONCREATEVIEW");
+        Log.e(LOG_TAG, "FRIDGE ONCREATEVIEW");
 
         mContext=getContext();
         View view = inflater.inflate(R.layout.fragment_fridge, container, false);
@@ -137,7 +138,7 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
                             cv.put(FridgeListEntry.COLUMN_INPUTDATEINMIL,  String.valueOf(currentTime));
 
                             mContext.getContentResolver().insert(FridgeListEntry.CONTENT_URI, cv);
-                            mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
+//                            mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
 
                         }
                         c.close();
@@ -173,13 +174,13 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onResume() {
         super.onResume();
-//        Log.e(LOG_TAG, "FRIDGE ONRESUME");
-        getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
+        Log.e(LOG_TAG, "FRIDGE ONRESUME");
+//        getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        Log.e(LOG_TAG, "FRIDGE ONCREATELOADER");
+        Log.e(LOG_TAG, "FRIDGE ONCREATELOADER");
 
         return new CursorLoader(mContext,
                 FridgeListEntry.CONTENT_URI,
@@ -192,9 +193,14 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-//        Log.e(LOG_TAG, "FRIDGE ONCLOADFINISHED");
+        Log.e(LOG_TAG, "FRIDGE ONCLOADFINISHED");
 
+//        mCursorAdapter.changeCursor(cursor);
+//        Log.e(LOG_TAG, "CURSOR SIZE BEFORE SWAP: " + String.valueOf(cursor.getCount()));
+//        Log.e(LOG_TAG, "ADAPTER SIZE BEFORE SWAP: "+ String.valueOf(mCursorAdapter.getItemCount()));
         mCursorAdapter.swapCursor(cursor);
+//        Log.e(LOG_TAG, "CURSOR SIZE AFTER SWAP: " + String.valueOf(cursor.getCount()));
+//        Log.e(LOG_TAG, "ADAPTER SIZE AFTER SWAP: " + String.valueOf(mCursorAdapter.getItemCount()));
         mCursor =cursor;
         int adapterSize = mCursorAdapter.getItemCount();
 //        Log.e(LOG_TAG, "FRIDGE LOADER SIZE"+String.valueOf(adapterSize));
@@ -210,6 +216,7 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        Log.e(LOG_TAG, "FRIDGE ON LOADER RESET");
         mCursorAdapter.swapCursor(null);
     }
 }

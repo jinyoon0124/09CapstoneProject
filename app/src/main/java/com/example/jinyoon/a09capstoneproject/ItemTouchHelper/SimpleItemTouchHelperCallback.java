@@ -132,7 +132,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
                 } else {
                     //item swiped to left >> Delete
 //                    p.setColor(Color.parseColor("#D32F2F"));
-                    p.setColor(ContextCompat.getColor(itemView.getContext(), R.color.colorPrimaryDark));
+                    p.setColor(ContextCompat.getColor(itemView.getContext(), R.color.colorRedDark));
 
                     RectF background = new RectF(
                             (float) itemView.getRight() + dX,

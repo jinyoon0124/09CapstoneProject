@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.ItemTouchHelperAdapter;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.ItemTouchHelperViewHolder;
 import com.example.jinyoon.a09capstoneproject.R;
@@ -53,8 +56,9 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                 "name = ?",
                 new String[]{name}
         );
-        this.notifyItemRemoved(position);
-
+//        notifyItemRemoved(position);
+        mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
+//        notifyDataSetChanged();
         Snackbar.make(rv, mContext.getString(R.string.remove_msg), Snackbar.LENGTH_SHORT).show();
     }
 
@@ -69,14 +73,17 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                 "name = ?",
                 new String[]{name}
         );
-        this.notifyItemRemoved(position);
-//        Toast.makeText(mContext, "Item deleted", Toast.LENGTH_SHORT).show();
-        Snackbar.make(rv, mContext.getString(R.string.remove_msg), Snackbar.LENGTH_SHORT).show();
+//        notifyItemRemoved(position);
+        mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
+//        notifyDataSetChanged();
+         Snackbar.make(rv, mContext.getString(R.string.remove_msg), Snackbar.LENGTH_SHORT).show();
 
     }
 
     @Override
     public FridgeRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.e(LOG_TAG, "ON CREATE VIEWHOLDER CALLED");
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_fridge, parent, false);
 
@@ -84,16 +91,28 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
-        final String name = cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME));
+    public void onBindViewHolder(final ViewHolder viewHolder, final Cursor cursor) {
+
+        String name =cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME));
         int days = cursor.getInt(cursor.getColumnIndex(FridgeListEntry.COLUMN_EXPIRATION));
+
         viewHolder.mItemName.setText(name);
         viewHolder.mDay.setText(mContext.getString(R.string.days_string, days));
-//
-//        if(days<=1){
-//            viewHolder.mDay.setBackgroundColor(mContext.getColor(R.color.colorPrimaryLight));
-//            viewHolder.mItemName.setBackgroundColor(mContext.getColor(R.color.colorPrimaryLight));
-//        }
+
+        if(days<=1){
+//           viewHolder.mItemName.setBackgroundColor(mContext.getColor(R.color.colorPrimaryLight));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                viewHolder.mView.setBackgroundColor(mContext.getColor(R.color.colorRedDark));
+                viewHolder.mItemName.setTextColor(mContext.getColor(R.color.colorRedDark));
+                viewHolder.mDay.setTextColor(mContext.getColor(R.color.colorRedDark));
+            }
+        }else{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                viewHolder.mItemName.setTextColor(mContext.getColor(R.color.colorSecondaryText));
+                viewHolder.mDay.setTextColor(mContext.getColor(R.color.colorSecondaryText));
+
+            }
+        }
     }
 
 

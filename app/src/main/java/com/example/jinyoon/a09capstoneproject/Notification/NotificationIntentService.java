@@ -59,11 +59,11 @@ public class NotificationIntentService extends IntentService{
 
                     long inputTimeinMil = Long.parseLong(cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_INPUTDATEINMIL)));
 
-                    Log.e("!!!!!!!!!inputTime ", String.valueOf(inputTimeinMil));
+//                    Log.e("!!!!!!!!!inputTime ", String.valueOf(inputTimeinMil));
 
                     int newDays = (int) Math.ceil((long)(cursor.getInt(cursor.getColumnIndex(FridgeListEntry.COLUMN_EXPIRATION)))-(TimeUnit.MILLISECONDS.toDays(currentTimeinMil - inputTimeinMil)));
 
-                    Log.e("!!!!!!!!!!!newDay", String.valueOf(newDays));
+//                    Log.e("!!!!!!!!!!!newDay", String.valueOf(newDays));
 
                     ContentValues cv = new ContentValues();
                     if(newDays>0){

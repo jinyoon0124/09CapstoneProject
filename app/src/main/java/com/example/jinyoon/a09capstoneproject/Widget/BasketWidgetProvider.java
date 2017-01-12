@@ -50,7 +50,7 @@ public class BasketWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if(BasketFragment.ACTION_DATA_UPDATED.equals(intent.getAction())){
-            Log.e("PROVIDER CLASS : ", "WIDGET BROADCAT RECEIVED");
+//            Log.e("PROVIDER CLASS : ", "WIDGET BROADCAT RECEIVED");
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
                     new ComponentName(context, getClass()));
