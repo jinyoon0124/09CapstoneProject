@@ -82,7 +82,7 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
 
     @Override
     public FridgeRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.e(LOG_TAG, "ON CREATE VIEWHOLDER CALLED");
+//        Log.e(LOG_TAG, "ON CREATE VIEWHOLDER CALLED");
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_fridge, parent, false);

@@ -23,13 +23,12 @@ import android.widget.TableLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.jinyoon.a09capstoneproject.Notification.NotificationEventReceiver;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-
-    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ((MyApplication) getApplication()).startTracking();
-
-        mContext = this;
+        MobileAds.initialize(getApplicationContext(), getString(R.string.banner_ad_unit_id));
 
         FragmentManager manager = getSupportFragmentManager();
         PagerAdapter adapter = new PageAdapter(this, manager);
@@ -55,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Notification
-        NotificationEventReceiver.setupAlarm(mContext);
+        NotificationEventReceiver.setupAlarm(this);
 
     }
 

@@ -61,7 +61,7 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.e(LOG_TAG, "FRIDGE ONCREATEVIEW");
+//        Log.e(LOG_TAG, "FRIDGE ONCREATEVIEW");
 
         mContext=getContext();
         View view = inflater.inflate(R.layout.fragment_fridge, container, false);
@@ -183,13 +183,13 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(LOG_TAG, "FRIDGE ONRESUME");
+//        Log.e(LOG_TAG, "FRIDGE ONRESUME");
 //        getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.e(LOG_TAG, "FRIDGE ONCREATELOADER");
+//        Log.e(LOG_TAG, "FRIDGE ONCREATELOADER");
 
         return new CursorLoader(mContext,
                 FridgeListEntry.CONTENT_URI,
@@ -202,7 +202,7 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        Log.e(LOG_TAG, "FRIDGE ONCLOADFINISHED");
+//        Log.e(LOG_TAG, "FRIDGE ONCLOADFINISHED");
 
 //        mCursorAdapter.changeCursor(cursor);
 //        Log.e(LOG_TAG, "CURSOR SIZE BEFORE SWAP: " + String.valueOf(cursor.getCount()));
@@ -225,7 +225,7 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        Log.e(LOG_TAG, "FRIDGE ON LOADER RESET");
+//        Log.e(LOG_TAG, "FRIDGE ON LOADER RESET");
         mCursorAdapter.swapCursor(null);
     }
 }
