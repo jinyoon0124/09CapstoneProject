@@ -1,8 +1,8 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.jinyoon.a09capstoneproject.MainFragment.BasketFragment">
 
     <android.support.v7.widget.RecyclerView
@@ -16,13 +16,29 @@
         android:layout_height="match_parent"
         android:gravity="center" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/basket_fab"
-        android:contentDescription="@string/content_description_basket_fab"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_fab" />
+        >
 
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/basket_fab"
+            android:contentDescription="@string/content_description_basket_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab"
+            android:layout_above="@+id/adView"
+            android:layout_alignRight="@+id/adView"
+            android:layout_alignEnd="@+id/adView" />
+    </RelativeLayout>
 </FrameLayout>
