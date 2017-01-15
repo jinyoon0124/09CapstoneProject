@@ -171,11 +171,14 @@ public class RecipeFragment extends Fragment {
                 mRecipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(mContext, mRecipeDetails);
 
                 int columnCount=0;
-                if(getActivity().getResources().getConfiguration().orientation==1){
-                    columnCount= getResources().getInteger(R.integer.list_column_count_portrait);
-                }else{
-                    columnCount= getResources().getInteger(R.integer.list_column_count_horizontal);
+                if(getActivity()!=null){
+                    if(getActivity().getResources().getConfiguration().orientation==1){
+                        columnCount= getResources().getInteger(R.integer.list_column_count_portrait);
+                    }else{
+                        columnCount= getResources().getInteger(R.integer.list_column_count_horizontal);
+                    }
                 }
+
 //                int columnCount= getResources().getInteger(R.integer.list_column_count_portrait);
 
                 StaggeredGridLayoutManager sgim =
