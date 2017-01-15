@@ -165,7 +165,7 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
                 mCursor.moveToPosition(position);
                 final String oldName = mCursor.getString(mCursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME));
                 final int oldDay = mCursor.getInt(mCursor.getColumnIndex(FridgeListEntry.COLUMN_EXPIRATION));
-                Toast.makeText(mContext, oldName, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, oldName, Toast.LENGTH_SHORT).show();
 
                 final MaterialDialog dialog = new MaterialDialog.Builder(mContext).title(mContext.getString(R.string.fridge_dialog_edit_title))
                         .customView(R.layout.dialog_fridge, true)

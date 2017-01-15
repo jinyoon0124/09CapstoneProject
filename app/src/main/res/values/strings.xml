@@ -41,6 +41,7 @@
     <string name="content_description_fridge_fab">click this button to add item to fridge list</string>
     <string name="recipe_thumbnail">Click to see recipe</string>
     <string name="content_description_widget_title">widget is shown</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 
 
 </resources>

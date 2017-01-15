@@ -27,6 +27,8 @@ import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.SimpleItemTouchHelperCallback;
 import com.example.jinyoon.a09capstoneproject.MyApplication;
 import com.example.jinyoon.a09capstoneproject.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -63,6 +65,13 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
 
         mContext=getContext();
         View view = inflater.inflate(R.layout.fragment_fridge, container, false);
+
+        //AdView
+        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mAdView.loadAd(adRequest);
 
         mEmptyView = (TextView) view.findViewById(R.id.fridge_empty_textview);
         mEmptyView.setVisibility(View.GONE);

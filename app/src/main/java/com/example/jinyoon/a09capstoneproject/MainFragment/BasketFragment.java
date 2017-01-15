@@ -31,6 +31,8 @@ import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
 import com.example.jinyoon.a09capstoneproject.ItemTouchHelper.SimpleItemTouchHelperCallback;
 import com.example.jinyoon.a09capstoneproject.MyApplication;
 import com.example.jinyoon.a09capstoneproject.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -64,11 +66,17 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
                              Bundle savedInstanceState) {
 
 //        Log.e(LOG_TAG, "BASKET ONCREATEVIEW");
-
-
         // Inflate the layout for this fragment
         mContext=getContext();
         View view = inflater.inflate(R.layout.fragment_basket, container, false);
+
+        //AdView
+        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mAdView.loadAd(adRequest);
+
 
         //EmptyView Handling
         mEmptyView = (TextView) view.findViewById(R.id.basket_empty_textview);
