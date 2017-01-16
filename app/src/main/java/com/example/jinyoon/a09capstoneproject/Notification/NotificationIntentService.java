@@ -96,7 +96,7 @@ public class NotificationIntentService extends IntentService{
                     null
             );
 
-            if(cursor ==null || cursor.getCount()!=0){
+            if(cursor !=null && cursor.getCount()!=0){
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
                 builder.setContentTitle(context.getString(R.string.app_name))
                         .setAutoCancel(true)
@@ -111,12 +111,11 @@ public class NotificationIntentService extends IntentService{
 
                 NotificationManager manager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
                 manager.notify(NOTIFICATION_ID, builder.build());
+                cursor.close();
+
             }else{
                 Log.e(LOG_TAG, "No item is about to expire");
             }
-
-
-            cursor.close();
         }
     }
 }

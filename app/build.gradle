@@ -1,9 +1,20 @@
 apply plugin: 'com.android.application'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
-
     defaultConfig {
         applicationId "com.example.jinyoon.a09capstoneproject"
         minSdkVersion 16
@@ -15,6 +26,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     buildTypes.each {
@@ -29,16 +41,13 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-
     compile 'com.google.android.gms:play-services-ads:9.4.0'
     compile 'com.google.android.gms:play-services-analytics:9.4.0'
-
     compile 'com.android.support:support-v4:24.2.0'
     compile 'com.android.support:cardview-v7:24.2.0'
     compile 'com.android.support:recyclerview-v7:24.2.0'
-    compile ('com.afollestad.material-dialogs:commons:0.9.0.2'){
+    compile('com.afollestad.material-dialogs:commons:0.9.0.2') {
         transitive = true
     }
-
     testCompile 'junit:junit:4.12'
 }

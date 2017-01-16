@@ -55,7 +55,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
                 Intent intent = new Intent(mContext, RecipeDetailActivity.class);
                 intent.putExtra(mContext.getString(R.string.publisher_url_key), sourceUrl);
                 mContext.startActivity(intent);
-                Log.v(LOG_TAG, "RecyclerView item OnClick");
+//                Log.v(LOG_TAG, "RecyclerView item OnClick");
 
             }
         });
