@@ -28,5 +28,6 @@
     <dimen name="widget_list_item_textsize">15sp</dimen>
     <dimen name="widget_title_height">40dp</dimen>
     <dimen name="widget_list_title_textsize">18sp</dimen>
+    <dimen name="fab_margin_right_screen">15dp</dimen>
 
 </resources>
