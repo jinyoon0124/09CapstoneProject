@@ -44,88 +44,6 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
         this.mContext = context;
         this.mCursor = cursor;
     }
-//
-//    @Override
-//    public void onItemMove(int fromPosition, int toPosition) {
-//
-//        Cursor c = getCursor();
-//        c.moveToPosition(fromPosition);
-//        int fromOrder = c.getInt(c.getColumnIndex(ShopListEntry.COLUMN_ORDERS));
-//
-//        c.moveToPosition(toPosition);
-//        int toOrder = c.getInt(c.getColumnIndex(ShopListEntry.COLUMN_ORDERS));
-//
-//        Log.e("!!!FORMIDIDID", String.valueOf(fromPosition) +"  "+ String.valueOf(fromOrder));
-//        Log.e("!!!!TOIDIDID", String.valueOf(toPosition) + "   "+ String.valueOf(toOrder));
-//
-//        ContentValues cv = new ContentValues();
-//        cv.put(ShopListEntry.COLUMN_ORDERS, toPosition);
-//        mContext.getContentResolver().update(
-//                ShopListEntry.CONTENT_URI,
-//                cv,
-//                "orders = ?",
-//                new String[]{String.valueOf(fromPosition)}
-//        );
-//
-//        if(toPosition< fromPosition){
-//            for(int i =fromPosition; i>toPosition; i--){
-//                c.moveToPosition(i);
-//                int k = c.getInt(c.getColumnIndex(ShopListEntry.COLUMN_ORDERS));
-//                String name = c.getString(c.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
-//                cv.put(ShopListEntry.COLUMN_ORDERS, k-1);
-//                mContext.getContentResolver().update(
-//                        ShopListEntry.CONTENT_URI,
-//                        cv,
-//                        "name = ?",
-//                        new String[]{name}
-//                );
-//            }
-//        }else if(fromPosition < toPosition){
-//            for(int i = fromPosition; i<toPosition; i++){
-//                c.moveToPosition(i);
-//                int k = c.getInt(c.getColumnIndex(ShopListEntry.COLUMN_ORDERS));
-//                String name = c.getString(c.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
-//                cv.put(ShopListEntry.COLUMN_ORDERS, k+1);
-//                mContext.getContentResolver().update(
-//                        ShopListEntry.CONTENT_URI,
-//                        cv,
-//                        "name = ?",
-//                        new String[]{name}
-//                );
-//            }
-//        }
-//////////////////////////////////////////////////////////
-//        notifyItemMoved(fromPosition,toPosition);
-
-////        String fromId = Long.toString(c.getLong(c.getColumnIndex(ShopListEntry._ID)));
-////        Log.e("!!!FORMIDIDID", fromId +"  "+ fromName);
-//        c.moveToPosition(toPosition);
-//        String toName = c.getString(c.getColumnIndex(ShopListEntry.COLUMN_GROCERY_NAME));
-////        String toId = Long.toString(c.getLong(c.getColumnIndex(ShopListEntry._ID)));
-////        Log.e("!!!!TOIDIDID", toId + "   "+ toName);
-//
-//        ContentValues cv1 = new ContentValues();
-//        cv1.put(ShopListEntry.COLUMN_GROCERY_NAME, fromName);
-//
-//        mContext.getContentResolver().update(
-//                ShopListEntry.CONTENT_URI,
-//                cv1,
-//                "name = ?",
-//                new String[]{toName}
-//        );
-//
-//        ContentValues cv2 = new ContentValues();
-//        cv2.put(ShopListEntry.COLUMN_GROCERY_NAME, toName);
-//
-//        mContext.getContentResolver().update(
-//                ShopListEntry.CONTENT_URI,
-//                cv2,
-//                "name = ?",
-//                new String[]{fromName}
-//        );
-//
-//        mThisAdapter.notifyDataSetChanged();
-//    }
 
     @Override
     public void onItemDismissLeft(final int position, final RecyclerView rv) {
@@ -147,7 +65,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
             toast.show();
             notifyDataSetChanged();
         }else{
-            Log.e("!!!!!!!!!!!!!!!", String.valueOf(c.getCount()));
+//            Log.e("!!!!!!!!!!!!!!!", String.valueOf(c.getCount()));
             new MaterialDialog.Builder(mContext)
                     .title(mContext.getString(R.string.basket_dialog_expiration_title))
                     .content(mContext.getString(R.string.basket_dialog_expiration_content))
@@ -166,7 +84,7 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                                 ContentValues cv = new ContentValues();
                                 cv.put(FridgeListEntry.COLUMN_GROCERY_NAME, name);
                                 cv.put(FridgeListEntry.COLUMN_EXPIRATION, Integer.parseInt(input.toString()));
-                                cv.put(FridgeListEntry.COLUMN_INPUTDATEINMIL, System.currentTimeMillis());
+                                cv.put(FridgeListEntry.COLUMN_INPUTDATEINMIL, String.valueOf(System.currentTimeMillis()));
                                 mContext.getContentResolver().insert(
                                         FridgeListEntry.CONTENT_URI,
                                         cv
@@ -306,7 +224,8 @@ public class BasketRecyclerViewAdapter extends CursorRecyclerViewAdapter<BasketR
                             }
                         }).show();
                 mCursor.close();
-            }else{
+            }
+            else{
                 Log.e(LOG_TAG, "Cursor doesn't exist");
             }
 

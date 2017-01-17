@@ -165,7 +165,7 @@ public class RecipeFragment extends Fragment {
             @Override
             public void onResponse(Call<RecipeBody> call, Response<RecipeBody> response) {
                 mRecipeBody = response.body();
-                Log.e(LOG_TAG, "ERROR!!!! " + response.errorBody());
+//                Log.e(LOG_TAG, "ERROR!!!! " + response.errorBody());
 
                 mRecipeDetails= mRecipeBody.getRecipes();
                 mRecipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(mContext, mRecipeDetails);

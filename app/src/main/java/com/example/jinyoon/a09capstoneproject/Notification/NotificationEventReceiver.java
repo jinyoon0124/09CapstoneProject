@@ -52,7 +52,7 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
         String action = intent.getAction();
         Intent serviceIntent = null;
         if(ACTION_NOTIFICATION_SERVICE.equals(action)){
-            Log.i(LOG_TAG, "onReceive from alarm, starting notificaiton");
+//            Log.i(LOG_TAG, "onReceive from alarm, starting notificaiton");
             serviceIntent = new Intent(context, NotificationIntentService.class);
             serviceIntent.setAction(ACTION_NOTIFICATION_SERVICE);
         }
