@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        toolbar.setLogo(R.drawable.ic_logo_toolbar);
+
         ((MyApplication) getApplication()).startTracking();
         MobileAds.initialize(getApplicationContext(), getString(R.string.banner_ad_unit_id));
 

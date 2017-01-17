@@ -16,7 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/list_item_textsize"
-            android:text="@string/fridge_dialog_name_text"/>
+            android:text="@string/fridge_dialog_name_text"
+            />
         <EditText
             android:id="@+id/fridge_dialog_name_input"
             android:layout_width="match_parent"
@@ -38,7 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/list_item_textsize"
-            android:text="@string/fridge_dialog_days_text"/>
+            android:text="@string/fridge_dialog_days_text"
+            />
         <EditText
             android:id="@+id/fridge_dialog_days_input"
             android:layout_width="match_parent"

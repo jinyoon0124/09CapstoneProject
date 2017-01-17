@@ -38,7 +38,7 @@
             android:ellipsize="end"
             android:paddingLeft="@dimen/list_recipe_padding_normal"
             android:paddingRight="@dimen/list_recipe_padding_normal"
-            android:maxLines="1" />
-
+            android:maxLines="1"
+        />
     </FrameLayout>
 </android.support.v7.widget.CardView>
