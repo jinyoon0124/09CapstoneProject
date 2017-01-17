@@ -184,7 +184,6 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
     public void onResume() {
         super.onResume();
 //        Log.e(LOG_TAG, "FRIDGE ONRESUME");
-//        getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
     }
 
     @Override
@@ -204,28 +203,20 @@ public class FridgeFragment extends Fragment implements LoaderManager.LoaderCall
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 //        Log.e(LOG_TAG, "FRIDGE ONCLOADFINISHED");
 
-//        mCursorAdapter.changeCursor(cursor);
-//        Log.e(LOG_TAG, "CURSOR SIZE BEFORE SWAP: " + String.valueOf(cursor.getCount()));
-//        Log.e(LOG_TAG, "ADAPTER SIZE BEFORE SWAP: "+ String.valueOf(mCursorAdapter.getItemCount()));
         mCursorAdapter.swapCursor(cursor);
-//        Log.e(LOG_TAG, "CURSOR SIZE AFTER SWAP: " + String.valueOf(cursor.getCount()));
-//        Log.e(LOG_TAG, "ADAPTER SIZE AFTER SWAP: " + String.valueOf(mCursorAdapter.getItemCount()));
         mCursor =cursor;
         int adapterSize = mCursorAdapter.getItemCount();
-//        Log.e(LOG_TAG, "FRIDGE LOADER SIZE"+String.valueOf(adapterSize));
 
         if(adapterSize!=0){
             mEmptyView.setVisibility(View.GONE);
         }else{
             mEmptyView.setVisibility(View.VISIBLE);
-//            Log.e(LOG_TAG, "SET VISIBLITY VISIBLE");
             mEmptyView.setText(getString(R.string.fridge_empty_msg));
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-//        Log.e(LOG_TAG, "FRIDGE ON LOADER RESET");
         mCursorAdapter.swapCursor(null);
     }
 }
