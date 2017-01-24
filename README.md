@@ -5,7 +5,9 @@ This app helps users to organize lists of what groceries to buy, what groceries 
 ## Getting Started
 
 This sample uses the Gradle build system. To build this project, use the "gradlew build" command or use "Import Project" in Android Studio. Or clone this repository and import into **Android Studio**
-`git clone git@github.com:jinyoon0124/09CapstoneProject.git`
+```
+git clone git@github.com:jinyoon0124/09CapstoneProject.git
+```
 
 ## Configuration
 
