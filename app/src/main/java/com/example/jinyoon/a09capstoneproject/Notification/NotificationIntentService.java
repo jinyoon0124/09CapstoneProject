@@ -3,23 +3,16 @@ package com.example.jinyoon.a09capstoneproject.Notification;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.util.TimeUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
-import com.example.jinyoon.a09capstoneproject.Database.MyFridgeDataHelper;
 import com.example.jinyoon.a09capstoneproject.MainActivity;
 import com.example.jinyoon.a09capstoneproject.R;
-
-import java.util.concurrent.TimeUnit;
+import com.example.jinyoon.a09capstoneproject.Utils;
 
 
 /**
@@ -45,50 +38,49 @@ public class NotificationIntentService extends IntentService{
         String action =intent.getAction();
         if(ACTION_NOTIFICATION_SERVICE.equals(action)){
             //update all expiration based on current time... make sure to round up  numbers
-            long currentTimeinMil = System.currentTimeMillis();
-
 
             Context context = getApplicationContext();
+            Utils.updateDaysInFridge(context);
+//
+//            SQLiteDatabase db = new MyFridgeDataHelper(context).getReadableDatabase();
+//            Cursor cursor =db.rawQuery("SELECT * FROM "+ FridgeListEntry.TABLE_NAME, null);
+//
+//            if(cursor.moveToFirst()){
+//                while(!cursor.isAfterLast()){
+//                    int id = cursor.getInt(cursor.getColumnIndex(FridgeListEntry._ID));
+//
+//                    long inputTimeinMil = Long.parseLong(cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_INPUTDATEINMIL)));
+//
+////                    Log.e("!!!!!!!!!inputTime ", String.valueOf(inputTimeinMil));
+//
+//                    int newDays = (int) Math.ceil((long)(cursor.getInt(cursor.getColumnIndex(FridgeListEntry.COLUMN_EXPIRATION)))-(TimeUnit.MILLISECONDS.toDays(currentTimeinMil - inputTimeinMil)));
+//
+////                    Log.e("!!!!!!!!!!!newDay", String.valueOf(newDays));
+//
+//                    ContentValues cv = new ContentValues();
+//                    if(newDays>0){
+//                        cv.put(FridgeListEntry.COLUMN_EXPIRATION, newDays);
+//                    }else{
+//                        cv.put(FridgeListEntry.COLUMN_EXPIRATION, 0);
+//                    }
+//
+//                    cv.put(FridgeListEntry.COLUMN_INPUTDATEINMIL, String.valueOf(currentTimeinMil));
+//
+//                    context.getContentResolver().update(
+//                            FridgeListEntry.CONTENT_URI,
+//                            cv,
+//                            FridgeListEntry._ID + " = ?",
+//                            new String[]{String.valueOf(id)}
+//                    );
+//                    context.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
+//
+//                    cursor.moveToNext();
+//
+//                }
+//            }
 
-            SQLiteDatabase db = new MyFridgeDataHelper(context).getReadableDatabase();
-            Cursor cursor =db.rawQuery("SELECT * FROM "+ FridgeListEntry.TABLE_NAME, null);
 
-            if(cursor.moveToFirst()){
-                while(!cursor.isAfterLast()){
-                    int id = cursor.getInt(cursor.getColumnIndex(FridgeListEntry._ID));
-
-                    long inputTimeinMil = Long.parseLong(cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_INPUTDATEINMIL)));
-
-//                    Log.e("!!!!!!!!!inputTime ", String.valueOf(inputTimeinMil));
-
-                    int newDays = (int) Math.ceil((long)(cursor.getInt(cursor.getColumnIndex(FridgeListEntry.COLUMN_EXPIRATION)))-(TimeUnit.MILLISECONDS.toDays(currentTimeinMil - inputTimeinMil)));
-
-//                    Log.e("!!!!!!!!!!!newDay", String.valueOf(newDays));
-
-                    ContentValues cv = new ContentValues();
-                    if(newDays>0){
-                        cv.put(FridgeListEntry.COLUMN_EXPIRATION, newDays);
-                    }else{
-                        cv.put(FridgeListEntry.COLUMN_EXPIRATION, 0);
-                    }
-
-                    cv.put(FridgeListEntry.COLUMN_INPUTDATEINMIL, String.valueOf(currentTimeinMil));
-
-                    context.getContentResolver().update(
-                            FridgeListEntry.CONTENT_URI,
-                            cv,
-                            FridgeListEntry._ID + " = ?",
-                            new String[]{String.valueOf(id)}
-                    );
-                    context.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
-
-                    cursor.moveToNext();
-
-                }
-            }
-
-
-            cursor = context.getContentResolver().query(
+            Cursor cursor = context.getContentResolver().query(
                     FridgeListEntry.CONTENT_URI,
                     null,
                     FridgeListEntry.COLUMN_EXPIRATION +" <= ? ",
