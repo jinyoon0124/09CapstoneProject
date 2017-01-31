@@ -54,8 +54,14 @@ public class MainActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
 
-        //Notification
-        NotificationEventReceiver.setupAlarm(this);
+        //Notification.. set up alarm only if the activity is not created from notification
+        if(getIntent().getExtras()!=null){
+            Bundle bundle = getIntent().getExtras();
+            boolean cameFromNotification = bundle.getBoolean(this.getString(R.string.activity_from_notification_key));
+            if(!cameFromNotification){
+                NotificationEventReceiver.setupAlarm(this);
+            }
+        }
 
     }
 
