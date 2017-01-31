@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        Utils.updateDaysInFridge(this.getApplicationContext());
 
         //Notification
         NotificationEventReceiver.setupAlarm(this);
