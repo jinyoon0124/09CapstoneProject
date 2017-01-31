@@ -40,7 +40,7 @@ public class NotificationIntentService extends IntentService{
             //update all expiration based on current time... make sure to round up  numbers
 
             Context context = getApplicationContext();
-            Utils.updateDaysInFridge(context);
+//            Utils.updateDaysInFridge(context);
 //
 //            SQLiteDatabase db = new MyFridgeDataHelper(context).getReadableDatabase();
 //            Cursor cursor =db.rawQuery("SELECT * FROM "+ FridgeListEntry.TABLE_NAME, null);
@@ -95,9 +95,12 @@ public class NotificationIntentService extends IntentService{
                         .setContentText(getString(R.string.notification_msg))
                         .setSmallIcon(R.drawable.ic_fridge_black);
 
+                Intent mainActivityIntent = new Intent(this, MainActivity.class);
+                mainActivityIntent.putExtra(this.getString(R.string.activity_from_notification_key), true);
+
                 PendingIntent pendingIntent = PendingIntent.getActivity(this,
                         NOTIFICATION_ID,
-                        new Intent(this, MainActivity.class),
+                        mainActivityIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
                 builder.setContentIntent(pendingIntent);
 
