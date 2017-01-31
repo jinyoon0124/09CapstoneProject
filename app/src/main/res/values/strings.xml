@@ -30,7 +30,7 @@
     <string name="basket_dialog_edit_content">Edit Item name</string>
     <string name="fridge_dialog_title">Add item to fridge</string>
     <string name="fridge_dialog_negative_text">Cancel</string>
-    <string name="fridge_dialog_positive_text">Ok</string>
+    <string name="fridge_dialog_positive_text">OK</string>
     <string name="fridge_dialog_edit_title">Edit Item</string>
     <string name="publisher_url_key">publisher_url</string>
     <string name="recipe_query_api_key_param">key</string>
@@ -42,6 +42,7 @@
     <string name="recipe_thumbnail">Click to see recipe</string>
     <string name="content_description_widget_title">widget is shown</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="food2fork_attribution">Powered By Food2Fork.com</string>
 
 
 </resources>

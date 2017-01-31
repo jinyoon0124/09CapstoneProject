@@ -26,6 +26,14 @@
             xmlns:android="http://schemas.android.com/apk/res/android" />
 
         <TextView
+            android:id="@+id/food2fork_attribution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/food2fork_attribution"
+            android:layout_gravity="bottom|end"
+            android:paddingBottom="@dimen/recipe_title_height"/>
+
+        <TextView
             android:id="@+id/recipe_title"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/colorTitleText"
@@ -34,7 +42,7 @@
             android:layout_gravity="bottom"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/recipe_title_height"
             android:ellipsize="end"
             android:paddingLeft="@dimen/list_recipe_padding_normal"
             android:paddingRight="@dimen/list_recipe_padding_normal"
