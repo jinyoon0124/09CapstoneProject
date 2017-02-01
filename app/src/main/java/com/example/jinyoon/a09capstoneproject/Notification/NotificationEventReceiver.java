@@ -27,9 +27,14 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
         //In order the trigger time to be set at 4:00pm for example, use code in comment
         Calendar calendar = Calendar.getInstance();
 //        calendar.setTime(new Date());
-        calendar.setTimeInMillis(System.currentTimeMillis());
+//        calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 16);
         calendar.set(Calendar.MINUTE, 30);
+
+        if(System.currentTimeMillis() >= calendar.getTimeInMillis()){
+            calendar.add(Calendar.DATE,1);
+        }
+
         long triggerAt = calendar.getTimeInMillis();
 
         //set up pending intent

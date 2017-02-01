@@ -16,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,9 +31,15 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String LOG_TAG = this.getClass().getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState==null){
+            Log.e(LOG_TAG, "onCreate Called:: BUNDLE NULL");
+        }else{
+            Log.e(LOG_TAG, "onCreate Called:: BUNDLE NOT NULL");
+        }
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -65,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(LOG_TAG, "onResume Called");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
