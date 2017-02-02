@@ -35,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState==null){
-            Log.e(LOG_TAG, "onCreate Called:: BUNDLE NULL");
-        }else{
-            Log.e(LOG_TAG, "onCreate Called:: BUNDLE NOT NULL");
-        }
+//        if(savedInstanceState==null){
+//            Log.e(LOG_TAG, "onCreate Called:: BUNDLE NULL");
+//        }else{
+//            Log.e(LOG_TAG, "onCreate Called:: BUNDLE NOT NULL");
+//        }
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e(LOG_TAG, "onResume Called");
+//        Log.e(LOG_TAG, "onResume Called");
     }
 
     @Override

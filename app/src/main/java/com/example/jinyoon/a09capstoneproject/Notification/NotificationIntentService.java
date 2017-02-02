@@ -39,8 +39,9 @@ public class NotificationIntentService extends IntentService{
         if(ACTION_NOTIFICATION_SERVICE.equals(action)){
             //update all expiration based on current time... make sure to round up  numbers
 
+            Log.e(LOG_TAG, "INsIDE NOTIFICAITON INTENT.. UPDATING THE DATE");
             Context context = getApplicationContext();
-//            Utils.updateDaysInFridge(context);
+            Utils.updateDaysInFridge(context);
 //
 //            SQLiteDatabase db = new MyFridgeDataHelper(context).getReadableDatabase();
 //            Cursor cursor =db.rawQuery("SELECT * FROM "+ FridgeListEntry.TABLE_NAME, null);
