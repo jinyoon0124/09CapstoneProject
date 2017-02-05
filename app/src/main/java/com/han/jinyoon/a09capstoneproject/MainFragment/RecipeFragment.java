@@ -2,18 +2,24 @@ package com.han.jinyoon.a09capstoneproject.MainFragment;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.ArraySet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.han.jinyoon.a09capstoneproject.BuildConfig;
 import com.han.jinyoon.a09capstoneproject.MyApplication;
@@ -26,9 +32,12 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -94,13 +103,51 @@ public class RecipeFragment extends Fragment {
 
 
     private void selectIngredient(){
+        ArrayList<String> ingredientList = getIngredientFromFridge();
+        String[] indicesString ={};
+        //Retrieve SharedPref
+        SharedPreferences pref = mContext.getSharedPreferences(getString(R.string.sharedpref_param_key), Context.MODE_PRIVATE);
+        Set<String> preSelected = pref.getStringSet(getString(R.string.sharedpref_param_key), null);
+
+        if(preSelected!=null){
+            indicesString = preSelected.toArray(new String[preSelected.size()]);
+        }
+
+        Integer[] indices= new Integer[indicesString.length];
+        for(int i = 0; i<indicesString.length; i++){
+            indices[i]=Integer.parseInt(indicesString[i]);
+        }
+
         new MaterialDialog.Builder(mContext)
                 .title(R.string.recipe_dialog_title)
-                .items(getIngredientFromFridge())
-                .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                .items(ingredientList)
+                .itemsCallbackMultiChoice(indices, new MaterialDialog.ListCallbackMultiChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                        return false;
+                        String paramSelected="";
+
+                        for(CharSequence s: text){
+                            paramSelected+=s+",";
+                        }
+//                        Log.e(LOG_TAG, "SELECTED: "+ paramSelected);
+
+                        //Change indices to string to store in Shared Pref
+                        HashSet<String> selectedIndices = new HashSet<>();
+                        for(int i : which){
+                            selectedIndices.add(String.valueOf(i));
+//                            Log.e(LOG_TAG, "SELECTED INDICES: "+ String.valueOf(i));
+                        }
+
+                        //Add selected index into Shared Preference so that the selected items remain selected next time
+                        SharedPreferences pref = mContext.getSharedPreferences(getString(R.string.sharedpref_param_key), Context.MODE_PRIVATE);
+                        SharedPreferences.Editor ed = pref.edit();
+                        ed.clear();
+                        ed.putStringSet(getString(R.string.sharedpref_param_key), selectedIndices);
+                        ed.commit();
+
+                        updateRecipe(paramSelected);
+
+                        return true;
                     }
                 }).positiveText(R.string.recipe_positive_text)
                 .show();
@@ -117,13 +164,11 @@ public class RecipeFragment extends Fragment {
                 null
         );
 
-        String param ="";
         ArrayList<String> ingredientsList = new ArrayList<>();
 
         if(cursor!=null){
             if(cursor.moveToFirst()){
                 do{
-//                    param += cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME)) +",";
                     ingredientsList.add(cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME)));
                 }while (cursor.moveToNext());
             }

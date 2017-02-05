@@ -48,6 +48,7 @@
     <string name="recipe_dialog_title">Pick indgredients you want to use</string>
     <string name="recipe_positive_text">Get Recipes</string>
     <string name="content_description_recipe_fab">Click to add ingredients you want to use</string>
+    <string name="sharedpref_param_key">param</string>
 
 
 </resources>
