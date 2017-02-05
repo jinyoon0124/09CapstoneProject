@@ -41,6 +41,7 @@
     <string name="content_description_fridge_fab">click this button to add item to fridge list</string>
     <string name="recipe_thumbnail">Click to see recipe</string>
     <string name="content_description_widget_title">widget is shown</string>
+    <!--<string name="banner_ad_unit_id">ca-app-pub-4593645967569740/2964475319</string>-->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="food2fork_attribution">Powered By Food2Fork.com</string>
     <string name="activity_from_notification_key" translatable="false">cameFromNotification</string>

@@ -2,6 +2,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <string name = "ga_trackingId">UA-89880713-1</string>
     <bool name = "ga_autoActivityTracking">false</bool>
-    <screenName name = "com.example.jinyoon.a09capstoneproject.MainActivity">Main Activity</screenName>
-    <screenName name = "com.example.jinyoon.a09capstoneproject.RecipeDetailActivity">Recipe Detail Activity</screenName>
+    <screenName name = "com.han.jinyoon.a09capstoneproject.MainActivity">Main Activity</screenName>
+    <screenName name = "com.han.jinyoon.a09capstoneproject.RecipeDetailActivity">Recipe Detail Activity</screenName>
 </resources>

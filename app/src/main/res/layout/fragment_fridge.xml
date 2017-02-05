@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.jinyoon.a09capstoneproject.MainFragment.FridgeFragment">
+    tools:context="com.han.jinyoon.a09capstoneproject.MainFragment.FridgeFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_fridge"
