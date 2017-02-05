@@ -78,13 +78,15 @@ public class RecipeFragment extends Fragment {
         mEmptyView.setVisibility(View.GONE);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_recipe);
 
-//        String queryString = getIngredientFromFridge();
-//
-//        if(!queryString .equals("")){
-//            updateRecipe(queryString);
-//        }else{
-//            mRecipeRecyclerViewAdapter=null;
-//        }
+        SharedPreferences spf = mContext.getSharedPreferences(getString(R.string.sharedpref_param_key), Context.MODE_PRIVATE);
+        String queryString = spf.getString(getString(R.string.sharedpref_param_name_key), "");
+
+        Log.e(LOG_TAG, "QUERYSTRING: "+queryString);
+        if(!queryString .equals("")){
+            updateRecipe(queryString);
+        }else{
+            mRecipeRecyclerViewAdapter=null;
+        }
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.recipe_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -107,10 +109,10 @@ public class RecipeFragment extends Fragment {
         String[] indicesString ={};
         //Retrieve SharedPref
         SharedPreferences pref = mContext.getSharedPreferences(getString(R.string.sharedpref_param_key), Context.MODE_PRIVATE);
-        Set<String> preSelected = pref.getStringSet(getString(R.string.sharedpref_param_key), null);
+        Set<String> preSelectedIndices = pref.getStringSet(getString(R.string.sharedpref_param_index_key), null);
 
-        if(preSelected!=null){
-            indicesString = preSelected.toArray(new String[preSelected.size()]);
+        if(preSelectedIndices!=null){
+            indicesString = preSelectedIndices.toArray(new String[preSelectedIndices.size()]);
         }
 
         Integer[] indices= new Integer[indicesString.length];
@@ -142,7 +144,8 @@ public class RecipeFragment extends Fragment {
                         SharedPreferences pref = mContext.getSharedPreferences(getString(R.string.sharedpref_param_key), Context.MODE_PRIVATE);
                         SharedPreferences.Editor ed = pref.edit();
                         ed.clear();
-                        ed.putStringSet(getString(R.string.sharedpref_param_key), selectedIndices);
+                        ed.putStringSet(getString(R.string.sharedpref_param_index_key), selectedIndices);
+                        ed.putString(getString(R.string.sharedpref_param_name_key), paramSelected);
                         ed.commit();
 
                         updateRecipe(paramSelected);
@@ -212,7 +215,7 @@ public class RecipeFragment extends Fragment {
 
         call = recipeApi.getRecipe(query);
 
-//        Log.e(LOG_TAG,call.request().url().toString());
+        Log.e(LOG_TAG,call.request().url().toString());
 
         call.enqueue(new Callback<RecipeBody>() {
             @Override

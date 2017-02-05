@@ -49,6 +49,8 @@
     <string name="recipe_positive_text">Get Recipes</string>
     <string name="content_description_recipe_fab">Click to add ingredients you want to use</string>
     <string name="sharedpref_param_key">param</string>
+    <string name="sharedpref_param_index_key">paramIndex</string>
+    <string name="sharedpref_param_name_key">paramName</string>
 
 
 </resources>
