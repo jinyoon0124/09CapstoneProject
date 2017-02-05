@@ -16,7 +16,7 @@
     <string name="fridge_dialog_days_hint">Input days to expiration</string>
     <string name="no_days_input_msg">Please enter expected days to expiration</string>
     <string name="item_modified_msg">Item modified</string>
-    <string name="recipe_empty_msg">No Recipes to show. Please add more ingredients in Fridge LIst</string>
+    <string name="recipe_empty_msg">No Recipes to show. Please add ingredients for your recipes using fab button</string>
     <string name="remove_msg">ITEM REMOVED</string>
     <string name="item_move_to_fridge_msg">ITEM MOVED TO FRIDGE LIST</string>
     <string name="title_widget_today">Basket List</string>
@@ -45,6 +45,9 @@
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="food2fork_attribution">Powered By Food2Fork.com</string>
     <string name="activity_from_notification_key" translatable="false">cameFromNotification</string>
+    <string name="recipe_dialog_title">Pick indgredients you want to use</string>
+    <string name="recipe_positive_text">Get Recipes</string>
+    <string name="content_description_recipe_fab">Click to add ingredients you want to use</string>
 
 
 </resources>

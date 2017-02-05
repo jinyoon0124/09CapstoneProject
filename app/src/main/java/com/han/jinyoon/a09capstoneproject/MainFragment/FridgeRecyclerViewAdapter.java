@@ -42,17 +42,17 @@ public class FridgeRecyclerViewAdapter extends CursorRecyclerViewAdapter<FridgeR
 
     @Override
     public void onItemDismissLeft(int position, RecyclerView rv) {
-        Cursor c = getCursor();
-        c.moveToPosition(position);
-        String name = c.getString(c.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME));
-
-        mContext.getContentResolver().delete(
-                FridgeListEntry.CONTENT_URI,
-                "name = ?",
-                new String[]{name}
-        );
-        mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
-        Snackbar.make(rv, mContext.getString(R.string.remove_msg), Snackbar.LENGTH_SHORT).show();
+//        Cursor c = getCursor();
+//        c.moveToPosition(position);
+//        String name = c.getString(c.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME));
+//
+//        mContext.getContentResolver().delete(
+//                FridgeListEntry.CONTENT_URI,
+//                "name = ?",
+//                new String[]{name}
+//        );
+//        mContext.getContentResolver().notifyChange(FridgeListEntry.CONTENT_URI, null);
+//        Snackbar.make(rv, mContext.getString(R.string.remove_msg), Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

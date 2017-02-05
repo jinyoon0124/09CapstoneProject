@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         PagerAdapter adapter = new PageAdapter(this, manager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-
+        viewPager.setOffscreenPageLimit(0);
         viewPager.setAdapter(adapter);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setupWithViewPager(viewPager);

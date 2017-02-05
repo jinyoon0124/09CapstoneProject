@@ -4,6 +4,7 @@ package com.han.jinyoon.a09capstoneproject.MainFragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.han.jinyoon.a09capstoneproject.BuildConfig;
 import com.han.jinyoon.a09capstoneproject.MyApplication;
 import com.han.jinyoon.a09capstoneproject.R;
@@ -23,6 +25,7 @@ import com.han.jinyoon.a09capstoneproject.Database.MyFridgeDataContract.*;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,32 +67,47 @@ public class RecipeFragment extends Fragment {
 
         mEmptyView = (TextView) view.findViewById(R.id.recipe_empty_textview);
         mEmptyView.setVisibility(View.GONE);
-
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_recipe);
 
-//        String queryString=getParamFromPreference();
-        String queryString = getParamFromFridge();
+//        String queryString = getIngredientFromFridge();
+//
+//        if(!queryString .equals("")){
+//            updateRecipe(queryString);
+//        }else{
+//            mRecipeRecyclerViewAdapter=null;
+//        }
 
-        if(!queryString .equals("")){
-            updateRecipe(queryString);
-//            Toast.makeText(mContext, queryString, Toast.LENGTH_SHORT).show();
-        }else{
-            mRecipeRecyclerViewAdapter=null;
-        }
-
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.recipe_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectIngredient();
+            }
+        });
 
         if(mRecipeRecyclerViewAdapter ==null || mRecipeRecyclerViewAdapter.getItemCount()==0){
-//            Log.e(LOG_TAG, "RECIPE ADAPTER NULL");
             mEmptyView.setVisibility(View.VISIBLE);
             mEmptyView.setText(getString(R.string.recipe_empty_msg));
         }
-
-
         return view;
     }
 
 
-    private String getParamFromFridge(){
+    private void selectIngredient(){
+        new MaterialDialog.Builder(mContext)
+                .title(R.string.recipe_dialog_title)
+                .items(getIngredientFromFridge())
+                .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                        return false;
+                    }
+                }).positiveText(R.string.recipe_positive_text)
+                .show();
+    }
+
+
+    private ArrayList<String> getIngredientFromFridge(){
 //        Log.e(LOG_TAG, "INSIDE GET PARAM FROM FRIDGE");
         Cursor cursor = mContext.getContentResolver().query(
                 FridgeListEntry.CONTENT_URI,
@@ -100,12 +118,13 @@ public class RecipeFragment extends Fragment {
         );
 
         String param ="";
+        ArrayList<String> ingredientsList = new ArrayList<>();
 
         if(cursor!=null){
             if(cursor.moveToFirst()){
                 do{
-                    param +=
-                            cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME)) +",";
+//                    param += cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME)) +",";
+                    ingredientsList.add(cursor.getString(cursor.getColumnIndex(FridgeListEntry.COLUMN_GROCERY_NAME)));
                 }while (cursor.moveToNext());
             }
             cursor.close();
@@ -115,7 +134,7 @@ public class RecipeFragment extends Fragment {
         }
 
 //        Log.e(LOG_TAG, "++++++++++++++++"+ param);
-        return param;
+        return ingredientsList;
     }
 
     @Override

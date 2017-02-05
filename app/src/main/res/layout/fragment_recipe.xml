@@ -23,5 +23,16 @@
         android:layout_height="match_parent"
         android:gravity="center"
         />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/recipe_fab"
+        android:contentDescription="@string/content_description_recipe_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_fab"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="@dimen/fab_margin_right_screen"
+        android:layout_marginEnd="@dimen/fab_margin_right_screen"
+        android:layout_marginBottom="@dimen/fab_margin"/>
     
 </FrameLayout>
