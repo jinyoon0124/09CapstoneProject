@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:padding="@dimen/widget_list_title_imageview_padding"
             android:gravity="center_vertical|start"
-            android:src="@drawable/ic_basket_black"/>
+            android:src="@drawable/ic_basket_black_tab"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

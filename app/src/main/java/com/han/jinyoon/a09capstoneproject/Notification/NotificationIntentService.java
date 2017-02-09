@@ -94,7 +94,7 @@ public class NotificationIntentService extends IntentService{
                 builder.setContentTitle(context.getString(R.string.app_name))
                         .setAutoCancel(true)
                         .setContentText(getString(R.string.notification_msg))
-                        .setSmallIcon(R.drawable.ic_fridge_black);
+                        .setSmallIcon(R.drawable.ic_fridge_black_tab);
 
                 Intent mainActivityIntent = new Intent(this, MainActivity.class);
                 mainActivityIntent.putExtra(this.getString(R.string.activity_from_notification_key), true);

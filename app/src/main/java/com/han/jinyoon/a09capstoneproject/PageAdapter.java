@@ -21,9 +21,9 @@ import com.han.jinyoon.a09capstoneproject.MainFragment.RecipeFragment;
 public class PageAdapter extends FragmentPagerAdapter {
 
     private int[] imageResId = {
-            R.drawable.ic_fridge_black,
-            R.drawable.ic_basket_black,
-            R.drawable.ic_recipe_black
+            R.drawable.ic_fridge_black_tab,
+            R.drawable.ic_basket_black_tab,
+            R.drawable.ic_recipe_black_tab
     };
 
     private Context context;
