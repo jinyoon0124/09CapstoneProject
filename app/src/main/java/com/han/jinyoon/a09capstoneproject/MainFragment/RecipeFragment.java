@@ -11,12 +11,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.Layout;
 import android.util.ArraySet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -54,6 +56,7 @@ public class RecipeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private Context mContext;
     private TextView mEmptyView;
+    private ImageView mEmptyImageView;
 
     private final String BASE_URL = "http://food2fork.com";
     private Call<RecipeBody> call;
@@ -75,7 +78,10 @@ public class RecipeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recipe, container, false);
 
         mEmptyView = (TextView) view.findViewById(R.id.recipe_empty_textview);
+        mEmptyImageView = (ImageView) view.findViewById(R.id.recipe_empty_imageview);
+
         mEmptyView.setVisibility(View.GONE);
+        mEmptyImageView.setVisibility(View.GONE);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_recipe);
 
         SharedPreferences spf = mContext.getSharedPreferences(getString(R.string.sharedpref_param_key), Context.MODE_PRIVATE);
@@ -98,6 +104,7 @@ public class RecipeFragment extends Fragment {
 
         if(mRecipeRecyclerViewAdapter ==null || mRecipeRecyclerViewAdapter.getItemCount()==0){
             mEmptyView.setVisibility(View.VISIBLE);
+            mEmptyImageView.setVisibility(View.VISIBLE);
             mEmptyView.setText(getString(R.string.recipe_empty_msg));
         }
         return view;
@@ -135,9 +142,14 @@ public class RecipeFragment extends Fragment {
 
                         //Change indices to string to store in Shared Pref
                         HashSet<String> selectedIndices = new HashSet<>();
-                        for(int i : which){
+
+                        if(which.length==0){
+                            mRecipeRecyclerViewAdapter=null;
+                        }else{
+                            for(int i : which){
                             selectedIndices.add(String.valueOf(i));
 //                            Log.e(LOG_TAG, "SELECTED INDICES: "+ String.valueOf(i));
+                        }
                         }
 
                         //Add selected index into Shared Preference so that the selected items remain selected next time
@@ -245,8 +257,10 @@ public class RecipeFragment extends Fragment {
 
                 if(mRecipeRecyclerViewAdapter.getItemCount()!=0){
                     mEmptyView.setVisibility(View.GONE);
+                    mEmptyImageView.setVisibility(View.GONE);
                 }else{
                     mEmptyView.setVisibility(View.VISIBLE);
+                    mEmptyImageView.setVisibility(View.VISIBLE);
                     mEmptyView.setText(getString(R.string.recipe_empty_msg));
                 }
             }

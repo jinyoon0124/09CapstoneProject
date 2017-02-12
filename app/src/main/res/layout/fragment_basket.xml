@@ -10,12 +10,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <TextView
-        android:id="@+id/basket_empty_textview"
+    <!--<TextView-->
+        <!--android:id="@+id/basket_empty_textview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--/>-->
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        />
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/basket_empty_imageview"
+            android:contentDescription="@string/basket_empty_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bg_basket"/>
+
+        <TextView
+            android:id="@+id/basket_empty_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/basket_empty_imageview"
+            />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

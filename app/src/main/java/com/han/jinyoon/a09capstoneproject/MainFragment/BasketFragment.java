@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,8 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
     private Context mContext;
     private Cursor mCursor;
     private TextView mEmptyView;
+    private ImageView mEmptyImageView;
+
     private BasketRecyclerViewAdapter mCursorAdapter;
     private static final int CURSOR_LOADER_ID = 0;
     private static final int TOUCH_HELPER_ID = 1;
@@ -76,12 +79,15 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
         //EmptyView Handling
         mEmptyView = (TextView) view.findViewById(R.id.basket_empty_textview);
+        mEmptyImageView = (ImageView) view.findViewById(R.id.basket_empty_imageview);
         mEmptyView.setVisibility(View.GONE);
+        mEmptyImageView.setVisibility(View.GONE);
 
         if(mCursorAdapter==null){
 //            Log.e(LOG_TAG, "BASKET CURSOR ADAPTER NULL");
 
             mEmptyView.setVisibility(View.VISIBLE);
+            mEmptyImageView.setVisibility(View.VISIBLE);
             mEmptyView.setText(getString(R.string.basket_empty_msg));
         }
 
@@ -205,8 +211,10 @@ public class BasketFragment extends Fragment implements LoaderManager.LoaderCall
 
         if(adapterSize!=0){
             mEmptyView.setVisibility(View.GONE);
+            mEmptyImageView.setVisibility(View.GONE);
         }else{
             mEmptyView.setVisibility(View.VISIBLE);
+            mEmptyImageView.setVisibility(View.VISIBLE);
             mEmptyView.setText(getString(R.string.basket_empty_msg));
 //            Log.e(LOG_TAG, "SET VISIBLITY VISIBLE");
 

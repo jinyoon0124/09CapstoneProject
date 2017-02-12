@@ -4,25 +4,32 @@
     android:layout_height="match_parent"
     tools:context="com.han.jinyoon.a09capstoneproject.MainFragment.RecipeFragment">
 
-    <!--<TextView-->
-        <!--android:id="@+id/recipe_test_text"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:gravity="center"-->
-        <!--android:text="HERE IS RECIPE FRAGMENT" />-->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_recipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
-    <TextView
-        android:id="@+id/recipe_empty_textview"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        />
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/recipe_empty_imageview"
+            android:contentDescription="@string/recipe_empty_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bg_recipe"/>
+
+        <TextView
+            android:id="@+id/recipe_empty_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/recipe_empty_imageview"
+            />
+    </RelativeLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/recipe_fab"
