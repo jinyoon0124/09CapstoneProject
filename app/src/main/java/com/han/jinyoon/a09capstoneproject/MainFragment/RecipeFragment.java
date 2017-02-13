@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Layout;
@@ -136,8 +137,12 @@ public class RecipeFragment extends Fragment {
                     public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
                         String paramSelected="";
 
-                        for(CharSequence s: text){
-                            paramSelected+=s+",";
+                        if(text.length==0){
+                            paramSelected="";
+                        }else {
+                            for (CharSequence s : text) {
+                                paramSelected += s + ",";
+                            }
                         }
 //                        Log.e(LOG_TAG, "SELECTED: "+ paramSelected);
 
@@ -161,7 +166,15 @@ public class RecipeFragment extends Fragment {
                         ed.putString(getString(R.string.sharedpref_param_name_key), paramSelected);
                         ed.commit();
 
-                        updateRecipe(paramSelected);
+                        if(paramSelected.equals("")){
+                            Toast.makeText(mContext, mContext.getString(R.string.recipe_no_param), Toast.LENGTH_SHORT).show();
+                            mRecipeRecyclerViewAdapter=null;
+
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.detach(RecipeFragment.this).attach(RecipeFragment.this).commit();
+                        }else{
+                            updateRecipe(paramSelected);
+                        }
 
                         return true;
                     }
