@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -88,7 +89,7 @@ public class RecipeFragment extends Fragment {
         String queryString = spf.getString(getString(R.string.sharedpref_param_name_key), "");
 
         Log.e(LOG_TAG, "QUERYSTRING: "+queryString);
-        if(!queryString .equals("")){
+        if(!queryString.equals("")){
             updateRecipe(queryString);
         }else{
             mRecipeRecyclerViewAdapter=null;
@@ -268,6 +269,7 @@ public class RecipeFragment extends Fragment {
             @Override
             public void onFailure(retrofit2.Call<RecipeBody> call, Throwable t) {
                 Log.e(LOG_TAG, "RecipeBody call failed");
+                Toast.makeText(mContext, mContext.getString(R.string.no_connection_msg), Toast.LENGTH_SHORT).show();
 
             }
         });

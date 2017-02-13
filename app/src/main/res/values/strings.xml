@@ -51,6 +51,7 @@
     <string name="sharedpref_param_key">param</string>
     <string name="sharedpref_param_index_key">paramIndex</string>
     <string name="sharedpref_param_name_key">paramName</string>
+    <string name="no_connection_msg">Please check your internet connection</string>
 
 
 </resources>
